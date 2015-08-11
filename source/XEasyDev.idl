@@ -1,0 +1,21 @@
+#ifndef __org_universolibre_util_EasyDev_idl__
+#define __org_universolibre_util_EasyDev_idl__
+
+module org { module universolibre { module util { module EasyDev {
+
+    interface XEasyDev
+    {
+        [attribute, readonly] string version;
+
+        void debug([in] any data);
+        void msgbox([in] any data);
+        string getSizeScreen();
+        any getDoc([in] string title);
+        any newDoc([in] short typedoc);
+        sequence< string > getInfoPC();
+
+    };
+
+    service EasyDev: XEasyDev;
+}; }; }; };
+#endif
