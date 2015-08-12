@@ -1,4 +1,6 @@
 *.pyc
+*.idl
+*.bk
 make_ext.py
 setting.py
 

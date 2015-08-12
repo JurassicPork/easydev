@@ -3,7 +3,7 @@ import unohelper
 from com.sun.star.lang import XServiceName
 from com.sun.star.lang import XServiceInfo
 from org.universolibre.util.EasyDev import XEasyDev
-from easydev import util
+from easydev import tools
 
 
 ID = 'org.universolibre.util.EasyDev'
@@ -19,22 +19,25 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
         self.ctx = ctx
 
     def debug(self, data):
-        return util.debug(data)
+        return tools.debug(data)
 
     def msgbox(self, data):
-        return util.msgbox(data)
+        return tools.msgbox(data)
 
-    def getSizeScreen(self):
-        return util.get_size_screen()
+    def newDoc(self, typeDoc='scalc'):
+        return tools.new_doc(typeDoc)
 
     def getDoc(self, title=''):
-        return util.get_doc(title)
+        return tools.get_doc(title)
 
-    def newDoc(self, typedoc=0):
-        return util.new_doc(typedoc)
+    def getDocs(self):
+        return tools.get_docs()
+
+    def getSizeScreen(self):
+        return tools.get_size_screen()
 
     def getInfoPC(self):
-        return util.get_info_pc()
+        return tools.get_info_pc()
 
     def getServiceName(self):
         return self.service_name
