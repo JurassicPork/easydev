@@ -6,6 +6,9 @@ import sys
 import getpass
 import platform
 from pprint import pprint
+
+from com.sun.star.beans import PropertyValue
+
 from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT
 
 CTX = uno.getComponentContext()
@@ -32,6 +35,16 @@ def _create_instance(name=DESKTOP, with_context=True):
         instance = SM.createInstance(name)
     return instance
 
+def _make_properties(properties):
+    prop = []
+    l = len(properties)
+    for i in range(0, l, 2):
+        pv = PropertyValue()
+        pv.Name = properties[i]
+        pv.Value = properties[i + 1]
+        prop.append(pv)
+    return tuple(prop)
+
 def debug(data):
     """ Show data for debug
         If SO is Win, show data in Writer document
@@ -55,6 +68,12 @@ def msgbox(message, type_msg='infobox', title='Debug', buttons=1):
     parent = toolkit.getDesktopWindow()
     mb = toolkit.createMessageBox(parent, type_msg, buttons, title, str(message))
     return mb.execute()
+
+def cmd(command, data):
+    """
+        Execute methods by name
+    """
+    return globals()[command](data)
 
 def new_doc(type_doc='scalc'):
     """
@@ -97,6 +116,17 @@ def get_docs():
         docs.append(enum.nextElement())
     return tuple(docs)
 
+def open_doc(path, options):
+    """
+        Open doc
+        http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html
+    """
+    properties = _make_properties(options)
+    path_url = path_to_url(path)
+    desktop = _create_instance()
+    doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
+    return doc
+
 def get_size_screen():
     if OS == WIN:
         user32 = ctypes.windll.user32
@@ -126,3 +156,7 @@ def get_info_pc():
     )
     return info
 
+def path_to_url(path):
+    if path.startswith('file://'):
+        return path
+    return uno.systemPathToFileUrl(path)

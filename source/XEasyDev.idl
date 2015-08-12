@@ -9,10 +9,12 @@ module org { module universolibre { module util { module EasyDev {
 
         void debug([in] any data);
         void msgbox([in] any data);
+        any cmd([in] string command, [in] sequence< any > data);
 
         any newDoc([in] string typeDoc);
         any getDoc([in] string title);
         sequence< any > getDocs();
+        any openDoc([in] string pathDoc, [in] sequence< any > data);
 
         string getSizeScreen();
         sequence< string > getInfoPC();

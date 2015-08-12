@@ -4,16 +4,16 @@ from com.sun.star.lang import XServiceName
 from com.sun.star.lang import XServiceInfo
 from org.universolibre.util.EasyDev import XEasyDev
 from easydev import tools
+from easydev.setting import VERSION, ID_EXT, NAME_EXT, CALC
 
 
-ID = 'org.universolibre.util.EasyDev'
-SERVICE = ('com.sun.star.task.Job',)
+SRV_JOB = ('com.sun.star.task.Job',)
 
 
 class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
-    version = '0.1.0'
-    service_name = implementation_name = "EasyDev"
+    version = VERSION
+    service_name = implementation_name = NAME_EXT
 
     def __init__(self, ctx=None):
         self.ctx = ctx
@@ -24,7 +24,10 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def msgbox(self, data):
         return tools.msgbox(data)
 
-    def newDoc(self, typeDoc='scalc'):
+    def cmd(self, command, data):
+        return tools.cmd(command, data)
+
+    def newDoc(self, typeDoc=CALC):
         return tools.new_doc(typeDoc)
 
     def getDoc(self, title=''):
@@ -32,6 +35,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
     def getDocs(self):
         return tools.get_docs()
+
+    def openDoc(self, pathDoc, options):
+        return tools.open_doc(pathDoc, options)
 
     def getSizeScreen(self):
         return tools.get_size_screen()
@@ -50,4 +56,4 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
 
 g_ImplementationHelper = unohelper.ImplementationHelper()
-g_ImplementationHelper.addImplementation(EasyDev, ID, SERVICE)
+g_ImplementationHelper.addImplementation(EasyDev, ID_EXT, SRV_JOB)
