@@ -11,6 +11,7 @@ from com.sun.star.beans import PropertyValue
 
 from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT
 
+
 CTX = uno.getComponentContext()
 SM = CTX.getServiceManager()
 
@@ -126,6 +127,31 @@ def open_doc(path, options):
     desktop = _create_instance()
     doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
     return doc
+
+def array(array, method, data):
+    res = None
+    l = list(array)
+    if method == 'insert':
+        res = getattr(l, method)(*data)
+    elif method == 'pop':
+        res = getattr(l, method)(data)
+        res = (tuple(l), res)
+    elif method == 'remove_all':
+        l = [i for i in array if i != data]
+    elif method in ('reverse', 'sort'):
+        res = getattr(l, method)()
+    elif method == 'unique':
+        l = list(set(l))
+    elif method in ('len', 'max', 'min'):
+        res = eval('{}({})'.format(method, l))
+    elif method == 'slice':
+        l = eval('{}{}'.format(l, data))
+    else:
+        res = getattr(l, method)(data)
+    if res is None:
+        return tuple(l)
+    else:
+        return res
 
 def get_size_screen():
     if OS == WIN:

@@ -39,6 +39,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def openDoc(self, pathDoc, options):
         return tools.open_doc(pathDoc, options)
 
+    def array(self, array, method, data):
+        return tools.array(array, method, data)
+
     def getSizeScreen(self):
         return tools.get_size_screen()
 
