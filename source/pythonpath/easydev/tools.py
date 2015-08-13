@@ -146,6 +146,8 @@ def array(array, method, data):
         res = eval('{}({})'.format(method, l))
     elif method == 'slice':
         l = eval('{}{}'.format(l, data))
+    elif method == 'in':
+        res = data in l
     else:
         res = getattr(l, method)(data)
     if res is None:
