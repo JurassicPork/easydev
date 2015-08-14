@@ -14,6 +14,7 @@ module org { module universolibre { module util { module EasyDev {
 
         any newDoc([in] string typeDoc);
         any getDoc([in] string title);
+        string getTypeDoc([in] any doc);
         sequence< any > getDocs();
         any openDoc([in] string pathDoc, [in] sequence< any > data);
 
@@ -23,7 +24,10 @@ module org { module universolibre { module util { module EasyDev {
         sequence< string > getInfoPC();
         string getPath([in] string name);
         sequence< string > getPathInfo([in] string path);
+        string pathJoin([in] sequence< string > paths);
         string getFolder([in] string initFolder);
+        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< string > filters);
+        sequence< string > getFiles([in] string path, [in] string ext);
 
         any getConfig([in] string key);
         boolean setConfig([in] string key, [in] any value);

@@ -34,6 +34,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def getDoc(self, title=''):
         return tools.get_doc(title)
 
+    def getTypeDoc(self, doc):
+        return tools.get_type_doc(doc)
+
     def getDocs(self):
         return tools.get_docs()
 
@@ -55,8 +58,17 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def getPathInfo(self, path):
         return tools.get_path_info(path)
 
+    def pathJoin(self, paths):
+        return tools.path_join(paths)
+
     def getFolder(self, initFolder):
         return tools.get_folder(initFolder)
+
+    def getSelectedFiles(self, initFolder, multiple, filters):
+        return tools.get_selected_files(initFolder, multiple, filters)
+
+    def getFiles(self, path, ext):
+        return tools.get_files(path, ext)
 
     def getServiceName(self):
         return self.service_name

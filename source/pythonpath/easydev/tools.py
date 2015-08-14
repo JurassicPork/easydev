@@ -4,6 +4,7 @@ import ctypes
 import subprocess
 import sys
 import os
+import re
 import getpass
 import platform
 from pprint import pprint
@@ -77,11 +78,6 @@ def cmd(command, data):
     """
     return globals()[command](data)
 
-def test(data):
-    path = _create_instance('com.sun.star.util.PathSettings')
-    print (path)
-    return
-
 def new_doc(type_doc='scalc'):
     """
         Create new doc
@@ -111,6 +107,24 @@ def get_doc(title=''):
         if doc.getTitle() == title:
             return doc
     return None
+
+def get_type_doc(doc):
+    """
+        Get type doc
+    """
+    services = {
+        'calc': 'com.sun.star.sheet.SpreadsheetDocument',
+        'writer': 'com.sun.star.text.TextDocument',
+        'impress': 'com.sun.star.presentation.PresentationDocument',
+        'draw': 'com.sun.star.drawing.DrawingDocument',
+        'math': 'com.sun.star.formula.FormulaProperties',
+        'base': 'com.sun.star.sdb.OfficeDatabaseDocument',
+        'ide': 'com.sun.star.script.BasicIDE',
+    }
+    for key, value in services.items():
+        if doc.supportsService(value):
+            return key
+    return ""
 
 def get_docs():
     """
@@ -203,11 +217,13 @@ def path_os(path):
         path = uno.fileUrlToSystemPath(path)
     return path
 
-def get_path(name=''):
+def get_path(name):
     """
         Return de path name in config
         http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html
     """
+    if not name:
+        name = 'Work'
     path = _create_instance('com.sun.star.util.PathSettings')
     return getattr(path, name)
 
@@ -215,6 +231,9 @@ def get_path_info(path):
     path, filename = os.path.split(path)
     name, extension = os.path.splitext(filename)
     return (path, filename, name, extension)
+
+def path_join(paths):
+    return os.path.join(*paths)
 
 def get_folder(init_folder=''):
     if init_folder:
@@ -227,3 +246,34 @@ def get_folder(init_folder=''):
         return folder.getDirectory()
     else:
         return ''
+
+def get_selected_files(init_folder, multiple, filters):
+    if init_folder:
+        init_folder = path_to_url(init_folder)
+    else:
+        init_folder = get_path('Work')
+
+    folder = _create_instance('com.sun.star.ui.dialogs.FilePicker')
+    folder.setDisplayDirectory(init_folder)
+    folder.setMultiSelectionMode(multiple)
+    if filters:
+        folder.setCurrentFilter(filters[0])
+        for i in range(0, len(filters), 2):
+            folder.appendFilter(filters[i], filters[i + 1])
+
+    if folder.execute():
+        files = folder.getSelectedFiles()
+        if multiple:
+            return files
+        else:
+            return files[0]
+    else:
+        return ""
+
+def get_files(path, ext):
+    paths = []
+    for folder, _, files in os.walk(path):
+        pattern = re.compile('\.{}'.format(ext), re.IGNORECASE)
+        paths += [os.path.join(folder, f) for f in files if pattern.search(f)]
+    return tuple(paths)
+
