@@ -3,6 +3,7 @@ import uno
 import ctypes
 import subprocess
 import sys
+import os
 import getpass
 import platform
 from pprint import pprint
@@ -76,6 +77,11 @@ def cmd(command, data):
     """
     return globals()[command](data)
 
+def test(data):
+    path = _create_instance('com.sun.star.util.PathSettings')
+    print (path)
+    return
+
 def new_doc(type_doc='scalc'):
     """
         Create new doc
@@ -120,7 +126,7 @@ def get_docs():
 def open_doc(path, options):
     """
         Open doc
-        http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html
+        http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
     """
     properties = _make_properties(options)
     path_url = path_to_url(path)
@@ -129,6 +135,9 @@ def open_doc(path, options):
     return doc
 
 def array(array, method, data):
+    """
+        Methods of list from Basic
+    """
     res = None
     l = list(array)
     if method == 'insert':
@@ -188,3 +197,33 @@ def path_to_url(path):
     if path.startswith('file://'):
         return path
     return uno.systemPathToFileUrl(path)
+
+def path_os(path):
+    if path.startswith('file://'):
+        path = uno.fileUrlToSystemPath(path)
+    return path
+
+def get_path(name=''):
+    """
+        Return de path name in config
+        http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html
+    """
+    path = _create_instance('com.sun.star.util.PathSettings')
+    return getattr(path, name)
+
+def get_path_info(path):
+    path, filename = os.path.split(path)
+    name, extension = os.path.splitext(filename)
+    return (path, filename, name, extension)
+
+def get_folder(init_folder=''):
+    if init_folder:
+        init_folder = path_to_url(init_folder)
+    else:
+        init_folder = get_path('Work')
+    folder = _create_instance('com.sun.star.ui.dialogs.FolderPicker')
+    folder.setDisplayDirectory(init_folder)
+    if folder.execute():
+        return folder.getDirectory()
+    else:
+        return ''

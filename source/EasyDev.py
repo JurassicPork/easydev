@@ -13,6 +13,7 @@ SRV_JOB = ('com.sun.star.task.Job',)
 class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
     version = VERSION
+    value = ''
     service_name = implementation_name = NAME_EXT
 
     def __init__(self, ctx=None):
@@ -47,6 +48,15 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
     def getInfoPC(self):
         return tools.get_info_pc()
+
+    def getPath(self, name):
+        return tools.get_path(name)
+
+    def getPathInfo(self, path):
+        return tools.get_path_info(path)
+
+    def getFolder(self, initFolder):
+        return tools.get_folder(initFolder)
 
     def getServiceName(self):
         return self.service_name

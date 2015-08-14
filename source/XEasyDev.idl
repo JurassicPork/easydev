@@ -6,10 +6,11 @@ module org { module universolibre { module util { module EasyDev {
     interface XEasyDev
     {
         [attribute, readonly] string version;
+        [attribute] string value;
 
         void debug([in] any data);
         void msgbox([in] any data);
-        any cmd([in] string command, [in] sequence< any > data);
+        any cmd([in] string command, [in] any data);
 
         any newDoc([in] string typeDoc);
         any getDoc([in] string title);
@@ -20,6 +21,12 @@ module org { module universolibre { module util { module EasyDev {
 
         string getSizeScreen();
         sequence< string > getInfoPC();
+        string getPath([in] string name);
+        sequence< string > getPathInfo([in] string path);
+        string getFolder([in] string initFolder);
+
+        any getConfig([in] string key);
+        boolean setConfig([in] string key, [in] any value);
     };
 
     service EasyDev: XEasyDev;
