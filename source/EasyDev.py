@@ -50,6 +50,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def getStatusBar(self, doc):
         return tools.get_status_bar(doc)
 
+    def exportPDF(self, doc, pathSave, options):
+        return tools.export_pdf(doc, pathSave, options)
+
     def array(self, array, method, data):
         return tools.array(array, method, data)
 

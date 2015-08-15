@@ -11,7 +11,7 @@ from pprint import pprint
 
 from com.sun.star.beans import PropertyValue
 
-from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT
+from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF
 
 
 CTX = uno.getComponentContext()
@@ -78,7 +78,7 @@ def cmd(command, data):
     """
     return globals()[command](data)
 
-def new_doc(type_doc='scalc'):
+def new_doc(type_doc):
     """
         Create new doc
         scalc
@@ -87,6 +87,8 @@ def new_doc(type_doc='scalc'):
         sdraw
         smath
     """
+    if not type_doc:
+        type_doc = 'scalc'
     desktop = _create_instance()
     path = 'private:factory/{}'.format(type_doc)
     doc = desktop.loadComponentFromURL(path, '_default', 0, ())
@@ -162,6 +164,36 @@ def get_status_bar(doc):
     """
     statusbar = doc.getCurrentController().getStatusIndicator()
     return statusbar
+
+def export_pdf(doc, path_save, options):
+    """
+        Export to PDF
+        http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export
+    """
+    close = False
+    if isinstance(doc, str):
+        close = True
+        doc = open_doc(doc, ('Hidden', True))
+    if not path_save:
+        path_save = path_to_url(replace_ext(path_os(doc.getURL()), EXT_PDF))
+    type_doc = get_type_doc(doc)
+    filters = {
+        'calc': 'calc_pdf_Export',
+        'writer': 'writer_pdf_Export',
+        'impress': 'impress_pdf_Export',
+        'draw': 'draw_pdf_Export',
+        'math': 'math_pdf_Export',
+    }
+    media_descriptor = _make_properties((
+        'FilterName', filters[type_doc],
+        'FilterData', _make_properties(options))
+    )
+    doc.storeToURL(path_save, media_descriptor)
+    if close:
+        doc.dispose()
+    if os.path.exists(path_os(path_save)):
+        return path_save
+    return ''
 
 def array(array, method, data):
     """
@@ -246,6 +278,10 @@ def get_path_info(path):
     path, filename = os.path.split(path)
     name, extension = os.path.splitext(filename)
     return (path, filename, name, extension)
+
+def replace_ext(path, ext):
+    path, _, name, _ = get_path_info(path)
+    return '{}/{}.{}'.format(path, name, ext)
 
 def path_join(paths):
     return os.path.join(*paths)
