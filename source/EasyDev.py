@@ -4,7 +4,7 @@ from com.sun.star.lang import XServiceName
 from com.sun.star.lang import XServiceInfo
 from org.universolibre.util.EasyDev import XEasyDev
 from easydev import tools
-from easydev.setting import VERSION, ID_EXT, NAME_EXT, CALC
+from easydev.setting import VERSION, ID_EXT, NAME_EXT, CALC, OS
 
 
 SRV_JOB = ('com.sun.star.task.Job',)
@@ -12,7 +12,8 @@ SRV_JOB = ('com.sun.star.task.Job',)
 
 class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
-    version = VERSION
+    VERSION = VERSION
+    OS = OS
     value = ''
     service_name = implementation_name = NAME_EXT
 

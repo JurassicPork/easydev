@@ -5,7 +5,8 @@ module org { module universolibre { module util { module EasyDev {
 
     interface XEasyDev
     {
-        [attribute, readonly] string version;
+        [attribute, readonly] string VERSION;
+        [attribute, readonly] string OS;
         [attribute] string value;
 
         void debug([in] any data);
