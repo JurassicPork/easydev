@@ -148,6 +148,21 @@ def open_doc(path, options):
     doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
     return doc
 
+def active_doc(doc):
+    """
+        Active doc
+    """
+    window = doc.getCurrentController().getFrame().getComponentWindow()
+    window.setFocus()
+    return
+
+def get_status_bar(doc):
+    """
+        Return status bar
+    """
+    statusbar = doc.getCurrentController().getStatusIndicator()
+    return statusbar
+
 def array(array, method, data):
     """
         Methods of list from Basic

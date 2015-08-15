@@ -44,6 +44,12 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def openDoc(self, pathDoc, options):
         return tools.open_doc(pathDoc, options)
 
+    def activeDoc(self, doc):
+        return tools.active_doc(doc)
+
+    def getStatusBar(self, doc):
+        return tools.get_status_bar(doc)
+
     def array(self, array, method, data):
         return tools.array(array, method, data)
 
