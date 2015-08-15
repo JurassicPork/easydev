@@ -277,3 +277,11 @@ def get_files(path, ext):
         paths += [os.path.join(folder, f) for f in files if pattern.search(f)]
     return tuple(paths)
 
+def execute(args, wait):
+    if wait:
+        res = subprocess.check_output(' '.join(args), shell=True).decode()
+        return res
+    else:
+        subprocess.Popen(args)
+    return
+

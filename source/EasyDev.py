@@ -71,6 +71,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def getFiles(self, path, ext):
         return tools.get_files(path, ext)
 
+    def execute(self, args, wait):
+        return tools.execute(args, wait)
+
     def getServiceName(self):
         return self.service_name
 
