@@ -81,6 +81,9 @@ def cmd(command, data):
 def new_doc(type_doc):
     """
         Create new doc
+        http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html
+
+    type_doc:
         scalc
         swriter
         simpress
@@ -143,6 +146,7 @@ def open_doc(path, options):
     """
         Open doc
         http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
+        http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html
     """
     properties = _make_properties(options)
     path_url = path_to_url(path)
@@ -150,7 +154,7 @@ def open_doc(path, options):
     doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
     return doc
 
-def active_doc(doc):
+def set_focus(doc):
     """
         Active doc
     """
