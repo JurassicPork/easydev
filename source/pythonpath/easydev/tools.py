@@ -8,13 +8,15 @@ import re
 import getpass
 import platform
 import json
+import logging
 from pprint import pprint
 
 from com.sun.star.beans import PropertyValue
 
-from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, NODE_CONFIG
+from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, NODE_CONFIG, LOG, NAME_EXT
 
 
+log = logging.getLogger(NAME_EXT)
 CTX = uno.getComponentContext()
 SM = CTX.getServiceManager()
 
@@ -359,7 +361,10 @@ def get_config(key):
         ca = cp.createInstanceWithArguments(
             'com.sun.star.configuration.ConfigurationAccess', (node,))
         if ca and (ca.hasByName(NODE_CONFIG)):
-            data = json.loads(ca.getPropertyValue(NODE_CONFIG))
+            data = ca.getPropertyValue(NODE_CONFIG)
+            if not data:
+                return data
+            data = json.loads(data)
             if key:
                 value = data.get(key, '')
                 if isinstance(value, list):
@@ -370,7 +375,7 @@ def get_config(key):
                 return data
         return
     except Exception as e:
-        debug(e)
+        log.debug('Get Config', exc_info=True)
         return
 
 def set_config(key, value):
@@ -383,6 +388,8 @@ def set_config(key, value):
         config_writer = cp.createInstanceWithArguments(
             'com.sun.star.configuration.ConfigurationUpdateAccess', (node,))
         data = get_config('')
+        if not data:
+            data = {}
         data[key] = value
         new_values = json.dumps(data)
         config_writer.setPropertyValue(NODE_CONFIG, new_values)
