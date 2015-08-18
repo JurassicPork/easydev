@@ -209,7 +209,7 @@ def export_pdf(doc, path_save, options):
 
 def array(array, method, data):
     """
-        Methods of list from Basic
+        Methods of list to Basic
     """
     res = None
     l = list(array)
@@ -253,16 +253,16 @@ def get_info_pc():
         name pc,
         system/OS name,
         machine type,
-        string identifying platform with as much useful information as possible,
         Returns the (real) processor name
+        string identifying platform with as much useful information as possible,
     """
     info = (
         getpass.getuser(),
         platform.node(),
         platform.system(),
         platform.machine(),
-        platform.platform(),
         platform.processor(),
+        platform.platform(),
     )
     return info
 
