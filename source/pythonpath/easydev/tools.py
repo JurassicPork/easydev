@@ -7,11 +7,12 @@ import os
 import re
 import getpass
 import platform
+import json
 from pprint import pprint
 
 from com.sun.star.beans import PropertyValue
 
-from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF
+from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, NODE_CONFIG
 
 
 CTX = uno.getComponentContext()
@@ -72,11 +73,11 @@ def msgbox(message, type_msg='infobox', title='Debug', buttons=1):
     mb = toolkit.createMessageBox(parent, type_msg, buttons, title, str(message))
     return mb.execute()
 
-def cmd(command, data):
+def cmd(command, *data):
     """
         Execute methods by name
     """
-    return globals()[command](data)
+    return globals()[command](*data)
 
 def new_doc(type_doc):
     """
@@ -348,3 +349,41 @@ def execute(args, wait):
         subprocess.Popen(args)
     return
 
+def get_config(key):
+    name = 'com.sun.star.configuration.ConfigurationProvider'
+    cp = _create_instance(name)
+    node = PropertyValue()
+    node.Name = 'nodepath'
+    node.Value = NODE
+    try:
+        ca = cp.createInstanceWithArguments(
+            'com.sun.star.configuration.ConfigurationAccess', (node,))
+        if ca and (ca.hasByName(NODE_CONFIG)):
+            data = json.loads(ca.getPropertyValue(NODE_CONFIG))
+            if key:
+                return data.get(key, '')
+            else:
+                return data
+        return
+    except Exception as e:
+        debug(e)
+        return
+
+def set_config(key, value):
+    name = 'com.sun.star.configuration.ConfigurationProvider'
+    cp = _create_instance(name)
+    node = PropertyValue()
+    node.Name = 'nodepath'
+    node.Value = NODE
+    try:
+        config_writer = cp.createInstanceWithArguments(
+            'com.sun.star.configuration.ConfigurationUpdateAccess', (node,))
+        data = get_config('')
+        data[key] = value
+        new_values = json.dumps(data)
+        config_writer.setPropertyValue(NODE_CONFIG, new_values)
+        config_writer.commitChanges()
+        return True
+    except Exception as e:
+        print (e)
+        return False

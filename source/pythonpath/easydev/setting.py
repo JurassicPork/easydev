@@ -12,6 +12,8 @@ LOG = logging.getLogger('EasyDev')
 
 VERSION = '0.1.0'
 ID_EXT = 'org.universolibre.util.EasyDev'
+NODE = '/{}.Configuration/Settings'.format(ID_EXT)
+NODE_CONFIG = 'Values'
 NAME_EXT = 'EasyDev'
 LINUX = 'linux'
 WIN = 'win32'

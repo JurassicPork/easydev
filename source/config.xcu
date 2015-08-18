@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<oor:component-data
+xmlns:oor="http://openoffice.org/2001/registry"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+oor:name="Configuration"
+oor:package="org.universolibre.util.EasyDev">
+    <node oor:name="Settings">
+        <prop oor:name="Origin" oor:type="xs:string">
+            <value>%origin%</value>
+        </prop>
+        <prop oor:name="Values" oor:type="xs:string">
+            <value></value>
+        </prop>
+    </node>
+</oor:component-data>
