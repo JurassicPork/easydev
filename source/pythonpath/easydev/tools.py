@@ -178,7 +178,14 @@ def export_pdf(doc, path_save, options):
     if isinstance(doc, str):
         close = True
         doc = open_doc(doc, ('Hidden', True))
-    if not path_save:
+    if path_save:
+        if os.path.isdir(path_save):
+            _, _, name, extension = get_path_info(path_os(doc.getURL()))
+            path_save = path_to_url(
+                os.path.normpath('{}/{}.{}'.format(path_save, name, EXT_PDF)))
+        else:
+            path_save = path_to_url(path_save)
+    else:
         path_save = path_to_url(replace_ext(path_os(doc.getURL()), EXT_PDF))
     type_doc = get_type_doc(doc)
     filters = {
@@ -188,10 +195,11 @@ def export_pdf(doc, path_save, options):
         'draw': 'draw_pdf_Export',
         'math': 'math_pdf_Export',
     }
+    filter_data = _make_properties(options)
     media_descriptor = _make_properties((
         'FilterName', filters[type_doc],
-        'FilterData', _make_properties(options))
-    )
+        'FilterData', uno.Any("[]com.sun.star.beans.PropertyValue", filter_data)
+    ))
     doc.storeToURL(path_save, media_descriptor)
     if close:
         doc.dispose()
@@ -288,7 +296,7 @@ def replace_ext(path, ext):
     return '{}/{}.{}'.format(path, name, ext)
 
 def path_join(paths):
-    return os.path.join(*paths)
+    return os.path.normpath(os.path.join(*paths))
 
 def get_folder(init_folder=''):
     if init_folder:
