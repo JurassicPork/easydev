@@ -375,7 +375,7 @@ def get_config(key):
                 return data
         return
     except Exception as e:
-        log.debug('Get Config', exc_info=True)
+        log.debug(e, exc_info=True)
         return
 
 def set_config(key, value):
@@ -396,5 +396,5 @@ def set_config(key, value):
         config_writer.commitChanges()
         return True
     except Exception as e:
-        print (e)
+        log.debug(e, exc_info=True)
         return False
