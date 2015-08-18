@@ -83,6 +83,12 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def execute(self, args, wait):
         return tools.execute(args, wait)
 
+    def getConfig(self, key):
+        return tools.get_config(key)
+
+    def setConfig(self, key, value):
+        return tools.set_config(key, value)
+
     def getServiceName(self):
         return self.service_name
 

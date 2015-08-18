@@ -361,7 +361,11 @@ def get_config(key):
         if ca and (ca.hasByName(NODE_CONFIG)):
             data = json.loads(ca.getPropertyValue(NODE_CONFIG))
             if key:
-                return data.get(key, '')
+                value = data.get(key, '')
+                if isinstance(value, list):
+                    return tuple(value)
+                else:
+                    return value
             else:
                 return data
         return
