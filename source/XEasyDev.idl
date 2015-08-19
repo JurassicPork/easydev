@@ -37,6 +37,8 @@ module org { module universolibre { module util { module EasyDev {
         any getConfig([in] string key);
         boolean setConfig([in] string key, [in] any value);
 
+        boolean sendMail([in] sequence< sequence< any > > server, [in] sequence< sequence< string > > mail, [in] sequence< string > files);
+
         boolean question([in] string title, [in] string message);
     };
 

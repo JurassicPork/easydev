@@ -89,6 +89,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def setConfig(self, key, value):
         return tools.set_config(key, value)
 
+    def sendMail(self, server, mail, files):
+        return tools.send_mail(server, mail, files)
+
     def question(self, title, message):
         return tools.question(title, message)
 

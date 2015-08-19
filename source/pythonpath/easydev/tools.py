@@ -9,6 +9,12 @@ import getpass
 import platform
 import json
 import logging
+import smtplib
+from smtplib import SMTPException, SMTPAuthenticationError
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email import encoders
 from pprint import pprint
 
 from com.sun.star.beans import PropertyValue
@@ -42,6 +48,7 @@ def _create_instance(name=DESKTOP, with_context=True):
         instance = SM.createInstance(name)
     return instance
 
+
 def _make_properties(properties):
     prop = []
     l = len(properties)
@@ -51,6 +58,7 @@ def _make_properties(properties):
         pv.Value = properties[i + 1]
         prop.append(pv)
     return tuple(prop)
+
 
 def debug(data):
     """ Show data for debug
@@ -66,6 +74,7 @@ def debug(data):
     pprint (data)
     return
 
+
 def msgbox(message, type_msg='infobox', title='Debug', buttons=BUTTONS_OK):
     """ Create message box
         type_msg: infobox, warningbox, errorbox, querybox, messbox
@@ -76,14 +85,17 @@ def msgbox(message, type_msg='infobox', title='Debug', buttons=BUTTONS_OK):
     mb = toolkit.createMessageBox(parent, type_msg, buttons, title, str(message))
     return mb.execute()
 
+
 def question(title, message):
     return YES == msgbox(message, 'querybox', title, BUTTONS_YES_NO)
+
 
 def cmd(command, *data):
     """
         Execute methods by name
     """
     return globals()[command](*data)
+
 
 def new_doc(type_doc):
     """
@@ -104,6 +116,7 @@ def new_doc(type_doc):
     doc = desktop.loadComponentFromURL(path, '_default', 0, ())
     return doc
 
+
 def get_doc(title=''):
     """
         If title is missing get current component,
@@ -119,6 +132,7 @@ def get_doc(title=''):
         if doc.getTitle() == title:
             return doc
     return None
+
 
 def get_type_doc(doc):
     """
@@ -138,6 +152,7 @@ def get_type_doc(doc):
             return key
     return ""
 
+
 def get_docs():
     """
         Return all documents open
@@ -148,6 +163,7 @@ def get_docs():
     while enum.hasMoreElements():
         docs.append(enum.nextElement())
     return tuple(docs)
+
 
 def open_doc(path, options):
     """
@@ -161,6 +177,7 @@ def open_doc(path, options):
     doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
     return doc
 
+
 def set_focus(doc):
     """
         Active doc
@@ -169,12 +186,14 @@ def set_focus(doc):
     window.setFocus()
     return
 
+
 def get_status_bar(doc):
     """
         Return status bar
     """
     statusbar = doc.getCurrentController().getStatusIndicator()
     return statusbar
+
 
 def export_pdf(doc, path_save, options):
     """
@@ -214,6 +233,7 @@ def export_pdf(doc, path_save, options):
         return path_save
     return ''
 
+
 def array(array, method, data):
     """
         Methods of list to Basic
@@ -244,6 +264,7 @@ def array(array, method, data):
     else:
         return res
 
+
 def get_size_screen():
     if OS == WIN:
         user32 = ctypes.windll.user32
@@ -252,6 +273,7 @@ def get_size_screen():
         args = 'xrandr | grep "\*" | cut -d" " -f4'
         res = subprocess.check_output(args, shell=True).decode()
         return res
+
 
 def get_info_pc():
     """
@@ -273,15 +295,18 @@ def get_info_pc():
     )
     return info
 
+
 def path_to_url(path):
     if path.startswith('file://'):
         return path
     return uno.systemPathToFileUrl(path)
 
+
 def path_os(path):
     if path.startswith('file://'):
         path = uno.fileUrlToSystemPath(path)
     return path
+
 
 def get_path(name):
     """
@@ -293,17 +318,21 @@ def get_path(name):
     path = _create_instance('com.sun.star.util.PathSettings')
     return getattr(path, name)
 
+
 def get_path_info(path):
     path, filename = os.path.split(path)
     name, extension = os.path.splitext(filename)
     return (path, filename, name, extension)
 
+
 def replace_ext(path, ext):
     path, _, name, _ = get_path_info(path)
     return '{}/{}.{}'.format(path, name, ext)
 
+
 def path_join(paths):
     return os.path.normpath(os.path.join(*paths))
+
 
 def get_folder(init_folder=''):
     if init_folder:
@@ -316,6 +345,7 @@ def get_folder(init_folder=''):
         return folder.getDirectory()
     else:
         return ''
+
 
 def get_selected_files(init_folder, multiple, filters):
     if init_folder:
@@ -340,12 +370,14 @@ def get_selected_files(init_folder, multiple, filters):
     else:
         return ""
 
+
 def get_files(path, ext):
     paths = []
     for folder, _, files in os.walk(path):
         pattern = re.compile('\.{}'.format(ext), re.IGNORECASE)
         paths += [os.path.join(folder, f) for f in files if pattern.search(f)]
     return tuple(paths)
+
 
 def execute(args, wait):
     if wait:
@@ -354,6 +386,7 @@ def execute(args, wait):
     else:
         subprocess.Popen(args)
     return
+
 
 def get_config(key):
     name = 'com.sun.star.configuration.ConfigurationProvider'
@@ -382,6 +415,7 @@ def get_config(key):
         log.debug(e, exc_info=True)
         return
 
+
 def set_config(key, value):
     name = 'com.sun.star.configuration.ConfigurationProvider'
     cp = _create_instance(name)
@@ -399,6 +433,63 @@ def set_config(key, value):
         config_writer.setPropertyValue(NODE_CONFIG, new_values)
         config_writer.commitChanges()
         return True
+    except Exception as e:
+        log.debug(e, exc_info=True)
+        return False
+
+
+def send_mail(server, mail, files):
+    # server, port, ssl, user, pass
+    server = {r[0]: r[1] for r in server}
+    mail = {r[0]: r[1] for r in mail}
+    sender = server['user']
+    receivers = mail['to'].split(',')
+
+    message = MIMEMultipart()
+    message['From'] = sender
+    message['To'] = mail['to']
+    message['Cc'] = mail.get('cc', '')
+    message['Bcc'] = mail.get('bcc', '')
+    message['Subject'] = mail['subject']
+    message.attach(MIMEText(mail['body'], 'html'))
+    #~ for f in files:
+        #~ part = MIMEBase('application', 'octet-stream')
+        #~ part.set_payload( open(f,"rb").read() )
+        #~ encoders.encode_base64(part)
+        #~ part.add_header(
+            #~ 'Content-Disposition',
+            #~ "attachment; filename=%s" % os.path.basename(f))
+        #~ message.attach(part)
+    if message['Cc']:
+        receivers += mail['cc'].split(',')
+    if message['Bcc']:
+        receivers += mail['bcc'].split(',')
+    try:
+        smtp = smtplib.SMTP(server['server'], server['port'], timeout=10)
+        if server['ssl']:
+            smtp.ehlo()
+            smtp.starttls()
+            smtp.ehlo()
+        log.info('Connect server...')
+        smtp.login(server['user'], server['pass'])
+        log.info('Send mail...')
+        smtp.sendmail(sender, receivers, message.as_string())
+        log.info('Log out server...')
+        smtp.quit()
+        log.info('Close...')
+        return True
+    except SMTPAuthenticationError as e:
+        if e[0] == 534 and 'gmail' in server['server']:
+            msg = 'Necesitas activar el acceso a otras aplicaciones en tu cuenta de GMail'
+            log.debug(msg)
+            return False
+        elif e[0] == 535:
+            msg = 'Nombre de usuario o contraseña inválidos'
+            log.debug(msg)
+            return False
+    except SMTPException as e:
+        log.debug(e, exc_info=True)
+        return False
     except Exception as e:
         log.debug(e, exc_info=True)
         return False
