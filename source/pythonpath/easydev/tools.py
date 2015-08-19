@@ -13,7 +13,8 @@ from pprint import pprint
 
 from com.sun.star.beans import PropertyValue
 
-from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, NODE_CONFIG, LOG, NAME_EXT
+from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
+    NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES
 
 
 log = logging.getLogger(NAME_EXT)
@@ -65,7 +66,7 @@ def debug(data):
     pprint (data)
     return
 
-def msgbox(message, type_msg='infobox', title='Debug', buttons=1):
+def msgbox(message, type_msg='infobox', title='Debug', buttons=BUTTONS_OK):
     """ Create message box
         type_msg: infobox, warningbox, errorbox, querybox, messbox
     """
@@ -74,6 +75,9 @@ def msgbox(message, type_msg='infobox', title='Debug', buttons=1):
     parent = toolkit.getDesktopWindow()
     mb = toolkit.createMessageBox(parent, type_msg, buttons, title, str(message))
     return mb.execute()
+
+def question(title, message):
+    return YES == msgbox(message, 'querybox', title, BUTTONS_YES_NO)
 
 def cmd(command, *data):
     """

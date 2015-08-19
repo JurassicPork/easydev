@@ -36,6 +36,8 @@ module org { module universolibre { module util { module EasyDev {
 
         any getConfig([in] string key);
         boolean setConfig([in] string key, [in] any value);
+
+        boolean question([in] string title, [in] string message);
     };
 
     service EasyDev: XEasyDev;

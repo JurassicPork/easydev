@@ -1,7 +1,8 @@
 # coding: utf-8
 import logging
 import sys
-
+from com.sun.star.awt.MessageBoxButtons import BUTTONS_OK, BUTTONS_YES_NO
+from com.sun.star.awt.MessageBoxResults import OK, YES, NO
 
 OS = sys.platform
 NAME_EXT = 'EasyDev'
