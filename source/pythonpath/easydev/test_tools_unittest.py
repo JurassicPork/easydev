@@ -45,6 +45,34 @@ class TestTools(unittest.TestCase):
         result = tools.file_open(test_path, 'rb')
         self.assertEqual(result, expected)
 
+    def test_format_string(self):
+        expected = 'Number: one'
+        template = 'Number: {}'
+        data = 'one'
+        result = tools.format(template, data)
+        self.assertEqual(result, expected)
+
+    def test_format_list(self):
+        expected = 'Numbers: one and two'
+        template = 'Numbers: {} and {}'
+        data = ('one', 'two')
+        result = tools.format(template, data)
+        self.assertEqual(result, expected)
+
+    def test_format_list_pos(self):
+        expected = 'Numbers: two and one'
+        template = 'Numbers: {1} and {0}'
+        data = ('one', 'two')
+        result = tools.format(template, data)
+        self.assertEqual(result, expected)
+
+    def test_format_dict(self):
+        expected = 'Numbers: one and two'
+        template = 'Numbers: {n1} and {n2}'
+        data = (('n1', 'one'), ('n2', 'two'))
+        result = tools.format(template, data)
+        self.assertEqual(result, expected)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -98,6 +98,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def fileOpen(self, path, mode):
         return tools.file_open(path, mode)
 
+    def format(self, template, data):
+        return tools.format(template, data)
+
     def question(self, title, message):
         return tools.question(title, message)
 
