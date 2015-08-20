@@ -1,5 +1,5 @@
 # coding: utf-8
-import uno
+
 import ctypes
 import subprocess
 import sys
@@ -16,11 +16,17 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
 from pprint import pprint
+from string import Template
 
+import uno
 from com.sun.star.beans import PropertyValue
 
-from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
-    NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES
+try:
+    from setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
+        NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES
+except:
+    from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, \
+        NODE, NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES
 
 
 log = logging.getLogger(NAME_EXT)
@@ -496,3 +502,10 @@ def send_mail(server, mail, files):
     except Exception as e:
         log.debug(e, exc_info=True)
         return False
+
+
+def render(template, data):
+    data = {r[0]: r[1] for r in data}
+    s = Template(template)
+    return s.safe_substitute(**data)
+

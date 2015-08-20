@@ -92,6 +92,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def sendMail(self, server, mail, files):
         return tools.send_mail(server, mail, files)
 
+    def render(self, template, data):
+        return tools.render(template, data)
+
     def question(self, title, message):
         return tools.question(title, message)
 
