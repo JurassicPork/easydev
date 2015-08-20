@@ -452,14 +452,17 @@ def send_mail(server, mail, files):
     message['Bcc'] = mail.get('bcc', '')
     message['Subject'] = mail['subject']
     message.attach(MIMEText(mail['body'], 'html'))
-    #~ for f in files:
-        #~ part = MIMEBase('application', 'octet-stream')
-        #~ part.set_payload( open(f,"rb").read() )
-        #~ encoders.encode_base64(part)
-        #~ part.add_header(
-            #~ 'Content-Disposition',
-            #~ "attachment; filename=%s" % os.path.basename(f))
-        #~ message.attach(part)
+    for f in files:
+        path = path_os(f)
+        if not os.path.exists(path):
+            continue
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload(open(path, 'rb').read())
+        encoders.encode_base64(part)
+        part.add_header(
+            'Content-Disposition',
+            "attachment; filename={}".format(os.path.basename(path)))
+        message.attach(part)
     if message['Cc']:
         receivers += mail['cc'].split(',')
     if message['Bcc']:
