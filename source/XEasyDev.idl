@@ -39,6 +39,7 @@ module org { module universolibre { module util { module EasyDev {
 
         boolean sendMail([in] sequence< sequence< any > > server, [in] sequence< sequence< string > > mail, [in] sequence< string > files);
         string render([in] string template, [in] sequence< sequence< any > > data);
+        any fileOpen([in] string path, [in] string mode);
 
         boolean question([in] string title, [in] string message);
     };

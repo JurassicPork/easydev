@@ -95,6 +95,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def render(self, template, data):
         return tools.render(template, data)
 
+    def fileOpen(self, path, mode):
+        return tools.file_open(path, mode)
+
     def question(self, title, message):
         return tools.question(title, message)
 

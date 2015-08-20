@@ -509,3 +509,12 @@ def render(template, data):
     s = Template(template)
     return s.safe_substitute(**data)
 
+
+def file_open(path, mode='r'):
+    data = ''
+    if not mode:
+        mode = 'r'
+    path = path_os(path)
+    with open(path, mode) as f:
+        data = f.read()
+    return data
