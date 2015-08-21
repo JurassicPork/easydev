@@ -92,6 +92,15 @@ def msgbox(message, type_msg='infobox', title='Debug', buttons=BUTTONS_OK):
     return mb.execute()
 
 
+def mri(obj):
+    m = _create_instance('mytools.Mri')
+    if m is None:
+        msgbox('Instala la extensión MRI', 'errorbox')
+        return
+    m.inspect(obj)
+    return
+
+
 def question(title, message):
     return YES == msgbox(message, 'querybox', title, BUTTONS_YES_NO)
 

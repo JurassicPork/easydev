@@ -26,6 +26,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def msgbox(self, data):
         return tools.msgbox(data)
 
+    def mri(self, obj):
+        return tools.mri(obj)
+
     def cmd(self, command, data):
         return tools.cmd(command, data)
 

@@ -11,6 +11,7 @@ module org { module universolibre { module util { module EasyDev {
 
         void debug([in] any data);
         void msgbox([in] any data);
+        void mri([in] any obj);
         any cmd([in] string command, [in] any data);
 
         any newDoc([in] string typeDoc);
