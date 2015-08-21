@@ -530,12 +530,12 @@ def file_open(path, mode='r'):
 
 
 def format(template, data):
-    if isinstance(data, str):
-        result = template.format(data)
-    elif isinstance(data, tuple):
+    if isinstance(data, tuple):
         if isinstance(data[0], tuple):
             data = {r[0]: r[1] for r in data}
             result = template.format(**data)
         else:
             result = template.format(*data)
+    else:
+        result = template.format(data)
     return result

@@ -53,6 +53,13 @@ class TestTools(unittest.TestCase):
         result = tools.format(template, data)
         self.assertEqual(result, expected)
 
+    def test_format_number(self):
+        expected = '123'
+        template = '{:d}'
+        data = 123
+        result = tools.format(template, data)
+        self.assertEqual(result, expected)
+
     def test_format_list(self):
         expected = 'Numbers: one and two'
         template = 'Numbers: {} and {}'
