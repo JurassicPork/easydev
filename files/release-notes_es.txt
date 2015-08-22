@@ -1,0 +1,2 @@
+v 1.0.0 [22-Ago-2015]
+	- Se actualiza el script para generar la extensión y el archivo de configuración.

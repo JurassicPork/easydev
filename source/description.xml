@@ -4,12 +4,51 @@
     xmlns:d="http://openoffice.org/extensions/description/2006"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
+    <version value="1.0.0" />
     <identifier value="org.universolibre.util.EasyDev" />
-    <version value="0.1.0" />
-    <display-name><name lang="es">Tools for developer in LibreOffice</name></display-name>
-    <publisher><name xlink:href="http://www.universolibre.org" lang="es">Universo Libre Mexico, A.C.</name></publisher>
-    <icon><default xlink:href="icons/easydev.png"/></icon>
+    <platform value="all" />
+    
+    <icon>
+        <default xlink:href="images/easydev.png" />
+    </icon>
+    
+    <dependencies>
+        <OpenOffice.org-maximal-version value="4.x" d:name="OpenOffice.org 4.x" d:OpenOffice.org-minimal-version="4.0"/>
+    </dependencies>
+    
+    <update-information>
+        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/easydev.update.xml" />
+    </update-information>
+    
+    <registration>
+        <simple-license accept-by="user" suppress-on-update="true" >
+            <license-text xlink:href="registration/license_es.txt" lang="es" />
+			<license-text xlink:href="registration/license_en.txt" lang="en" />
+			
+        </simple-license>
+    </registration>
+    
+    <publisher>
+        <name xlink:href="http://www.universolibre.org" lang="es">Universo Libre Mexico, A.C.</name>
+		<name xlink:href="http://www.universolibre.org" lang="en">Universo Libre Mexico, A.C.</name>
+		
+    </publisher>
+    
+    <release-notes>
+        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_es.txt" lang="es" />
+		<src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_en.txt" lang="en" />
+		
+    </release-notes>
+    
+    <display-name>
+        <name lang="es">Herramientas para desarrollo simple en LibreOffice, con Python</name>
+		<name lang="en">Tool for easy develop macros in LibreOffice, with Python</name>
+		
+    </display-name>
+    
     <extension-description>
-        <src lang="es" xlink:href="descriptions/desc.es"/>
+        <src xlink:href="description/desc_es.txt" lang="es" />
+		<src xlink:href="description/desc_en.txt" lang="en" />
+		
     </extension-description>
 </description>

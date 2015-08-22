@@ -1,6 +1,3 @@
 *.pyc
-*.idl
 *.bk
-make_ext.py
-conf.py
 
