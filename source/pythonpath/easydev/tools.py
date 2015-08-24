@@ -466,7 +466,8 @@ def send_mail(server, mail, files):
     message['Cc'] = mail.get('cc', '')
     message['Bcc'] = mail.get('bcc', '')
     message['Subject'] = mail['subject']
-    message.attach(MIMEText(mail['body'], 'html'))
+    body = mail['body'].replace('\\n', '<br />').replace('\n', '<br />')
+    message.attach(MIMEText(body, 'html'))
     for f in files:
         path = path_os(f)
         if not os.path.exists(path):
