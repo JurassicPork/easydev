@@ -12,7 +12,7 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 ID_EXT = 'org.universolibre.util.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
@@ -23,3 +23,4 @@ TOOLKIT = 'com.sun.star.awt.Toolkit'
 CALC = 'scalc'
 WRITER = 'swriter'
 EXT_PDF = 'pdf'
+CLIPBOARD_FORMAT_TEXT = 'text/plain;charset=utf-16'
