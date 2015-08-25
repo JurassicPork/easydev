@@ -5,14 +5,11 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <identifier value="org.universolibre.util.EasyDev" />
-    <version value="1.0.1" />
+    <version value="1.1.0" />
     
-    <dependencies>
-        <OpenOffice.org-maximal-version value="4.x" d:name="OpenOffice.org 4.x" d:OpenOffice.org-minimal-version="4.0"/>
-    </dependencies>
 
     <update-download>
-        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/EasyDev_v1.0.1.oxt"/>
+        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/EasyDev_v1.1.0.oxt"/>
     </update-download>
     <release-notes>
         

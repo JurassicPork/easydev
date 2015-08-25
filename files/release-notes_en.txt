@@ -1,3 +1,5 @@
+v 1.1.0 [25-Ago-2015]
+    - Add support clipboard
 v 1.0.1 [24-Ago-2015]
     - Fix bug with line break in body in function send mail.
     - Fix export selection in export pdf

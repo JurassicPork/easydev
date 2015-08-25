@@ -15,7 +15,7 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     VERSION = VERSION
     OS = OS
     value = ''
-    service_name = implementation_name = NAME_EXT
+    service_name = implementation_name = ID_EXT
 
     def __init__(self, ctx=None):
         self.ctx = ctx
@@ -106,6 +106,12 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
     def question(self, title, message):
         return tools.question(title, message)
+
+    def getClipboard(self):
+        return tools.get_text_from_clipboard()
+
+    def setClipboard(self, text):
+        return tools.set_text_to_clipboard(text)
 
     def getServiceName(self):
         return self.service_name
