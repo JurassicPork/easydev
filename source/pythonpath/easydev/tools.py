@@ -19,14 +19,18 @@ from pprint import pprint
 from string import Template
 
 import uno
+import unohelper
 from com.sun.star.beans import PropertyValue
+from com.sun.star.datatransfer import XTransferable, DataFlavor
 
 try:
     from setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
-        NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES
+        NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
+        CLIPBOARD_FORMAT_TEXT
 except:
     from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, \
-        NODE, NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES
+        NODE, NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
+        CLIPBOARD_FORMAT_TEXT
 
 
 log = logging.getLogger(NAME_EXT)
@@ -45,6 +49,37 @@ class OutputDoc(object):
         cursor.gotoEnd(False)
         text.insertString(cursor, str(info), 0)
         return
+
+
+class TextTransferable(unohelper.Base, XTransferable):
+    """Keep clipboard data and provide them."""
+
+    def __init__(self, text):
+        df = DataFlavor()
+        df.MimeType = CLIPBOARD_FORMAT_TEXT
+        df.HumanPresentableName = "encoded text utf-16"
+        self.flavors = [df]
+        self.data = [text]
+
+    def getTransferData(self, flavor):
+        if not flavor:
+            return
+        for i, f in enumerate(self.flavors):
+            if flavor.MimeType == f.MimeType:
+                return self.data[i]
+        return
+
+    def getTransferDataFlavors(self):
+        return tuple(self.flavors)
+
+    def isDataFlavorSupported(self, flavor):
+        if not flavor:
+            return False
+        mtype = flavor.MimeType
+        for f in self.flavors:
+            if mtype == f.MimeType:
+                return True
+        return False
 
 
 def _create_instance(name=DESKTOP, with_context=True):
@@ -105,11 +140,20 @@ def question(title, message):
     return YES == msgbox(message, 'querybox', title, BUTTONS_YES_NO)
 
 
-def cmd(command, *data):
+def cmd(command, data):
     """
         Execute methods by name
     """
-    return globals()[command](*data)
+    return globals()[command](data)
+
+
+def test(data):
+    #~ ts = _create_instance('com.sun.star.datatransfer.XTransferableSupplier', False)
+    #~ t = ts.getTransferable()
+    ts = transferable("TEST")
+    sc = _create_instance('com.sun.star.datatransfer.clipboard.SystemClipboard')
+    sc.setContents(ts, None)
+    return
 
 
 def new_doc(type_doc):
@@ -118,7 +162,7 @@ def new_doc(type_doc):
         http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html
 
     type_doc:
-        scalc
+        scal
         swriter
         simpress
         sdraw
@@ -540,3 +584,25 @@ def format(template, data):
     else:
         result = template.format(data)
     return result
+
+
+def get_text_from_clipboard():
+    df = None
+    text = ''
+    sc = _create_instance('com.sun.star.datatransfer.clipboard.SystemClipboard')
+    transferable = sc.getContents()
+    data = transferable.getTransferDataFlavors()
+    for df in data:
+        if df.MimeType == CLIPBOARD_FORMAT_TEXT:
+            break
+    if df:
+        text = transferable.getTransferData(df)
+    return text
+
+
+def set_text_to_clipboard(text):
+    ts = TextTransferable(text)
+    sc = _create_instance('com.sun.star.datatransfer.clipboard.SystemClipboard')
+    sc.setContents(ts, None)
+    return
+
