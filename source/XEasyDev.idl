@@ -22,6 +22,7 @@ module org { module universolibre { module util { module EasyDev {
         void setFocus([in] any doc);
         any getStatusBar([in] any doc);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
+        boolean exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< sequence< any > > options);
 
         any array([in] sequence< any > array, [in] string method, [in] any data);
 

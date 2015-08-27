@@ -113,6 +113,9 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def setClipboard(self, text):
         return tools.set_text_to_clipboard(text)
 
+    def exportCSV(self, path, data, options):
+        return tools.export_csv(path, data, options)
+
     def getServiceName(self):
         return self.service_name
 

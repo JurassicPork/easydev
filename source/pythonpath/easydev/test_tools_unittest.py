@@ -81,6 +81,66 @@ class TestTools(unittest.TestCase):
         result = tools.format(template, data)
         self.assertEqual(result, expected)
 
+    def test_export_to_csv(self):
+        expected = """value a1,1,value c1
+value a2,2,value c2
+value a3,3,value c3
+"""
+        test_path = os.path.join(self.test_dir, 'temp.csv')
+        data = (
+            ('value a1', 1, 'value c1'),
+            ('value a2', 2, 'value c2'),
+            ('value a3', 3, 'value c3'),
+        )
+        tools.export_csv(test_path, data)
+        with open(test_path, 'r') as f:
+            result = f.read()
+        self.assertEqual(result, expected)
+
+    def test_export_to_csv_with_headers(self):
+        expected = """Num 1,Num 2,Num 3
+value a1,1,value c1
+value a2,2,value c2
+value a3,3,value c3
+"""
+        test_path = os.path.join(self.test_dir, 'temp.csv')
+        options = (
+            ('write_headers', True),
+            ('headers', ('Num 1', 'Num 2', 'Num 3')),
+        )
+        data = (
+            ('VALUE 1', 'VALUE 2', 'VALUE 3'),
+            ('value a1', 1, 'value c1'),
+            ('value a2', 2, 'value c2'),
+            ('value a3', 3, 'value c3'),
+        )
+        tools.export_csv(test_path, data, options)
+        with open(test_path, 'r') as f:
+            result = f.read()
+        self.assertEqual(result, expected)
+
+    def test_export_to_csv_change_delimiter(self):
+        expected = """VALUE 1|VALUE 2|VALUE 3
+value a1|1|value c1
+value a2|2|value c2
+value a3|3|value c3
+"""
+        test_path = os.path.join(self.test_dir, 'temp.csv')
+        options = (
+            ('write_headers', False),
+            ('delimiter', '|'),
+        )
+        data = (
+            ('VALUE 1', 'VALUE 2', 'VALUE 3'),
+            ('value a1', 1, 'value c1'),
+            ('value a2', 2, 'value c2'),
+            ('value a3', 3, 'value c3'),
+        )
+        tools.export_csv(test_path, data, options)
+        with open(test_path, 'r') as f:
+            result = f.read()
+        self.assertEqual(result, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
