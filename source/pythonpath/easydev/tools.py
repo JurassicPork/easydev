@@ -17,6 +17,7 @@ from email.mime.text import MIMEText
 from email import encoders
 from pprint import pprint
 from string import Template
+import csv
 
 import uno
 import unohelper
@@ -606,3 +607,31 @@ def set_text_to_clipboard(text):
     sc.setContents(ts, None)
     return
 
+
+def export_csv(path, data, options=()):
+    try:
+        headers = ()
+        config = {}
+        path = path_os(path)
+        if options:
+            config = {r[0]: r[1] for r in options}
+        write_headers = config.get('write_headers', False)
+        config.pop('write_headers', None)
+        if write_headers:
+            headers = config.get('headers', ())
+            config.pop('headers', None)
+            if not headers:
+                headers = data[0]
+            data = data[1:]
+        with open(path, 'w') as f:
+            if config:
+                writer = csv.writer(f, **config)
+            else:
+                writer = csv.writer(f)
+            if headers:
+                writer.writerow(headers)
+            writer.writerows(data)
+        return True
+    except:
+        log.debug('CSV', exc_info=True)
+        return False
