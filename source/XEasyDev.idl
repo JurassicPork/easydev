@@ -24,6 +24,12 @@ module org { module universolibre { module util { module EasyDev {
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
         boolean exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< sequence< any > > options);
 
+        any getCell([in] any doc, [in] any sheetName, [in] any cellAddress);
+        any getRange([in] any doc, [in] any sheetName, [in] any rangeAddress);
+        void selectRange([in] any doc, [in] any sheetName, [in] any rango);
+        any getCurrentRegion([in] any cell);
+        long getLastRow([in] any cell);
+
         any array([in] sequence< any > array, [in] string method, [in] any data);
 
         string getSizeScreen();
