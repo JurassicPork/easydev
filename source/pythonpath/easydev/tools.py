@@ -635,3 +635,72 @@ def export_csv(path, data, options=()):
     except:
         log.debug('CSV', exc_info=True)
         return False
+
+
+def get_cell(doc, sheet_name=None, cell_address=None):
+    if isinstance(doc, str):
+        doc = get_doc(doc)
+    if not sheet_name and not cell_address:
+        cell = doc.getCurrentSelection()
+    else:
+        if isinstance(sheet_name, str):
+            if sheet_name:
+                sheet = doc.getSheets().getByName(sheet_name)
+            else:
+                sheet = doc.getCurrentController().getActiveSheet()
+        else:
+            sheet = sheet_name
+        if isinstance(cell_address, str):
+            cell = sheet.getCellRangeByName(cell_address)
+        else:
+            cell = sheet.getCellByPosition(*cell_address)
+    return cell
+
+
+def get_range(doc, sheet_name=None, range_address=None):
+    if isinstance(doc, str):
+        doc = get_doc(doc)
+    if not sheet_name and not range_address:
+        rango = doc.getCurrentSelection()
+    else:
+        if isinstance(sheet_name, str):
+            if sheet_name:
+                sheet = doc.getSheets().getByName(sheet_name)
+            else:
+                sheet = doc.getCurrentController().getActiveSheet()
+        else:
+            sheet = sheet_name
+        if isinstance(range_address, str):
+            rango = sheet.getCellRangeByName(range_address)
+        else:
+            rango = sheet.getCellRangeByPosition(*range_address)
+    return rango
+
+
+def select_range(doc, sheet_name=None, rango=None):
+    if isinstance(doc, str):
+        doc = get_doc(doc)
+    if isinstance(sheet_name, str):
+        if sheet_name:
+            sheet = doc.getSheets().getByName(sheet_name)
+        else:
+            sheet = doc.getCurrentController().getActiveSheet()
+    else:
+        sheet = sheet_name
+    if isinstance(rango, str):
+        rango = sheet.getCellRangeByName(rango)
+    doc.getCurrentController().select(rango)
+    return
+
+
+def get_current_region(cell):
+    cursor = cell.getSpreadsheet().createCursorByRange(cell)
+    cursor.collapseToCurrentRegion()
+    return cursor
+
+
+def get_last_row(cell):
+    cursor = cell.getSpreadsheet().createCursorByRange(cell)
+    cursor.gotoEnd()
+    return cursor.getRangeAddress().EndRow
+
