@@ -116,6 +116,21 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def exportCSV(self, path, data, options):
         return tools.export_csv(path, data, options)
 
+    def getCell(self, doc, sheetName, cellAddress):
+        return tools.get_cell(doc, sheetName, cellAddress)
+
+    def getRange(self, doc, sheetName, rangeAddress):
+        return tools.get_range(doc, sheetName, rangeAddress)
+
+    def selectRange(self, doc, sheetName, rango):
+        return tools.select_range(doc, sheetName, rango)
+
+    def getCurrentRegion(self, cell):
+        return tools.get_current_region(cell)
+
+    def getLastRow(self, cell):
+        return tools.get_last_row(cell)
+
     def getServiceName(self):
         return self.service_name
 
