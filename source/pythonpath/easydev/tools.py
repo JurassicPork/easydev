@@ -509,7 +509,7 @@ def send_mail(server, mail, files):
     message['From'] = sender
     message['To'] = mail['to']
     message['Cc'] = mail.get('cc', '')
-    message['Bcc'] = mail.get('bcc', '')
+    #~ message['Bcc'] = mail.get('bcc', '')
     message['Subject'] = mail['subject']
     body = mail['body'].replace('\\n', '<br />').replace('\n', '<br />')
     message.attach(MIMEText(body, 'html'))
@@ -526,7 +526,7 @@ def send_mail(server, mail, files):
         message.attach(part)
     if message['Cc']:
         receivers += mail['cc'].split(',')
-    if message['Bcc']:
+    if mail.get('bcc', ''):
         receivers += mail['bcc'].split(',')
     try:
         smtp = smtplib.SMTP(server['server'], server['port'], timeout=10)
