@@ -44,6 +44,8 @@ module org { module universolibre { module EasyDev {
         void setClipboard([in] string text);
 
         any array([in] sequence< any > array, [in] string method, [in] any data);
+
+        long getEpoch();
     };
 
     interface XEasyDev : com::sun::star::uno::XInterface

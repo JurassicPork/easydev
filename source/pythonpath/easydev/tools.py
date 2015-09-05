@@ -10,6 +10,7 @@ import subprocess
 import getpass
 import platform
 import csv
+import time
 import datetime
 from string import Template
 
@@ -320,6 +321,10 @@ class Tools(XTools):
             return tuple(l)
         else:
             return res
+
+    def getEpoch(self):
+        now = datetime.datetime.now()
+        return int(time.mktime(now.timetuple()))
 
 
 class TextTransferable(unohelper.Base, XTransferable):
