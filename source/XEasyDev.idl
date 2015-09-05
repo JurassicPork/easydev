@@ -1,9 +1,9 @@
-#ifndef __org_universolibre_util_EasyDev_idl__
-#define __org_universolibre_util_EasyDev_idl__
+#ifndef __org_universolibre_EasyDev_idl__
+#define __org_universolibre_EasyDev_idl__
 
 #include <com/sun/star/uno/XInterface.idl>
 
-module org { module universolibre { module util { module EasyDev {
+module org { module universolibre { module EasyDev {
 
     interface XDebug : com::sun::star::uno::XInterface
     {
@@ -22,6 +22,7 @@ module org { module universolibre { module util { module EasyDev {
 
         string getSizeScreen();
         sequence< string > getInfoPC();
+        string render([in] string template, [in] sequence< sequence< any > > data);
 
         any array([in] sequence< any > array, [in] string method, [in] any data);
     };
@@ -54,22 +55,10 @@ module org { module universolibre { module util { module EasyDev {
         string getClipboard();
         void setClipboard([in] string text);
 
-        string render([in] string template, [in] sequence< sequence< any > > data);
         any fileOpen([in] string path, [in] string mode);
         string format([in] string template, [in] any data);
 
         boolean question([in] string title, [in] string message);
-    };
-
-    interface XEMail : com::sun::star::uno::XInterface
-    {
-        [attribute] string smtpServer;
-        [attribute] long smtpPort;
-        [attribute] boolean smtpSsl;
-        [attribute] string smtpUser;
-        [attribute] string smtpPassword;
-        [attribute] boolean smtpThread;
-        boolean sendMail([in] sequence< sequence< string > > mail, [in] sequence< string > files);
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
@@ -86,10 +75,41 @@ module org { module universolibre { module util { module EasyDev {
     service EasyDev {
         interface XDebug;
         interface XTools;
-        interface XEMail;
         interface XLOApp;
         interface XLOCalc;
     };
 
-}; }; }; };
+    published struct SmtpServer
+    {
+        string Name;
+        unsigned short Port;
+        boolean Ssl;
+        string User;
+        string Password;
+        boolean Thread;
+    };
+
+    published struct EmailMessage
+    {
+        string To;
+        string Cc;
+        string Bcc;
+        string Subject;
+        string Body;
+        sequence< string > Files;
+    };
+
+    interface XEMail : com::sun::star::uno::XInterface
+    {
+        boolean sendMail(
+            [in] org::universolibre::EasyDev::SmtpServer server,
+            [in] org::universolibre::EasyDev::EmailMessage message
+        );
+    };
+
+    service Email {
+        interface XEMail;
+    };
+
+}; }; };
 #endif

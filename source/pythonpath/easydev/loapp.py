@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import logging
-from org.universolibre.util.EasyDev import XLOApp
+from org.universolibre.EasyDev import XLOApp
 from easydev.setting import LOG, NAME_EXT, CALC, DESKTOP
 
 

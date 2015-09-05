@@ -6,7 +6,6 @@ from com.sun.star.lang import XServiceInfo
 from easydev.debug import Debug
 from easydev.tools import Tools
 from easydev.email import EMail
-#~ from easydev.loapp import LOApp
 from easydev.localc import LOCalc
 from easydev.setting import ID_EXT, SRV_JOB
 
@@ -22,7 +21,6 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, Debug, Tools, EMail,
         Debug.__init__(self, self.ctx, self.sm)
         Tools.__init__(self, self.ctx, self.sm)
         EMail.__init__(self)
-        #~ LOApp.__init__(self, self.ctx, self.sm)
         LOCalc.__init__(self, self.ctx, self.sm)
 
     def getTypeDoc(self, doc):
@@ -69,9 +67,6 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, Debug, Tools, EMail,
 
     def setConfig(self, key, value):
         return tools.set_config(key, value)
-
-    def render(self, template, data):
-        return tools.render(template, data)
 
     def fileOpen(self, path, mode):
         return tools.file_open(path, mode)

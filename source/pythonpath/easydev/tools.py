@@ -17,13 +17,8 @@ import uno
 import unohelper
 from com.sun.star.beans import PropertyValue
 from com.sun.star.datatransfer import XTransferable, DataFlavor
-from org.universolibre.util.EasyDev import XTools
+from org.universolibre.EasyDev import XTools
 
-#~ try:
-    #~ from setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
-        #~ NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
-        #~ CLIPBOARD_FORMAT_TEXT
-#~ except:
     #~ from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, \
         #~ NODE, NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
         #~ CLIPBOARD_FORMAT_TEXT
@@ -32,8 +27,6 @@ from easydev.setting import LOG, NAME_EXT, OS, VERSION, DESKTOP
 
 
 log = logging.getLogger(NAME_EXT)
-#~ CTX = uno.getComponentContext()
-#~ SM = CTX.getServiceManager()
 
 
 class Tools(XTools):
@@ -103,6 +96,11 @@ class Tools(XTools):
             return tuple(l)
         else:
             return res
+
+    def render(self, template, data):
+        data = {r[0]: r[1] for r in data}
+        s = Template(template)
+        return s.safe_substitute(**data)
 
 
 class TextTransferable(unohelper.Base, XTransferable):
@@ -399,11 +397,6 @@ def set_config(key, value):
     except Exception as e:
         log.debug(e, exc_info=True)
         return False
-
-def render(template, data):
-    data = {r[0]: r[1] for r in data}
-    s = Template(template)
-    return s.safe_substitute(**data)
 
 
 def file_open(path, mode='r'):

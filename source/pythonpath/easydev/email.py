@@ -9,26 +9,26 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
 
-from org.universolibre.util.EasyDev import XEMail
-from easydev.setting import LOG, NAME_EXT
+from org.universolibre.EasyDev import XEMail
+from easydev.setting import LOG, NAME_EXT, TIMEOUT
 
 
 log = logging.getLogger(NAME_EXT)
 
 
-def send_mail(server, mail, files):
-    mail = {r[0]: r[1] for r in mail}
-    sender = server['smtpUser']
-    receivers = mail['to'].split(',')
+def send_mail(server, message):
+    sender = server.User
+    receivers = message.To.split(',') + message.Cc.split(',') + message.Bcc.split(',')
 
-    message = MIMEMultipart()
-    message['From'] = sender
-    message['To'] = mail['to']
-    message['Cc'] = mail.get('cc', '')
-    message['Subject'] = mail['subject']
-    body = mail['body'].replace('\\n', '<br />').replace('\n', '<br />')
-    message.attach(MIMEText(body, 'html'))
-    for f in files:
+    email = MIMEMultipart()
+    email['From'] = sender
+    email['To'] = message.To
+    email['Cc'] = message.Cc
+    email['Subject'] = message.Subject
+    body = message.Body.replace('\\n', '<br />').replace('\n', '<br />')
+    email.attach(MIMEText(body, 'html'))
+
+    for f in message.Files:
         path = path_os(f)
         if not os.path.exists(path):
             continue
@@ -38,27 +38,23 @@ def send_mail(server, mail, files):
         part.add_header(
             'Content-Disposition',
             "attachment; filename={}".format(os.path.basename(path)))
-        message.attach(part)
-    if message['Cc']:
-        receivers += mail['cc'].split(',')
-    if mail.get('bcc', ''):
-        receivers += mail['bcc'].split(',')
+        email.attach(part)
     try:
-        smtp = smtplib.SMTP(server['smtpServer'], server['smtpPort'], timeout=10)
-        if server['smtpSsl']:
+        smtp = smtplib.SMTP(server.Name, server.Port, timeout=TIMEOUT)
+        if server.Ssl:
             smtp.ehlo()
             smtp.starttls()
             smtp.ehlo()
         log.info('Connect server...')
-        smtp.login(server['smtpUser'], server['smtpPassword'])
+        smtp.login(server.User, server.Password)
         log.info('Send mail...')
-        smtp.sendmail(sender, receivers, message.as_string())
+        smtp.sendmail(sender, receivers, email.as_string())
         log.info('Log out server...')
         smtp.quit()
         log.info('Close...')
         return True
     except SMTPAuthenticationError as e:
-        if e[0] == 534 and 'gmail' in server['smtpServer']:
+        if e[0] == 534 and 'gmail' in server.Server:
             msg = 'Necesitas activar el acceso a otras aplicaciones en tu cuenta de GMail'
             log.debug(msg)
             return False
@@ -67,30 +63,27 @@ def send_mail(server, mail, files):
             log.debug(msg)
             return False
     except SMTPException as e:
-        log.debug(e, exc_info=True)
+        log.debug(e)
         return False
     except Exception as e:
-        log.debug(e, exc_info=True)
+        log.debug(e)
         return False
 
 
 class EMail(XEMail):
-    smtpServer = ''
-    smtpUser = ''
-    smtpPassword = ''
 
     def __init__(self):
-        self.smtpPort = 587
-        self.smtpSsl = True
-        self.smtpThread = True
+        pass
 
-    def sendMail(self, mail, files):
-        if self.smtpThread:
+    def sendMail(self, server, message):
+        if not server.Port:
+            server.Port = 587
+        if server.Thread:
             log.info('Send in thread...')
-            thread = Thread(target=send_mail, args=(self.__dict__, mail, files))
+            thread = Thread(target=send_mail, args=(server, message))
             thread.start()
             thread.join()
         else:
             log.info('Send normal...')
-            return send_mail(self.__dict__, mail, files)
+            return send_mail(server, message)
 

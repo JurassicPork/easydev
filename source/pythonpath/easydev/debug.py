@@ -2,7 +2,7 @@
 
 import logging
 from pprint import pprint
-from org.universolibre.util.EasyDev import XDebug
+from org.universolibre.EasyDev import XDebug
 from easydev.setting import LOG, NAME_EXT, OS, WIN, BUTTONS_OK, DESKTOP, \
     TOOLKIT, WRITER
 

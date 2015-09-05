@@ -2,7 +2,7 @@
 
 import logging
 from easydev.loapp import LOApp
-from org.universolibre.util.EasyDev import XLOCalc
+from org.universolibre.EasyDev import XLOCalc
 from easydev.setting import LOG, NAME_EXT
 
 

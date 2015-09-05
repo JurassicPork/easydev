@@ -1,8 +1,10 @@
 # coding: utf-8
+
 import logging
 import sys
 from com.sun.star.awt.MessageBoxButtons import BUTTONS_OK, BUTTONS_YES_NO
 from com.sun.star.awt.MessageBoxResults import OK, YES, NO
+
 
 OS = sys.platform
 NAME_EXT = 'EasyDev'
@@ -12,8 +14,8 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '1.4.0'
-ID_EXT = 'org.universolibre.util.EasyDev'
+VERSION = '2.0.0'
+ID_EXT = 'org.universolibre.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
 LINUX = 'linux'
@@ -25,3 +27,4 @@ CALC = 'scalc'
 WRITER = 'swriter'
 EXT_PDF = 'pdf'
 CLIPBOARD_FORMAT_TEXT = 'text/plain;charset=utf-16'
+TIMEOUT = 10

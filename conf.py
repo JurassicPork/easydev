@@ -2,11 +2,11 @@ import logging
 
 #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Extensions/description.xml
 
-ADDIN_VERSION = '1.4.0'
+ADDIN_VERSION = '2.0.0'
 ADDIN_NAME = 'EasyDev'
 FILE_OXT = '{}_v{}.oxt'.format(ADDIN_NAME, ADDIN_VERSION)
 FILE_UPDATE = '{}.update.xml'.format(ADDIN_NAME.lower())
-ADDIN_ID = "org.universolibre.util.EasyDev"
+ADDIN_ID = "org.universolibre.EasyDev"
 ADDIN_AUTHOR_WEB = "http://www.universolibre.org"
 ADDIN_AUTHOR_NAME = "Universo Libre Mexico, A.C."
 ADDIN_PLATFORM = 'all'
