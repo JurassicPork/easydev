@@ -22,7 +22,25 @@ module org { module universolibre { module EasyDev {
 
         string getSizeScreen();
         sequence< string > getInfoPC();
+        boolean question([in] string title, [in] string message);
+
         string render([in] string template, [in] sequence< sequence< any > > data);
+        string format([in] string template, [in] any data);
+
+        string getPath([in] string name);
+        sequence< string > getPathInfo([in] string path);
+        string pathJoin([in] sequence< string > paths);
+        string getFolder([in] string initFolder);
+        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< string > filters);
+        sequence< string > getFiles([in] string path, [in] string ext);
+        any fileOpen([in] string path, [in] string mode);
+
+        any execute([in] sequence< string > args, [in] boolean wait);
+
+        any getConfig([in] string key);
+        boolean setConfig([in] string key, [in] any value);
+        string getClipboard();
+        void setClipboard([in] string text);
 
         any array([in] sequence< any > array, [in] string method, [in] any data);
     };
@@ -41,24 +59,6 @@ module org { module universolibre { module EasyDev {
         void selectRange([in] any doc, [in] any sheetName, [in] any rango);
         any getCurrentRegion([in] any cell);
         long getLastRow([in] any cell);
-
-        string getPath([in] string name);
-        sequence< string > getPathInfo([in] string path);
-        string pathJoin([in] sequence< string > paths);
-        string getFolder([in] string initFolder);
-        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< string > filters);
-        sequence< string > getFiles([in] string path, [in] string ext);
-        any execute([in] sequence< string > args, [in] boolean wait);
-
-        any getConfig([in] string key);
-        boolean setConfig([in] string key, [in] any value);
-        string getClipboard();
-        void setClipboard([in] string text);
-
-        any fileOpen([in] string path, [in] string mode);
-        string format([in] string template, [in] any data);
-
-        boolean question([in] string title, [in] string message);
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
