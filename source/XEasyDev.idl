@@ -1,21 +1,33 @@
 #ifndef __org_universolibre_util_EasyDev_idl__
 #define __org_universolibre_util_EasyDev_idl__
 
+#include <com/sun/star/uno/XInterface.idl>
+
 module org { module universolibre { module util { module EasyDev {
 
-    interface XEasyDev
+    interface XDebug : com::sun::star::uno::XInterface
+    {
+        [attribute, readonly] string error;
+
+        void debug([in] any data);
+        void msgbox([in] any data);
+        void mri([in] any obj);
+    };
+
+    interface XTools : com::sun::star::uno::XInterface
     {
         [attribute, readonly] string VERSION;
         [attribute, readonly] string OS;
         [attribute] string value;
 
-        void debug([in] any data);
-        void msgbox([in] any data);
-        void mri([in] any obj);
-        any cmd([in] string command, [in] any data);
+        string getSizeScreen();
+        sequence< string > getInfoPC();
 
-        any newDoc([in] string typeDoc);
-        any getDoc([in] string title);
+        any array([in] sequence< any > array, [in] string method, [in] any data);
+    };
+
+    interface XEasyDev : com::sun::star::uno::XInterface
+    {
         string getTypeDoc([in] any doc);
         sequence< any > getDocs();
         any openDoc([in] string pathDoc, [in] sequence< any > data);
@@ -24,16 +36,11 @@ module org { module universolibre { module util { module EasyDev {
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
         boolean exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< sequence< any > > options);
 
-        any getCell([in] any doc, [in] any sheetName, [in] any cellAddress);
         any getRange([in] any doc, [in] any sheetName, [in] any rangeAddress);
         void selectRange([in] any doc, [in] any sheetName, [in] any rango);
         any getCurrentRegion([in] any cell);
         long getLastRow([in] any cell);
 
-        any array([in] sequence< any > array, [in] string method, [in] any data);
-
-        string getSizeScreen();
-        sequence< string > getInfoPC();
         string getPath([in] string name);
         sequence< string > getPathInfo([in] string path);
         string pathJoin([in] sequence< string > paths);
@@ -47,7 +54,6 @@ module org { module universolibre { module util { module EasyDev {
         string getClipboard();
         void setClipboard([in] string text);
 
-        boolean sendMail([in] sequence< sequence< any > > server, [in] sequence< sequence< string > > mail, [in] sequence< string > files);
         string render([in] string template, [in] sequence< sequence< any > > data);
         any fileOpen([in] string path, [in] string mode);
         string format([in] string template, [in] any data);
@@ -55,6 +61,35 @@ module org { module universolibre { module util { module EasyDev {
         boolean question([in] string title, [in] string message);
     };
 
-    service EasyDev: XEasyDev;
+    interface XEMail : com::sun::star::uno::XInterface
+    {
+        [attribute] string smtpServer;
+        [attribute] long smtpPort;
+        [attribute] boolean smtpSsl;
+        [attribute] string smtpUser;
+        [attribute] string smtpPassword;
+        [attribute] boolean smtpThread;
+        boolean sendMail([in] sequence< sequence< string > > mail, [in] sequence< string > files);
+    };
+
+    interface XLOApp : com::sun::star::uno::XInterface
+    {
+        any newDoc([in] string typeDoc);
+        any getDoc([in] string title);
+    };
+
+    interface XLOCalc : com::sun::star::uno::XInterface
+    {
+        any getCell([in] any doc, [in] any sheetName, [in] any cellAddress);
+    };
+
+    service EasyDev {
+        interface XDebug;
+        interface XTools;
+        interface XEMail;
+        interface XLOApp;
+        interface XLOCalc;
+    };
+
 }; }; }; };
 #endif

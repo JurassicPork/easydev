@@ -41,8 +41,8 @@ def compilate_idl():
     if exists(path_urd):
         os.remove(path_urd)
     path = join(DIR_SOURCE, FILE_IDL)
-    #~ call([PATH_IDLC, '-I', PATH_IDLC_INCLUDE, path])
-    call([PATH_IDLC, path])
+    call([PATH_IDLC, '-I', PATH_IDLC_INCLUDE, path])
+    #~ call([PATH_IDLC, path])
     call([PATH_REGMERGE, path_rdb, '/UCR',  path_urd])
     os.remove(path_urd)
     LOG.info('Compilate IDL sucesfully...')

@@ -2,7 +2,7 @@ import logging
 
 #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Extensions/description.xml
 
-ADDIN_VERSION = '1.3.1'
+ADDIN_VERSION = '1.4.0'
 ADDIN_NAME = 'EasyDev'
 FILE_OXT = '{}_v{}.oxt'.format(ADDIN_NAME, ADDIN_VERSION)
 FILE_UPDATE = '{}.update.xml'.format(ADDIN_NAME.lower())

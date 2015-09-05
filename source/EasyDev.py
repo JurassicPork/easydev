@@ -1,42 +1,29 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
+
 import unohelper
 from com.sun.star.lang import XServiceName
 from com.sun.star.lang import XServiceInfo
-from org.universolibre.util.EasyDev import XEasyDev
-from easydev import tools
-from easydev.setting import VERSION, ID_EXT, NAME_EXT, CALC, OS
+from easydev.debug import Debug
+from easydev.tools import Tools
+from easydev.email import EMail
+#~ from easydev.loapp import LOApp
+from easydev.localc import LOCalc
+from easydev.setting import ID_EXT, SRV_JOB
 
 
-SRV_JOB = ('com.sun.star.task.Job',)
+class EasyDev(unohelper.Base, XServiceName, XServiceInfo, Debug, Tools, EMail,
+    LOCalc):
 
-
-class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
-
-    VERSION = VERSION
-    OS = OS
-    value = ''
     service_name = implementation_name = ID_EXT
 
     def __init__(self, ctx=None):
         self.ctx = ctx
-
-    def debug(self, data):
-        return tools.debug(data)
-
-    def msgbox(self, data):
-        return tools.msgbox(data)
-
-    def mri(self, obj):
-        return tools.mri(obj)
-
-    def cmd(self, command, data):
-        return tools.cmd(command, data)
-
-    def newDoc(self, typeDoc=CALC):
-        return tools.new_doc(typeDoc)
-
-    def getDoc(self, title=''):
-        return tools.get_doc(title)
+        self.sm = self.ctx.getServiceManager()
+        Debug.__init__(self, self.ctx, self.sm)
+        Tools.__init__(self, self.ctx, self.sm)
+        EMail.__init__(self)
+        #~ LOApp.__init__(self, self.ctx, self.sm)
+        LOCalc.__init__(self, self.ctx, self.sm)
 
     def getTypeDoc(self, doc):
         return tools.get_type_doc(doc)
@@ -55,15 +42,6 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
     def exportPDF(self, doc, pathSave, options):
         return tools.export_pdf(doc, pathSave, options)
-
-    def array(self, array, method, data):
-        return tools.array(array, method, data)
-
-    def getSizeScreen(self):
-        return tools.get_size_screen()
-
-    def getInfoPC(self):
-        return tools.get_info_pc()
 
     def getPath(self, name):
         return tools.get_path(name)
@@ -92,9 +70,6 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
     def setConfig(self, key, value):
         return tools.set_config(key, value)
 
-    def sendMail(self, server, mail, files):
-        return tools.send_mail(server, mail, files)
-
     def render(self, template, data):
         return tools.render(template, data)
 
@@ -115,9 +90,6 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, XEasyDev):
 
     def exportCSV(self, path, data, options):
         return tools.export_csv(path, data, options)
-
-    def getCell(self, doc, sheetName, cellAddress):
-        return tools.get_cell(doc, sheetName, cellAddress)
 
     def getRange(self, doc, sheetName, rangeAddress):
         return tools.get_range(doc, sheetName, rangeAddress)

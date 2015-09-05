@@ -2,20 +2,14 @@
 
 import ctypes
 import subprocess
+import getpass
+import platform
+
 import sys
 import os
 import re
-import getpass
-import platform
 import json
 import logging
-import smtplib
-from smtplib import SMTPException, SMTPAuthenticationError
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email import encoders
-from pprint import pprint
 from string import Template
 import csv
 
@@ -23,33 +17,92 @@ import uno
 import unohelper
 from com.sun.star.beans import PropertyValue
 from com.sun.star.datatransfer import XTransferable, DataFlavor
+from org.universolibre.util.EasyDev import XTools
 
-try:
-    from setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
-        NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
-        CLIPBOARD_FORMAT_TEXT
-except:
-    from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, \
-        NODE, NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
-        CLIPBOARD_FORMAT_TEXT
+#~ try:
+    #~ from setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, NODE, \
+        #~ NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
+        #~ CLIPBOARD_FORMAT_TEXT
+#~ except:
+    #~ from easydev.setting import DESKTOP, OS, WIN, WRITER, TOOLKIT, EXT_PDF, \
+        #~ NODE, NODE_CONFIG, LOG, NAME_EXT, BUTTONS_OK, BUTTONS_YES_NO, YES, \
+        #~ CLIPBOARD_FORMAT_TEXT
+
+from easydev.setting import LOG, NAME_EXT, OS, VERSION, DESKTOP
 
 
 log = logging.getLogger(NAME_EXT)
-CTX = uno.getComponentContext()
-SM = CTX.getServiceManager()
+#~ CTX = uno.getComponentContext()
+#~ SM = CTX.getServiceManager()
 
 
-class OutputDoc(object):
+class Tools(XTools):
+    VERSION = VERSION
+    OS = OS
+    value = ''
 
-    def __init__(self, doc):
-        self.doc = doc
+    def __init__(self, ctx, sm):
+        self.ctx = ctx
+        self.sm = sm
 
-    def write(self, info):
-        text = self.doc.Text
-        cursor = text.createTextCursor()
-        cursor.gotoEnd(False)
-        text.insertString(cursor, str(info), 0)
-        return
+    def getSizeScreen(self):
+        if OS == WIN:
+            user32 = ctypes.windll.user32
+            res = '{}x{}'.format(user32.GetSystemMetrics(0), user32.GetSystemMetrics(1))
+        else:
+            args = 'xrandr | grep "\*" | cut -d" " -f4'
+            res = subprocess.check_output(args, shell=True).decode()
+            return res
+
+    def getInfoPC(self):
+        """
+            Get info PC:
+            name user,
+            name pc,
+            system/OS name,
+            machine type,
+            Returns the (real) processor name
+            string identifying platform with as much useful information as possible,
+        """
+        info = (
+            getpass.getuser(),
+            platform.node(),
+            platform.system(),
+            platform.machine(),
+            platform.processor(),
+            platform.platform(),
+        )
+        return info
+
+    def array(self, array, method, data):
+        """
+            Methods of list to Basic
+        """
+        res = None
+        l = list(array)
+        if method == 'insert':
+            res = getattr(l, method)(*data)
+        elif method == 'pop':
+            res = getattr(l, method)(data)
+            res = (tuple(l), res)
+        elif method == 'remove_all':
+            l = [i for i in array if i != data]
+        elif method in ('reverse', 'sort'):
+            res = getattr(l, method)()
+        elif method == 'unique':
+            l = list(set(l))
+        elif method in ('len', 'max', 'min'):
+            res = eval('{}({})'.format(method, l))
+        elif method == 'slice':
+            l = eval('{}{}'.format(l, data))
+        elif method == 'in':
+            res = data in l
+        else:
+            res = getattr(l, method)(data)
+        if res is None:
+            return tuple(l)
+        else:
+            return res
 
 
 class TextTransferable(unohelper.Base, XTransferable):
@@ -102,96 +155,8 @@ def _make_properties(properties):
     return tuple(prop)
 
 
-def debug(data):
-    """ Show data for debug
-        If SO is Win, show data in Writer document
-        else, show data in stdout
-    """
-    if OS == WIN:
-        doc = get_doc('debug.odt')
-        if not doc:
-            doc = new_doc(WRITER)
-        out = OutputDoc(doc)
-        sys.stdout = out
-    pprint (data)
-    return
-
-
-def msgbox(message, type_msg='infobox', title='Debug', buttons=BUTTONS_OK):
-    """ Create message box
-        type_msg: infobox, warningbox, errorbox, querybox, messbox
-    """
-    desktop = _create_instance()
-    toolkit = _create_instance(TOOLKIT, False)
-    parent = toolkit.getDesktopWindow()
-    mb = toolkit.createMessageBox(parent, type_msg, buttons, title, str(message))
-    return mb.execute()
-
-
-def mri(obj):
-    m = _create_instance('mytools.Mri')
-    if m is None:
-        msgbox('Instala la extensión MRI', 'errorbox')
-        return
-    m.inspect(obj)
-    return
-
-
 def question(title, message):
     return YES == msgbox(message, 'querybox', title, BUTTONS_YES_NO)
-
-
-def cmd(command, data):
-    """
-        Execute methods by name
-    """
-    return globals()[command](data)
-
-
-def test(data):
-    #~ ts = _create_instance('com.sun.star.datatransfer.XTransferableSupplier', False)
-    #~ t = ts.getTransferable()
-    ts = transferable("TEST")
-    sc = _create_instance('com.sun.star.datatransfer.clipboard.SystemClipboard')
-    sc.setContents(ts, None)
-    return
-
-
-def new_doc(type_doc):
-    """
-        Create new doc
-        http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html
-
-    type_doc:
-        scal
-        swriter
-        simpress
-        sdraw
-        smath
-    """
-    if not type_doc:
-        type_doc = 'scalc'
-    desktop = _create_instance()
-    path = 'private:factory/{}'.format(type_doc)
-    doc = desktop.loadComponentFromURL(path, '_default', 0, ())
-    return doc
-
-
-def get_doc(title=''):
-    """
-        If title is missing get current component,
-        else search doc title in components
-    """
-    desktop = _create_instance()
-    if not title:
-        return desktop.getCurrentComponent()
-
-    enum = desktop.getComponents().createEnumeration()
-    while enum.hasMoreElements():
-        doc = enum.nextElement()
-        if doc.getTitle() == title:
-            return doc
-    return None
 
 
 def get_type_doc(doc):
@@ -292,68 +257,6 @@ def export_pdf(doc, path_save, options):
     if os.path.exists(path_os(path_save)):
         return path_save
     return ''
-
-
-def array(array, method, data):
-    """
-        Methods of list to Basic
-    """
-    res = None
-    l = list(array)
-    if method == 'insert':
-        res = getattr(l, method)(*data)
-    elif method == 'pop':
-        res = getattr(l, method)(data)
-        res = (tuple(l), res)
-    elif method == 'remove_all':
-        l = [i for i in array if i != data]
-    elif method in ('reverse', 'sort'):
-        res = getattr(l, method)()
-    elif method == 'unique':
-        l = list(set(l))
-    elif method in ('len', 'max', 'min'):
-        res = eval('{}({})'.format(method, l))
-    elif method == 'slice':
-        l = eval('{}{}'.format(l, data))
-    elif method == 'in':
-        res = data in l
-    else:
-        res = getattr(l, method)(data)
-    if res is None:
-        return tuple(l)
-    else:
-        return res
-
-
-def get_size_screen():
-    if OS == WIN:
-        user32 = ctypes.windll.user32
-        res = '{}x{}'.format(user32.GetSystemMetrics(0), user32.GetSystemMetrics(1))
-    else:
-        args = 'xrandr | grep "\*" | cut -d" " -f4'
-        res = subprocess.check_output(args, shell=True).decode()
-        return res
-
-
-def get_info_pc():
-    """
-        Get info PC:
-        name user,
-        name pc,
-        system/OS name,
-        machine type,
-        Returns the (real) processor name
-        string identifying platform with as much useful information as possible,
-    """
-    info = (
-        getpass.getuser(),
-        platform.node(),
-        platform.system(),
-        platform.machine(),
-        platform.processor(),
-        platform.platform(),
-    )
-    return info
 
 
 def path_to_url(path):
@@ -497,68 +400,6 @@ def set_config(key, value):
         log.debug(e, exc_info=True)
         return False
 
-
-def send_mail(server, mail, files):
-    # server, port, ssl, user, pass
-    server = {r[0]: r[1] for r in server}
-    mail = {r[0]: r[1] for r in mail}
-    sender = server['user']
-    receivers = mail['to'].split(',')
-
-    message = MIMEMultipart()
-    message['From'] = sender
-    message['To'] = mail['to']
-    message['Cc'] = mail.get('cc', '')
-    #~ message['Bcc'] = mail.get('bcc', '')
-    message['Subject'] = mail['subject']
-    body = mail['body'].replace('\\n', '<br />').replace('\n', '<br />')
-    message.attach(MIMEText(body, 'html'))
-    for f in files:
-        path = path_os(f)
-        if not os.path.exists(path):
-            continue
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload(open(path, 'rb').read())
-        encoders.encode_base64(part)
-        part.add_header(
-            'Content-Disposition',
-            "attachment; filename={}".format(os.path.basename(path)))
-        message.attach(part)
-    if message['Cc']:
-        receivers += mail['cc'].split(',')
-    if mail.get('bcc', ''):
-        receivers += mail['bcc'].split(',')
-    try:
-        smtp = smtplib.SMTP(server['server'], server['port'], timeout=10)
-        if server['ssl']:
-            smtp.ehlo()
-            smtp.starttls()
-            smtp.ehlo()
-        log.info('Connect server...')
-        smtp.login(server['user'], server['pass'])
-        log.info('Send mail...')
-        smtp.sendmail(sender, receivers, message.as_string())
-        log.info('Log out server...')
-        smtp.quit()
-        log.info('Close...')
-        return True
-    except SMTPAuthenticationError as e:
-        if e[0] == 534 and 'gmail' in server['server']:
-            msg = 'Necesitas activar el acceso a otras aplicaciones en tu cuenta de GMail'
-            log.debug(msg)
-            return False
-        elif e[0] == 535:
-            msg = 'Nombre de usuario o contraseña inválidos'
-            log.debug(msg)
-            return False
-    except SMTPException as e:
-        log.debug(e, exc_info=True)
-        return False
-    except Exception as e:
-        log.debug(e, exc_info=True)
-        return False
-
-
 def render(template, data):
     data = {r[0]: r[1] for r in data}
     s = Template(template)
@@ -635,26 +476,6 @@ def export_csv(path, data, options=()):
     except:
         log.debug('CSV', exc_info=True)
         return False
-
-
-def get_cell(doc, sheet_name=None, cell_address=None):
-    if isinstance(doc, str):
-        doc = get_doc(doc)
-    if not sheet_name and not cell_address:
-        cell = doc.getCurrentSelection()
-    else:
-        if isinstance(sheet_name, str):
-            if sheet_name:
-                sheet = doc.getSheets().getByName(sheet_name)
-            else:
-                sheet = doc.getCurrentController().getActiveSheet()
-        else:
-            sheet = sheet_name
-        if isinstance(cell_address, str):
-            cell = sheet.getCellRangeByName(cell_address)
-        else:
-            cell = sheet.getCellByPosition(*cell_address)
-    return cell
 
 
 def get_range(doc, sheet_name=None, range_address=None):

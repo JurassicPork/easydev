@@ -1,3 +1,7 @@
+v 1.4.0 [05-Sep-2015]
+---------------------
+    - [Feature] Separate class in files
+
 v 1.3.1 [30-Aug-2015]
 ---------------------
     - [Fix] BCC in send mail

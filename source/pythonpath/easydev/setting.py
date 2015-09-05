@@ -12,7 +12,7 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '1.3.1'
+VERSION = '1.4.0'
 ID_EXT = 'org.universolibre.util.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
@@ -20,6 +20,7 @@ LINUX = 'linux'
 WIN = 'win32'
 DESKTOP = 'com.sun.star.frame.Desktop'
 TOOLKIT = 'com.sun.star.awt.Toolkit'
+SRV_JOB = ('com.sun.star.task.Job',)
 CALC = 'scalc'
 WRITER = 'swriter'
 EXT_PDF = 'pdf'
