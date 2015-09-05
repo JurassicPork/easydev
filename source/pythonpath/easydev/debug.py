@@ -3,8 +3,15 @@
 import logging
 from pprint import pprint
 from org.universolibre.EasyDev import XDebug
-from easydev.setting import LOG, NAME_EXT, OS, WIN, BUTTONS_OK, DESKTOP, \
-    TOOLKIT, WRITER
+from easydev.setting import (
+    LOG,
+    NAME_EXT,
+    OS, WIN,
+    BUTTONS_OK,
+    DESKTOP,
+    TOOLKIT,
+    WRITER,
+)
 
 
 log = logging.getLogger(NAME_EXT)
@@ -69,3 +76,7 @@ class Debug(XDebug):
             return
         m.inspect(obj)
         return
+
+    def test(self, args):
+        return True
+

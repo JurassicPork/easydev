@@ -12,6 +12,7 @@ module org { module universolibre { module EasyDev {
         void debug([in] any data);
         void msgbox([in] any data);
         void mri([in] any obj);
+        any test([in] any data);
     };
 
     interface XTools : com::sun::star::uno::XInterface

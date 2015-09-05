@@ -10,19 +10,43 @@ import subprocess
 import getpass
 import platform
 import csv
+import datetime
 from string import Template
 
 import uno
 import unohelper
+from com.sun.star.util import Time, Date, DateTime
 from com.sun.star.beans import PropertyValue
 from com.sun.star.datatransfer import XTransferable, DataFlavor
 from org.universolibre.EasyDev import XTools
 
-from easydev.setting import LOG, NAME_EXT, OS, VERSION, DESKTOP, TOOLKIT,
-    BUTTONS_YES_NO, YES, NODE, NODE_CONFIG, CLIPBOARD_FORMAT_TEXT
+from easydev.setting import (
+    LOG,
+    NAME_EXT,
+    OS,
+    VERSION,
+    DESKTOP,
+    TOOLKIT,
+    BUTTONS_YES_NO,
+    YES,
+    NODE,
+    NODE_CONFIG,
+    CLIPBOARD_FORMAT_TEXT,
+)
 
 
 log = logging.getLogger(NAME_EXT)
+
+
+def make_properties(properties):
+    prop = []
+    l = len(properties)
+    for i in range(0, l, 2):
+        pv = PropertyValue()
+        pv.Name = properties[i]
+        pv.Value = properties[i + 1]
+        prop.append(pv)
+    return tuple(prop)
 
 
 class Tools(XTools):
@@ -87,15 +111,27 @@ class Tools(XTools):
         s = Template(template)
         return s.safe_substitute(**data)
 
+    def to_date(self, value):
+        if isinstance(value, Time):
+            value = datetime.time(value.Hours, value.Minutes, value.Seconds)
+        elif isinstance(value, Date):
+            value = datetime.date(value.Year, value.Month, value.Day)
+        elif isinstance(value, DateTime):
+            value = datetime.datetime(
+                value.Year, value.Month, value.Day,
+                value.Hours, value.Minutes, value.Seconds)
+        return value
+
     def format(self, template, data):
         if isinstance(data, tuple):
             if isinstance(data[0], tuple):
-                data = {r[0]: r[1] for r in data}
+                data = {r[0]: self.to_date(r[1]) for r in data}
                 result = template.format(**data)
             else:
+                data = [self.to_date(v) for v in data]
                 result = template.format(*data)
         else:
-            result = template.format(data)
+            result = template.format(self.to_date(data))
         return result
 
     def path_to_os(self, path):
@@ -315,222 +351,4 @@ class TextTransferable(unohelper.Base, XTransferable):
             if mtype == f.MimeType:
                 return True
         return False
-
-
-def _make_properties(properties):
-    prop = []
-    l = len(properties)
-    for i in range(0, l, 2):
-        pv = PropertyValue()
-        pv.Name = properties[i]
-        pv.Value = properties[i + 1]
-        prop.append(pv)
-    return tuple(prop)
-
-
-def get_type_doc(doc):
-    """
-        Get type doc
-    """
-    services = {
-        'calc': 'com.sun.star.sheet.SpreadsheetDocument',
-        'writer': 'com.sun.star.text.TextDocument',
-        'impress': 'com.sun.star.presentation.PresentationDocument',
-        'draw': 'com.sun.star.drawing.DrawingDocument',
-        'math': 'com.sun.star.formula.FormulaProperties',
-        'base': 'com.sun.star.sdb.OfficeDatabaseDocument',
-        'ide': 'com.sun.star.script.BasicIDE',
-    }
-    for key, value in services.items():
-        if doc.supportsService(value):
-            return key
-    return ""
-
-
-def get_docs():
-    """
-        Return all documents open
-    """
-    docs = []
-    desktop = _create_instance()
-    enum = desktop.getComponents().createEnumeration()
-    while enum.hasMoreElements():
-        docs.append(enum.nextElement())
-    return tuple(docs)
-
-
-def open_doc(path, options):
-    """
-        Open doc
-        http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
-        http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html
-    """
-    properties = _make_properties(options)
-    path_url = path_to_url(path)
-    desktop = _create_instance()
-    doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
-    return doc
-
-
-def set_focus(doc):
-    """
-        Active doc
-    """
-    window = doc.getCurrentController().getFrame().getComponentWindow()
-    window.setFocus()
-    return
-
-
-def get_status_bar(doc):
-    """
-        Return status bar
-    """
-    statusbar = doc.getCurrentController().getStatusIndicator()
-    return statusbar
-
-
-def export_pdf(doc, path_save, options):
-    """
-        Export to PDF
-        http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export
-    """
-    close = False
-    if isinstance(doc, str):
-        close = True
-        doc = open_doc(doc, ('Hidden', True))
-    if path_save:
-        if os.path.isdir(path_save):
-            _, _, name, extension = get_path_info(path_to_os(doc.getURL()))
-            path_save = path_to_url(
-                os.path.normpath('{}/{}.{}'.format(path_save, name, EXT_PDF)))
-        else:
-            path_save = path_to_url(path_save)
-    else:
-        path_save = path_to_url(replace_ext(path_to_os(doc.getURL()), EXT_PDF))
-    type_doc = get_type_doc(doc)
-    filters = {
-        'calc': 'calc_pdf_Export',
-        'writer': 'writer_pdf_Export',
-        'impress': 'impress_pdf_Export',
-        'draw': 'draw_pdf_Export',
-        'math': 'math_pdf_Export',
-    }
-    filter_data = _make_properties(options)
-    media_descriptor = _make_properties((
-        'FilterName', filters[type_doc],
-        'FilterData', uno.Any("[]com.sun.star.beans.PropertyValue", filter_data)
-    ))
-    doc.storeToURL(path_save, media_descriptor)
-    if close:
-        doc.dispose()
-    if os.path.exists(path_to_os(path_save)):
-        return path_save
-    return ''
-
-
-
-
-
-
-
-
-
-
-
-def replace_ext(path, ext):
-    path, _, name, _ = get_path_info(path)
-    return '{}/{}.{}'.format(path, name, ext)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def export_csv(path, data, options=()):
-    try:
-        headers = ()
-        config = {}
-        path = path_to_os(path)
-        if options:
-            config = {r[0]: r[1] for r in options}
-        write_headers = config.get('write_headers', False)
-        config.pop('write_headers', None)
-        if write_headers:
-            headers = config.get('headers', ())
-            config.pop('headers', None)
-            if not headers:
-                headers = data[0]
-            data = data[1:]
-        with open(path, 'w') as f:
-            if config:
-                writer = csv.writer(f, **config)
-            else:
-                writer = csv.writer(f)
-            if headers:
-                writer.writerow(headers)
-            writer.writerows(data)
-        return True
-    except:
-        log.debug('CSV', exc_info=True)
-        return False
-
-
-def get_range(doc, sheet_name=None, range_address=None):
-    if isinstance(doc, str):
-        doc = get_doc(doc)
-    if not sheet_name and not range_address:
-        rango = doc.getCurrentSelection()
-    else:
-        if isinstance(sheet_name, str):
-            if sheet_name:
-                sheet = doc.getSheets().getByName(sheet_name)
-            else:
-                sheet = doc.getCurrentController().getActiveSheet()
-        else:
-            sheet = sheet_name
-        if isinstance(range_address, str):
-            rango = sheet.getCellRangeByName(range_address)
-        else:
-            rango = sheet.getCellRangeByPosition(*range_address)
-    return rango
-
-
-def select_range(doc, sheet_name=None, rango=None):
-    if isinstance(doc, str):
-        doc = get_doc(doc)
-    if isinstance(sheet_name, str):
-        if sheet_name:
-            sheet = doc.getSheets().getByName(sheet_name)
-        else:
-            sheet = doc.getCurrentController().getActiveSheet()
-    else:
-        sheet = sheet_name
-    if isinstance(rango, str):
-        rango = sheet.getCellRangeByName(rango)
-    doc.getCurrentController().select(rango)
-    return
-
-
-def get_current_region(cell):
-    cursor = cell.getSpreadsheet().createCursorByRange(cell)
-    cursor.collapseToCurrentRegion()
-    return cursor
-
-
-def get_last_row(cell):
-    cursor = cell.getSpreadsheet().createCursorByRange(cell)
-    cursor.gotoEnd()
-    return cursor.getRangeAddress().EndRow
 
