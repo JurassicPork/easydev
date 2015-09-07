@@ -25,9 +25,8 @@ from easydev.setting import (
     LOG,
     NAME_EXT,
     OS,
+    WIN,
     VERSION,
-    DESKTOP,
-    TOOLKIT,
     BUTTONS_YES_NO,
     YES,
     NODE,
@@ -55,9 +54,11 @@ class Tools(XTools):
     OS = OS
     value = ''
 
-    def __init__(self, ctx, sm):
+    def __init__(self, ctx, sm, desktop, toolkit):
         self.ctx = ctx
         self.sm = sm
+        self.desktop = desktop
+        self.toolkit = toolkit
 
     def _create_instance(self, name, with_context=True):
         if with_context:
@@ -100,7 +101,7 @@ class Tools(XTools):
         """ Create message box
             type_msg: infobox, warningbox, errorbox, querybox, messbox
         """
-        desktop = self._create_instance(DESKTOP)
+        #~ desktop = self._create_instance(DESKTOP)
         toolkit = self._create_instance(TOOLKIT, False)
         parent = toolkit.getDesktopWindow()
         mb = toolkit.createMessageBox(

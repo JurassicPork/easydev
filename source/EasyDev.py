@@ -7,7 +7,7 @@ from easydev.debug import Debug
 from easydev.tools import Tools
 from easydev.email import EMail
 from easydev.localc import LOCalc
-from easydev.setting import ID_EXT, SRV_JOB
+from easydev.setting import ID_EXT, SRV_JOB, DESKTOP, TOOLKIT
 
 
 class EasyDev(unohelper.Base, XServiceName, XServiceInfo, Debug, Tools, EMail,
@@ -18,10 +18,12 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo, Debug, Tools, EMail,
     def __init__(self, ctx=None):
         self.ctx = ctx
         self.sm = self.ctx.getServiceManager()
-        Debug.__init__(self, self.ctx, self.sm)
-        Tools.__init__(self, self.ctx, self.sm)
+        self.desktop = self.sm.createInstanceWithContext(DESKTOP, self.ctx)
+        self.toolkit = self.sm.createInstance(TOOLKIT)
+        Debug.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
+        Tools.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
+        LOCalc.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
         EMail.__init__(self)
-        LOCalc.__init__(self, self.ctx, self.sm)
 
     def getServiceName(self):
         return self.service_name

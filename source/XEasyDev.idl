@@ -48,8 +48,10 @@ module org { module universolibre { module EasyDev {
         long getEpoch();
     };
 
-    interface XEasyDev : com::sun::star::uno::XInterface
+    interface XLOApp : com::sun::star::uno::XInterface
     {
+        any newDoc([in] string typeDoc);
+        any getDoc([in] string title);
         string getTypeDoc([in] any doc);
         sequence< any > getDocs();
         any openDoc([in] string pathDoc, [in] sequence< any > data);
@@ -57,22 +59,15 @@ module org { module universolibre { module EasyDev {
         any getStatusBar([in] any doc);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
         boolean exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< sequence< any > > options);
-
-        any getRange([in] any doc, [in] any sheetName, [in] any rangeAddress);
-        void selectRange([in] any doc, [in] any sheetName, [in] any rango);
-        any getCurrentRegion([in] any cell);
-        long getLastRow([in] any cell);
-    };
-
-    interface XLOApp : com::sun::star::uno::XInterface
-    {
-        any newDoc([in] string typeDoc);
-        any getDoc([in] string title);
     };
 
     interface XLOCalc : com::sun::star::uno::XInterface
     {
         any getCell([in] any doc, [in] any sheetName, [in] any cellAddress);
+        any getRange([in] any doc, [in] any sheetName, [in] any rangeAddress);
+        void selectRange([in] any doc, [in] any sheetName, [in] any rango);
+        any getCurrentRegion([in] any cell);
+        long getLastRow([in] any cell);
     };
 
     service EasyDev {
@@ -90,6 +85,7 @@ module org { module universolibre { module EasyDev {
         string User;
         string Password;
         boolean Thread;
+        string PathSave;
     };
 
     published struct EmailMessage
@@ -100,6 +96,7 @@ module org { module universolibre { module EasyDev {
         string Subject;
         string Body;
         sequence< string > Files;
+        boolean Save;
     };
 
     interface XEMail : com::sun::star::uno::XInterface

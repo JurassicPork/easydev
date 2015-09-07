@@ -2,7 +2,7 @@
 
 import logging
 from org.universolibre.EasyDev import XLOApp
-from easydev.setting import LOG, NAME_EXT, CALC, DESKTOP
+from easydev.setting import LOG, NAME_EXT, CALC
 
 
 log = logging.getLogger(NAME_EXT)
@@ -10,9 +10,11 @@ log = logging.getLogger(NAME_EXT)
 
 class LOApp(XLOApp):
 
-    def __init__(self, ctx, sm):
+    def __init__(self, ctx, sm, desktop, toolkit):
         self.ctx = ctx
         self.sm = sm
+        self.desktop = desktop
+        self.toolkit = toolkit
 
     def _create_instance(self, name, with_context=True):
         if with_context:
@@ -35,9 +37,8 @@ class LOApp(XLOApp):
         """
         if not type_doc:
             type_doc = 'scalc'
-        desktop = self._create_instance(DESKTOP)
         path = 'private:factory/{}'.format(type_doc)
-        doc = desktop.loadComponentFromURL(path, '_default', 0, ())
+        doc = self.desktop.loadComponentFromURL(path, '_default', 0, ())
         return doc
 
     def getDoc(self, title=''):
@@ -45,64 +46,54 @@ class LOApp(XLOApp):
             If title is missing get current component,
             else search doc title in components
         """
-        desktop = self._create_instance(DESKTOP)
         if not title:
-            return desktop.getCurrentComponent()
+            return self.desktop.getCurrentComponent()
 
-        enum = desktop.getComponents().createEnumeration()
+        enum = self.desktop.getComponents().createEnumeration()
         while enum.hasMoreElements():
             doc = enum.nextElement()
             if doc.getTitle() == title:
                 return doc
         return None
 
+    def getTypeDoc(self, doc):
+        """
+            Get type doc
+        """
+        services = {
+            'calc': 'com.sun.star.sheet.SpreadsheetDocument',
+            'writer': 'com.sun.star.text.TextDocument',
+            'impress': 'com.sun.star.presentation.PresentationDocument',
+            'draw': 'com.sun.star.drawing.DrawingDocument',
+            'math': 'com.sun.star.formula.FormulaProperties',
+            'base': 'com.sun.star.sdb.OfficeDatabaseDocument',
+            'ide': 'com.sun.star.script.BasicIDE',
+        }
+        for key, value in services.items():
+            if doc.supportsService(value):
+                return key
+        return ''
 
+    def getDocs(self):
+        """
+            Return all documents open
+        """
+        docs = []
+        enum = self.desktop.getComponents().createEnumeration()
+        while enum.hasMoreElements():
+            docs.append(enum.nextElement())
+        return tuple(docs)
 
-
-
-
-def get_type_doc(doc):
-    """
-        Get type doc
-    """
-    services = {
-        'calc': 'com.sun.star.sheet.SpreadsheetDocument',
-        'writer': 'com.sun.star.text.TextDocument',
-        'impress': 'com.sun.star.presentation.PresentationDocument',
-        'draw': 'com.sun.star.drawing.DrawingDocument',
-        'math': 'com.sun.star.formula.FormulaProperties',
-        'base': 'com.sun.star.sdb.OfficeDatabaseDocument',
-        'ide': 'com.sun.star.script.BasicIDE',
-    }
-    for key, value in services.items():
-        if doc.supportsService(value):
-            return key
-    return ""
-
-
-def get_docs():
-    """
-        Return all documents open
-    """
-    docs = []
-    desktop = _create_instance()
-    enum = desktop.getComponents().createEnumeration()
-    while enum.hasMoreElements():
-        docs.append(enum.nextElement())
-    return tuple(docs)
-
-
-def open_doc(path, options):
-    """
-        Open doc
-        http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
-        http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html
-    """
-    properties = _make_properties(options)
-    path_url = path_to_url(path)
-    desktop = _create_instance()
-    doc = desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
-    return doc
+    def openDoc(self, path, options):
+        """
+            Open doc
+            http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
+            http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html
+        """
+        properties = make_properties(options)
+        path_url = path_to_url(path)
+        doc = self.desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
+        return doc
 
 
 def set_focus(doc):

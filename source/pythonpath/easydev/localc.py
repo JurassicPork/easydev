@@ -11,8 +11,8 @@ log = logging.getLogger(NAME_EXT)
 
 class LOCalc(XLOCalc, LOApp):
 
-    def __init__(self, ctx, sm):
-        LOApp.__init__(self, ctx, sm)
+    def __init__(self, ctx, sm, desktop, toolkit):
+        LOApp.__init__(self, ctx, sm, desktop, toolkit)
 
     def getCell(self, doc, sheet_name=None, cell_address=None):
         if isinstance(doc, str):

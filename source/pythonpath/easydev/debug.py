@@ -1,15 +1,16 @@
 # coding: utf-8
 
+import sys
 import logging
 from pprint import pprint
 from org.universolibre.EasyDev import XDebug
+from easydev.loapp import LOApp
 from easydev.setting import (
     LOG,
     NAME_EXT,
-    OS, WIN,
+    OS,
+    WIN,
     BUTTONS_OK,
-    DESKTOP,
-    TOOLKIT,
     WRITER,
 )
 
@@ -33,9 +34,11 @@ class OutputDoc(object):
 class Debug(XDebug):
     error = ''
 
-    def __init__(self, ctx, sm):
+    def __init__(self, ctx, sm, desktop, toolkit):
         self.ctx = ctx
         self.sm = sm
+        self.desktop = desktop
+        self.toolkit = toolkit
 
     def _create_instance(self, name, with_context=True):
         if with_context:
@@ -50,9 +53,10 @@ class Debug(XDebug):
             else, show data in stdout
         """
         if OS == WIN:
-            doc = get_doc('debug.odt')
+            app = LOApp(self.ctx, self.sm, self.desktop, self.toolkit)
+            doc = app.getDoc('debug.odt')
             if not doc:
-                doc = new_doc(WRITER)
+                doc = app.newDoc(WRITER)
             out = OutputDoc(doc)
             sys.stdout = out
         pprint (data)
@@ -62,10 +66,8 @@ class Debug(XDebug):
         """ Create message box
             type_msg: infobox, warningbox, errorbox, querybox, messbox
         """
-        desktop = self._create_instance(DESKTOP)
-        toolkit = self._create_instance(TOOLKIT, False)
-        parent = toolkit.getDesktopWindow()
-        mb = toolkit.createMessageBox(
+        parent = self.toolkit.getDesktopWindow()
+        mb = self.toolkit.createMessageBox(
             parent, 'infobox', BUTTONS_OK, 'Debug', str(message))
         return mb.execute()
 
@@ -78,5 +80,6 @@ class Debug(XDebug):
         return
 
     def test(self, args):
+        log.info(args)
         return True
 
