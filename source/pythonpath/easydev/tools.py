@@ -101,10 +101,8 @@ class Tools(XTools):
         """ Create message box
             type_msg: infobox, warningbox, errorbox, querybox, messbox
         """
-        #~ desktop = self._create_instance(DESKTOP)
-        toolkit = self._create_instance(TOOLKIT, False)
-        parent = toolkit.getDesktopWindow()
-        mb = toolkit.createMessageBox(
+        parent = self.toolkit.getDesktopWindow()
+        mb = self.toolkit.createMessageBox(
             parent, 'querybox', BUTTONS_YES_NO, title, message)
         return YES == mb.execute()
 
@@ -211,7 +209,7 @@ class Tools(XTools):
         data = ''
         if not mode:
             mode = 'r'
-        path = path_to_os(path)
+        path = self.path_to_os(path)
         with open(path, mode) as f:
             data = f.read()
         return data

@@ -56,6 +56,7 @@ DIR_FILES = 'files'
 
 XML_MANIFEST = """<?xml version="1.0" encoding="UTF-8"?>
 <manifest:manifest>
+    <manifest:file-entry manifest:full-path="EasyDevLib/" manifest:media-type="application/vnd.sun.star.basic-library"/>
     <manifest:file-entry manifest:full-path="{}" manifest:media-type="application/vnd.sun.star.uno-component;type=Python"/>
     <manifest:file-entry manifest:full-path="{}" manifest:media-type="application/vnd.sun.star.uno-typelibrary;type=RDB"/>
     <manifest:file-entry manifest:full-path="config.xcs" manifest:media-type="application/vnd.sun.star.configuration-schema"/>
