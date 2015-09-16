@@ -3,6 +3,7 @@
 
 #include <com/sun/star/uno/XInterface.idl>
 
+
 module org { module universolibre { module EasyDev {
 
     interface XDebug : com::sun::star::uno::XInterface
@@ -10,6 +11,7 @@ module org { module universolibre { module EasyDev {
         [attribute, readonly] string error;
 
         void debug([in] any data);
+        void log([in] string pathLog, [in] any data);
         void msgbox([in] any data);
         void mri([in] any obj);
         any test([in] any data);
@@ -19,13 +21,14 @@ module org { module universolibre { module EasyDev {
     {
         [attribute, readonly] string VERSION;
         [attribute, readonly] string OS;
+        [attribute, readonly] string LANGUAGE;
         [attribute] string value;
 
         string getSizeScreen();
         sequence< string > getInfoPC();
         boolean question([in] string title, [in] string message);
 
-        string render([in] string template, [in] sequence< sequence< any > > data);
+        string render([in] string template, [in] sequence< any > data);
         string format([in] string template, [in] any data);
 
         string getPath([in] string name);

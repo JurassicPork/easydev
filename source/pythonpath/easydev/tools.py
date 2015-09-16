@@ -17,7 +17,7 @@ from string import Template
 import uno
 import unohelper
 from com.sun.star.util import Time, Date, DateTime
-from com.sun.star.beans import PropertyValue
+from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.datatransfer import XTransferable, DataFlavor
 from org.universolibre.EasyDev import XTools
 
@@ -52,6 +52,7 @@ def make_properties(properties):
 class Tools(XTools):
     VERSION = VERSION
     OS = OS
+    LANGUAGE = ''
     value = ''
 
     def __init__(self, ctx, sm, desktop, toolkit):
@@ -59,6 +60,67 @@ class Tools(XTools):
         self.sm = sm
         self.desktop = desktop
         self.toolkit = toolkit
+        self.LANGUAGE = self._get_language()
+
+    def _get_language(self):
+        key = 'ooLocale'
+        node = 'org.openoffice.Setup/L10N/'
+        data = self._get_config(key, node)
+        if data:
+            data = data.split('-')[0]
+        return data
+
+    def _get_config(self, key, node_name):
+        name = 'com.sun.star.configuration.ConfigurationProvider'
+        cp = self._create_instance(name)
+        node = PropertyValue()
+        node.Name = 'nodepath'
+        node.Value = node_name
+        try:
+            ca = cp.createInstanceWithArguments(
+                'com.sun.star.configuration.ConfigurationAccess', (node,))
+            if ca and (ca.hasByName(key)):
+                data = ca.getPropertyValue(key)
+            return data
+        except Exception as e:
+            log.debug(e)
+            return ''
+
+    def _to_dict(self, data, to_date=False):
+        if isinstance(data[0], tuple):
+            if to_date:
+                dic = {r[0]: self._to_date(r[1]) for r in data}
+            else:
+                dic = {r[0]: r[1] for r in data}
+        elif isinstance(data[0], (NamedValue, PropertyValue)):
+            if to_date:
+                dic = {r.Name: self._to_date(r.Value) for r in data}
+            else:
+                dic = {r.Name: r.Value for r in data}
+        return dic
+
+    def _to_date(self, value):
+        if isinstance(value, Time):
+            new_value = datetime.time(value.Hours, value.Minutes, value.Seconds)
+        elif isinstance(value, Date):
+            new_value = datetime.date(value.Year, value.Month, value.Day)
+        elif isinstance(value, DateTime):
+            new_value = datetime.datetime(
+                value.Year, value.Month, value.Day,
+                value.Hours, value.Minutes, value.Seconds)
+        else:
+            new_value = value
+        return new_value
+
+    def _path_to_os(self, path):
+        if path.startswith('file://'):
+            path = uno.fileUrlToSystemPath(path)
+        return path
+
+    def _path_to_url(self, path):
+        if path.startswith('file://'):
+            return path
+        return uno.systemPathToFileUrl(path)
 
     def _create_instance(self, name, with_context=True):
         if with_context:
@@ -75,7 +137,7 @@ class Tools(XTools):
         else:
             args = 'xrandr | grep "\*" | cut -d" " -f4'
             res = subprocess.check_output(args, shell=True).decode()
-            return res
+            return res.strip()
 
     def getInfoPC(self):
         """
@@ -107,42 +169,21 @@ class Tools(XTools):
         return YES == mb.execute()
 
     def render(self, template, data):
-        data = {r[0]: r[1] for r in data}
+        data = self._to_dict(data)
         s = Template(template)
         return s.safe_substitute(**data)
-
-    def to_date(self, value):
-        if isinstance(value, Time):
-            value = datetime.time(value.Hours, value.Minutes, value.Seconds)
-        elif isinstance(value, Date):
-            value = datetime.date(value.Year, value.Month, value.Day)
-        elif isinstance(value, DateTime):
-            value = datetime.datetime(
-                value.Year, value.Month, value.Day,
-                value.Hours, value.Minutes, value.Seconds)
-        return value
 
     def format(self, template, data):
         if isinstance(data, tuple):
             if isinstance(data[0], tuple):
-                data = {r[0]: self.to_date(r[1]) for r in data}
+                data = self._to_dict(data, True)
                 result = template.format(**data)
             else:
-                data = [self.to_date(v) for v in data]
+                data = [self._to_date(v) for v in data]
                 result = template.format(*data)
         else:
-            result = template.format(self.to_date(data))
+            result = template.format(self._to_date(data))
         return result
-
-    def path_to_os(self, path):
-        if path.startswith('file://'):
-            path = uno.fileUrlToSystemPath(path)
-        return path
-
-    def path_to_url(self, path):
-        if path.startswith('file://'):
-            return path
-        return uno.systemPathToFileUrl(path)
 
     def getPath(self, name):
         """
@@ -152,10 +193,10 @@ class Tools(XTools):
         if not name:
             name = 'Work'
         path = self._create_instance('com.sun.star.util.PathSettings')
-        return self.path_to_os(getattr(path, name))
+        return self._path_to_os(getattr(path, name))
 
     def getPathInfo(self, path):
-        path = self.path_to_os(path)
+        path = self._path_to_os(path)
         path, filename = os.path.split(path)
         name, extension = os.path.splitext(filename)
         return (path, filename, name, extension)
@@ -247,7 +288,7 @@ class Tools(XTools):
             return
         except Exception as e:
             log.debug(e)
-            return
+            return ''
 
     def setConfig(self, key, value):
         name = 'com.sun.star.configuration.ConfigurationProvider'

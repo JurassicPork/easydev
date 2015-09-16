@@ -2,6 +2,7 @@
 
 import sys
 import logging
+from datetime import datetime
 from pprint import pprint
 from org.universolibre.EasyDev import XDebug
 from easydev.loapp import LOApp
@@ -60,6 +61,13 @@ class Debug(XDebug):
             out = OutputDoc(doc)
             sys.stdout = out
         pprint (data)
+        return
+
+    def log(self, pathLog, data):
+        path_log = self._path_to_os(pathLog)
+        with open(path_log, 'a') as out:
+            out.write('{} - {} - '.format(str(datetime.now())[:19], NAME_EXT))
+            pprint(data, stream=out)
         return
 
     def msgbox(self, message, type_msg='infobox'):
