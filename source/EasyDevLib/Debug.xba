@@ -11,6 +11,14 @@ Sub Debug()
 End Sub
 
 
+Sub Log()
+    util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+    &apos; Save log in file
+    util.log(&quot;/home/USER/log.txt&quot;, util)
+End Sub
+
+
 Sub MsgBox()
     util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
 

@@ -82,7 +82,6 @@ class EMail(XEMail):
             log.info('Send in thread...')
             thread = Thread(target=send_mail, args=(server, message))
             thread.start()
-            thread.join()
         else:
             log.info('Send normal...')
             return send_mail(server, message)

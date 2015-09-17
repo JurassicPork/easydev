@@ -17,12 +17,21 @@ module org { module universolibre { module EasyDev {
         any test([in] any data);
     };
 
+    published struct Macro
+    {
+        string Library;
+        string Name;
+        string Language;
+        string Location;
+        boolean Thread;
+    };
+
     interface XTools : com::sun::star::uno::XInterface
     {
         [attribute, readonly] string VERSION;
         [attribute, readonly] string OS;
         [attribute, readonly] string LANGUAGE;
-        [attribute] string value;
+        [attribute] any value;
 
         string getSizeScreen();
         sequence< string > getInfoPC();
@@ -49,6 +58,10 @@ module org { module universolibre { module EasyDev {
         any array([in] sequence< any > array, [in] string method, [in] any data);
 
         long getEpoch();
+
+        any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
+        void timer([in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
+        void stopTimer([in] short index);
     };
 
     interface XLOApp : com::sun::star::uno::XInterface

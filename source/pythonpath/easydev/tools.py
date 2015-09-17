@@ -1,18 +1,19 @@
 # coding: utf-8
 
-import sys
-import os
-import re
+import csv
+import ctypes
+import datetime
+import getpass
 import json
 import logging
-import ctypes
-import subprocess
-import getpass
+import os
 import platform
-import csv
+import re
+import subprocess
+import sys
 import time
-import datetime
 from string import Template
+from threading import Thread, Event
 
 import uno
 import unohelper
@@ -22,20 +23,23 @@ from com.sun.star.datatransfer import XTransferable, DataFlavor
 from org.universolibre.EasyDev import XTools
 
 from easydev.setting import (
+    BUTTONS_YES_NO,
+    CLIPBOARD_FORMAT_TEXT,
+    LOCATION_USER,
     LOG,
     NAME_EXT,
-    OS,
-    WIN,
-    VERSION,
-    BUTTONS_YES_NO,
-    YES,
     NODE,
     NODE_CONFIG,
-    CLIPBOARD_FORMAT_TEXT,
+    OS,
+    PYTHON,
+    VERSION,
+    WIN,
+    YES,
 )
 
 
 log = logging.getLogger(NAME_EXT)
+stop_thread = []
 
 
 def make_properties(properties):
@@ -49,11 +53,77 @@ def make_properties(properties):
     return tuple(prop)
 
 
+def call_macro(factory, macro, args):
+    #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
+    if not macro.Language:
+        macro.Language = PYTHON
+    if not macro.Location:
+        macro.Location = LOCATION_USER
+    if macro.Language == PYTHON:
+        sep = '$'
+    else:
+        sep = '.'
+    main = 'vnd.sun.star.script:{}{}{}?language={}&location={}'.format(
+        macro.Library, sep, macro.Name, macro.Language, macro.Location)
+    #~ factory = self._create_instance(
+        #~ 'com.sun.star.script.provider.MasterScriptProviderFactory', False)
+    script = factory.createScriptProvider('').getScript(main)
+    return script.invoke(args, None, None)[0]
+
+
+class TextTransferable(unohelper.Base, XTransferable):
+    """Keep clipboard data and provide them."""
+
+    def __init__(self, text):
+        df = DataFlavor()
+        df.MimeType = CLIPBOARD_FORMAT_TEXT
+        df.HumanPresentableName = "encoded text utf-16"
+        self.flavors = [df]
+        self.data = [text]
+
+    def getTransferData(self, flavor):
+        if not flavor:
+            return
+        for i, f in enumerate(self.flavors):
+            if flavor.MimeType == f.MimeType:
+                return self.data[i]
+        return
+
+    def getTransferDataFlavors(self):
+        return tuple(self.flavors)
+
+    def isDataFlavorSupported(self, flavor):
+        if not flavor:
+            return False
+        mtype = flavor.MimeType
+        for f in self.flavors:
+            if mtype == f.MimeType:
+                return True
+        return False
+
+
+class TimerThread(Thread):
+
+    def __init__(self, event, wait, factory, macro, args):
+        Thread.__init__(self)
+        self.stopped = event
+        self.wait = wait
+        self.factory = factory
+        self.macro = macro
+        self.args = args
+
+    def run(self):
+        log.info('Timer started... {}'.format(self.macro.Name))
+        while not self.stopped.wait(self.wait):
+            call_macro(self.factory, self.macro, self.args)
+        log.info('Timer stopped... {}'.format(self.macro.Name))
+
+
 class Tools(XTools):
     VERSION = VERSION
     OS = OS
     LANGUAGE = ''
-    value = ''
+    value = None
 
     def __init__(self, ctx, sm, desktop, toolkit):
         self.ctx = ctx
@@ -366,34 +436,29 @@ class Tools(XTools):
         now = datetime.datetime.now()
         return int(time.mktime(now.timetuple()))
 
-
-class TextTransferable(unohelper.Base, XTransferable):
-    """Keep clipboard data and provide them."""
-
-    def __init__(self, text):
-        df = DataFlavor()
-        df.MimeType = CLIPBOARD_FORMAT_TEXT
-        df.HumanPresentableName = "encoded text utf-16"
-        self.flavors = [df]
-        self.data = [text]
-
-    def getTransferData(self, flavor):
-        if not flavor:
+    def callMacro(self, macro, args):
+        factory = self._create_instance(
+            'com.sun.star.script.provider.MasterScriptProviderFactory', False)
+        if macro.Thread:
+            thread = Thread(target=call_macro, args=(factory, macro, args))
+            thread.start()
             return
-        for i, f in enumerate(self.flavors):
-            if flavor.MimeType == f.MimeType:
-                return self.data[i]
+        else:
+            return call_macro(factory, macro, args)
+
+    def timer(self, wait, macro, args):
+        global stop_thread
+        factory = self._create_instance(
+            'com.sun.star.script.provider.MasterScriptProviderFactory', False)
+        stop_thread.append(Event())
+        thread = TimerThread(stop_thread[-1], wait, factory, macro, args)
+        thread.start()
         return
 
-    def getTransferDataFlavors(self):
-        return tuple(self.flavors)
+    def stopTimer(self, index=0):
+        global stop_thread
+        stop_thread[index].set()
+        del stop_thread[index]
+        return
 
-    def isDataFlavorSupported(self, flavor):
-        if not flavor:
-            return False
-        mtype = flavor.MimeType
-        for f in self.flavors:
-            if mtype == f.MimeType:
-                return True
-        return False
 

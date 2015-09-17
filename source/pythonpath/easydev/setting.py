@@ -28,3 +28,5 @@ WRITER = 'swriter'
 EXT_PDF = 'pdf'
 CLIPBOARD_FORMAT_TEXT = 'text/plain;charset=utf-16'
 TIMEOUT = 10
+PYTHON = 'Python'
+LOCATION_USER = 'user'
