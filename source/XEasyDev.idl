@@ -20,6 +20,7 @@ module org { module universolibre { module EasyDev {
     published struct Macro
     {
         string Library;
+        string Module;
         string Name;
         string Language;
         string Location;
@@ -31,6 +32,8 @@ module org { module universolibre { module EasyDev {
         [attribute, readonly] string VERSION;
         [attribute, readonly] string OS;
         [attribute, readonly] string LANGUAGE;
+        [attribute, readonly] string APP_NAME;
+        [attribute, readonly] string APP_VERSION;
         [attribute] any value;
 
         string getSizeScreen();
@@ -44,9 +47,10 @@ module org { module universolibre { module EasyDev {
         sequence< string > getPathInfo([in] string path);
         string pathJoin([in] sequence< string > paths);
         string getFolder([in] string initFolder);
-        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< string > filters);
+        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< sequence< string > > filters);
         sequence< string > getFiles([in] string path, [in] string ext);
         any fileOpen([in] string path, [in] string mode);
+        any fileSave([in] string path, [in] string mode, [in] any data);
 
         any execute([in] sequence< string > args, [in] boolean wait);
 
@@ -55,13 +59,20 @@ module org { module universolibre { module EasyDev {
         string getClipboard();
         void setClipboard([in] string text);
 
-        any array([in] sequence< any > array, [in] string method, [in] any data);
-
         long getEpoch();
-
         any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
         void timer([in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
         void stopTimer([in] short index);
+    };
+
+    interface XArrays : com::sun::star::uno::XInterface
+    {
+        any array([in] sequence< any > array, [in] string method, [in] any data);
+        any append([in] any array, [in] any data);
+        boolean exists([in] any array, [in] any data);
+        any slice([in] any array, [in] any data);
+        any unique([in] any array);
+        any insert([in] any array, [in] short pos, [in] any data);
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
@@ -89,6 +100,7 @@ module org { module universolibre { module EasyDev {
     service EasyDev {
         interface XDebug;
         interface XTools;
+        interface XArrays;
         interface XLOApp;
         interface XLOCalc;
     };

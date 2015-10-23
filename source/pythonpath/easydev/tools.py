@@ -21,17 +21,19 @@ from com.sun.star.util import Time, Date, DateTime
 from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.datatransfer import XTransferable, DataFlavor
 from org.universolibre.EasyDev import XTools
+from org.universolibre.EasyDev import XArrays
+from easydev import comun
 
 from easydev.setting import (
     BUTTONS_YES_NO,
     CLIPBOARD_FORMAT_TEXT,
     LOCATION_USER,
-    LOG,
     NAME_EXT,
     NODE,
     NODE_CONFIG,
     OS,
     PYTHON,
+    QUERYBOX,
     VERSION,
     WIN,
     YES,
@@ -42,33 +44,27 @@ log = logging.getLogger(NAME_EXT)
 stop_thread = []
 
 
-def make_properties(properties):
-    prop = []
-    l = len(properties)
-    for i in range(0, l, 2):
-        pv = PropertyValue()
-        pv.Name = properties[i]
-        pv.Value = properties[i + 1]
-        prop.append(pv)
-    return tuple(prop)
-
-
 def call_macro(factory, macro, args):
     #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
     if not macro.Language:
         macro.Language = PYTHON
-    if not macro.Location:
-        macro.Location = LOCATION_USER
     if macro.Language == PYTHON:
-        sep = '$'
-    else:
-        sep = '.'
-    main = 'vnd.sun.star.script:{}{}{}?language={}&location={}'.format(
-        macro.Library, sep, macro.Name, macro.Language, macro.Location)
-    #~ factory = self._create_instance(
-        #~ 'com.sun.star.script.provider.MasterScriptProviderFactory', False)
+        if not macro.Location:
+            macro.Location = LOCATION_USER
+        main = 'vnd.sun.star.script:{}.py${}?language=Python&location={}'.format(
+            macro.Library, macro.Name, macro.Location)
+    elif macro.Language == 'Basic':
+        if not macro.Location:
+            macro.Location = 'application'
+        main = 'vnd.sun.star.script:{}.{}.{}?language=Basic&location={}'.format(
+        macro.Library, macro.Module, macro.Name, macro.Location)
     script = factory.createScriptProvider('').getScript(main)
     return script.invoke(args, None, None)[0]
+
+#~ vnd.sun.star.script:myLibrary.myMacro.bsh?language=BeanShell&location=user
+#~ vnd.sun.star.script:myLibrary.myMethod?language=Java&location=user
+#~ vnd.sun.star.script:myLibrary.myMacro.js?language=JavaScript&location=user
+
 
 
 class TextTransferable(unohelper.Base, XTransferable):
@@ -123,6 +119,8 @@ class Tools(XTools):
     VERSION = VERSION
     OS = OS
     LANGUAGE = ''
+    APP_NAME = ''
+    APP_VERSION = ''
     value = None
 
     def __init__(self, ctx, sm, desktop, toolkit):
@@ -130,11 +128,33 @@ class Tools(XTools):
         self.sm = sm
         self.desktop = desktop
         self.toolkit = toolkit
+        self._init_vars()
+
+    def _init_vars(self):
         self.LANGUAGE = self._get_language()
+        self.APP_NAME = self._get_app_name()
+        self.APP_VERSION = self._get_app_version()
+        return
 
     def _get_language(self):
         key = 'ooLocale'
         node = 'org.openoffice.Setup/L10N/'
+        data = self._get_config(key, node)
+        if data:
+            data = data.split('-')[0]
+        return data
+
+    def _get_app_name(self):
+        key = 'ooName'
+        node = 'org.openoffice.Setup/Product'
+        data = self._get_config(key, node)
+        if data:
+            data = data.split('-')[0]
+        return data
+
+    def _get_app_version(self):
+        key = 'ooSetupVersion'
+        node = 'org.openoffice.Setup/Product'
         data = self._get_config(key, node)
         if data:
             data = data.split('-')[0]
@@ -156,41 +176,41 @@ class Tools(XTools):
             log.debug(e)
             return ''
 
-    def _to_dict(self, data, to_date=False):
-        if isinstance(data[0], tuple):
-            if to_date:
-                dic = {r[0]: self._to_date(r[1]) for r in data}
-            else:
-                dic = {r[0]: r[1] for r in data}
-        elif isinstance(data[0], (NamedValue, PropertyValue)):
-            if to_date:
-                dic = {r.Name: self._to_date(r.Value) for r in data}
-            else:
-                dic = {r.Name: r.Value for r in data}
-        return dic
+    #~ def _to_dict(self, data, to_date=False):
+        #~ if isinstance(data[0], tuple):
+            #~ if to_date:
+                #~ dic = {r[0]: self._to_date(r[1]) for r in data}
+            #~ else:
+                #~ dic = {r[0]: r[1] for r in data}
+        #~ elif isinstance(data[0], (NamedValue, PropertyValue)):
+            #~ if to_date:
+                #~ dic = {r.Name: self._to_date(r.Value) for r in data}
+            #~ else:
+                #~ dic = {r.Name: r.Value for r in data}
+        #~ return dic
 
-    def _to_date(self, value):
-        if isinstance(value, Time):
-            new_value = datetime.time(value.Hours, value.Minutes, value.Seconds)
-        elif isinstance(value, Date):
-            new_value = datetime.date(value.Year, value.Month, value.Day)
-        elif isinstance(value, DateTime):
-            new_value = datetime.datetime(
-                value.Year, value.Month, value.Day,
-                value.Hours, value.Minutes, value.Seconds)
-        else:
-            new_value = value
-        return new_value
+    #~ def _to_date(self, value):
+        #~ if isinstance(value, Time):
+            #~ new_value = datetime.time(value.Hours, value.Minutes, value.Seconds)
+        #~ elif isinstance(value, Date):
+            #~ new_value = datetime.date(value.Year, value.Month, value.Day)
+        #~ elif isinstance(value, DateTime):
+            #~ new_value = datetime.datetime(
+                #~ value.Year, value.Month, value.Day,
+                #~ value.Hours, value.Minutes, value.Seconds)
+        #~ else:
+            #~ new_value = value
+        #~ return new_value
 
-    def _path_to_os(self, path):
-        if path.startswith('file://'):
-            path = uno.fileUrlToSystemPath(path)
-        return path
-
-    def _path_to_url(self, path):
-        if path.startswith('file://'):
-            return path
-        return uno.systemPathToFileUrl(path)
+    #~ def _path_to_os(self, path):
+        #~ if path.startswith('file://'):
+            #~ path = uno.fileUrlToSystemPath(path)
+        #~ return path
+#~
+    #~ def _path_to_url(self, path):
+        #~ if path.startswith('file://'):
+            #~ return path
+        #~ return uno.systemPathToFileUrl(path)
 
     def _create_instance(self, name, with_context=True):
         if with_context:
@@ -211,6 +231,7 @@ class Tools(XTools):
 
     def getInfoPC(self):
         """
+            https://docs.python.org/3.3/library/platform.html
             Get info PC:
             name user,
             name pc,
@@ -235,27 +256,30 @@ class Tools(XTools):
         """
         parent = self.toolkit.getDesktopWindow()
         mb = self.toolkit.createMessageBox(
-            parent, 'querybox', BUTTONS_YES_NO, title, message)
+            parent, QUERYBOX, BUTTONS_YES_NO, title, message)
         return YES == mb.execute()
 
     def render(self, template, data):
-        data = self._to_dict(data)
+        data = comun.to_dict(data)
         s = Template(template)
         return s.safe_substitute(**data)
 
     def format(self, template, data):
+        """
+            https://pyformat.info/
+        """
         if isinstance(data, tuple):
             if isinstance(data[0], tuple):
-                data = self._to_dict(data, True)
+                data = comun.to_dict(data, True)
                 result = template.format(**data)
             else:
-                data = [self._to_date(v) for v in data]
+                data = [comun.to_date(v) for v in data]
                 result = template.format(*data)
         else:
-            result = template.format(self._to_date(data))
+            result = template.format(comun.to_date(data))
         return result
 
-    def getPath(self, name):
+    def getPath(self, name='Work'):
         """
             Return de path name in config
             http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html
@@ -263,10 +287,10 @@ class Tools(XTools):
         if not name:
             name = 'Work'
         path = self._create_instance('com.sun.star.util.PathSettings')
-        return self._path_to_os(getattr(path, name))
+        return comun.path_to_os(getattr(path, name))
 
     def getPathInfo(self, path):
-        path = self._path_to_os(path)
+        path = comun.path_to_os(path)
         path, filename = os.path.split(path)
         name, extension = os.path.splitext(filename)
         return (path, filename, name, extension)
@@ -276,36 +300,45 @@ class Tools(XTools):
 
     def getFolder(self, init_folder=''):
         if init_folder:
-            init_folder = self.path_to_url(init_folder)
+            init_folder = comun.path_to_url(init_folder)
         else:
-            init_folder = self.getPath('Work')
+            init_folder = comun.path_to_url(self.getPath())
         folder = self._create_instance('com.sun.star.ui.dialogs.FolderPicker')
         folder.setDisplayDirectory(init_folder)
         if folder.execute():
-            return folder.getDirectory()
+            return comun.path_to_os(folder.getDirectory())
         else:
             return ''
 
     def getSelectedFiles(self, init_folder, multiple, filters):
+        """
+            init_folder: folder default open
+            multiple: True for multiple selected
+            filters: Example
+            (
+                ('XML', '*.xml'),
+                ('TXT', '*.txt'),
+            )
+        """
         if init_folder:
-            init_folder = self.path_to_url(init_folder)
+            init_folder = comun.path_to_url(init_folder)
         else:
-            init_folder = self.getPath('Work')
+            init_folder = comun.path_to_url(self.getPath())
 
         folder = self._create_instance('com.sun.star.ui.dialogs.FilePicker')
         folder.setDisplayDirectory(init_folder)
         folder.setMultiSelectionMode(multiple)
         if filters:
-            folder.setCurrentFilter(filters[0])
-            for i in range(0, len(filters), 2):
-                folder.appendFilter(filters[i], filters[i + 1])
+            folder.setCurrentFilter(filters[0][0])
+            for f in filters:
+                folder.appendFilter(f[0], f[1])
 
         if folder.execute():
             files = folder.getSelectedFiles()
             if multiple:
-                return files
+                return tuple([comun.path_to_os(f) for f in files])
             else:
-                return files[0]
+                return comun.path_to_os(files[0])
         else:
             return ""
 
@@ -320,10 +353,20 @@ class Tools(XTools):
         data = ''
         if not mode:
             mode = 'r'
-        path = self.path_to_os(path)
+        path = comun.path_to_os(path)
         with open(path, mode) as f:
             data = f.read()
         return data
+
+    def fileSave(self, path, mode='w', data=None):
+        if not mode:
+            mode = 'w'
+        if not data:
+            return
+        path = comun.path_to_os(path)
+        with open(path, mode) as f:
+            f.write(data)
+        return
 
     def execute(self, args, wait):
         if wait:
@@ -362,10 +405,11 @@ class Tools(XTools):
 
     def setConfig(self, key, value):
         name = 'com.sun.star.configuration.ConfigurationProvider'
-        cp = _create_instance(name)
+        cp = self._create_instance(name)
         node = PropertyValue()
         node.Name = 'nodepath'
         node.Value = NODE
+        print (NODE)
         try:
             config_writer = cp.createInstanceWithArguments(
                 'com.sun.star.configuration.ConfigurationUpdateAccess', (node,))
@@ -378,7 +422,7 @@ class Tools(XTools):
             config_writer.commitChanges()
             return True
         except Exception as e:
-            log.debug(e)
+            log.error(e, exc_info=True)
             return False
 
     def getClipboard(self):
@@ -401,36 +445,6 @@ class Tools(XTools):
             'com.sun.star.datatransfer.clipboard.SystemClipboard')
         sc.setContents(ts, None)
         return
-
-    def array(self, array, method, data):
-        """
-            Methods of list to Basic
-        """
-        res = None
-        l = list(array)
-        if method == 'insert':
-            res = getattr(l, method)(*data)
-        elif method == 'pop':
-            res = getattr(l, method)(data)
-            res = (tuple(l), res)
-        elif method == 'remove_all':
-            l = [i for i in array if i != data]
-        elif method in ('reverse', 'sort'):
-            res = getattr(l, method)()
-        elif method == 'unique':
-            l = list(set(l))
-        elif method in ('len', 'max', 'min'):
-            res = eval('{}({})'.format(method, l))
-        elif method == 'slice':
-            l = eval('{}{}'.format(l, data))
-        elif method == 'in':
-            res = data in l
-        else:
-            res = getattr(l, method)(data)
-        if res is None:
-            return tuple(l)
-        else:
-            return res
 
     def getEpoch(self):
         now = datetime.datetime.now()
@@ -460,5 +474,61 @@ class Tools(XTools):
         stop_thread[index].set()
         del stop_thread[index]
         return
+
+
+class Arrays(XArrays):
+
+    def __init__(self):
+        pass
+
+    def array(self, array, method, data):
+        """
+            Methods of list to Basic
+        """
+        res = None
+        l = list(array)
+        if method == 'insert':
+            res = getattr(l, method)(*data)
+        elif method == 'pop':
+            res = getattr(l, method)(data)
+            res = (tuple(l), res)
+        elif method == 'remove_all':
+            l = [i for i in array if i != data]
+        elif method in ('reverse', 'sort'):
+            res = getattr(l, method)()
+        elif method == 'unique':
+            l = list(set(l))
+        elif method in ('len', 'max', 'min'):
+            res = eval('{}({})'.format(method, l))
+        elif method == 'slice':
+            l = eval('{}{}'.format(l, data))
+        elif method == 'exists':
+            res = data in l
+        else:
+            res = getattr(l, method)(data)
+        if res is None:
+            return tuple(l)
+        else:
+            return res
+
+    def append(self, value, array):
+        l = list(array)
+        l.append(value)
+        return tuple(l)
+
+    def exists(self, value, array):
+        return value in array
+
+    def slice(self, value, array):
+        l = list(array)
+        l = eval('{}{}'.format(l, value))
+        return tuple(l)
+
+    def unique(self, array):
+        l = list(array)
+        l = list(set(l))
+        return tuple(l)
+
+
 
 

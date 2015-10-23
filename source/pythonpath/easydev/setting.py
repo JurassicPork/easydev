@@ -4,7 +4,7 @@ import logging
 import sys
 from com.sun.star.awt.MessageBoxButtons import BUTTONS_OK, BUTTONS_YES_NO
 from com.sun.star.awt.MessageBoxResults import OK, YES, NO
-
+from com.sun.star.awt.MessageBoxType import INFOBOX, ERRORBOX, QUERYBOX
 
 OS = sys.platform
 NAME_EXT = 'EasyDev'
@@ -30,3 +30,5 @@ CLIPBOARD_FORMAT_TEXT = 'text/plain;charset=utf-16'
 TIMEOUT = 10
 PYTHON = 'Python'
 LOCATION_USER = 'user'
+FILE_NAME_DEBUG = 'debug.odt'
+TITLE_DEBUG = 'Debug'

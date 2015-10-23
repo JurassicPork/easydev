@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
-<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Debug" script:language="StarBasic">REM  *****  BASIC  *****
-REM EasyDev Examples
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Debug" script:language="StarBasic">REM EasyDev Examples
+
 
 Sub Debug()
-    util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
-
-    &apos; Show info in shell
-    util.debug(&quot;Debug data&quot;)
+	&apos;Create service
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Show info in shell
+	util.debug(&quot;Debug data&quot;)
+	
+	&apos;Save info in file
+	util.log(&quot;/home/mau/log.txt&quot;, util)
+	
 End Sub
 
 
-Sub Log()
-    util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+Sub MsgBox()	
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
 
-    &apos; Save log in file
-    util.log(&quot;/home/USER/log.txt&quot;, util)
-End Sub
+	&apos;Show info in message box
+	util.msgbox(&quot;Debug data&quot;)
+	
+	&apos;Show any data
+	data = &quot;This is string&quot;
+	util.msgbox(data)
+	
+	data = 12345
+	util.msgbox(data)	
+	
+	data = Array(&quot;Uno&quot;, 2)
+	util.msgbox(data)
 
-
-Sub MsgBox()
-    util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
-
-    &apos; Show info in message box
-    util.msgbox(&quot;Debug data&quot;)
-
-    &apos; Show any data
-    data = &quot;This is string&quot;
-    util.msgbox(data)
-
-    data = 12345
-    util.msgbox(data)
-
-    data = Array(&quot;Uno&quot;, 2)
-    util.msgbox(data)
-
-    util.msgbox(util)
+	util.msgbox(util)
 End Sub
 
 
 Sub CallMRI()
-    util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
-
-    &apos; MRI is a great extension
-    util.mri(util)
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;MRI is a great extension
+	util.mri(util)
 End Sub
+
 
 </script:module>

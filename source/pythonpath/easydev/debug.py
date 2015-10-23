@@ -5,13 +5,17 @@ import logging
 from datetime import datetime
 from pprint import pprint
 from org.universolibre.EasyDev import XDebug
+from easydev import comun
 from easydev.loapp import LOApp
 from easydev.setting import (
-    LOG,
+    BUTTONS_OK,
+    ERRORBOX,
+    FILE_NAME_DEBUG,
+    INFOBOX,
     NAME_EXT,
     OS,
+    TITLE_DEBUG,
     WIN,
-    BUTTONS_OK,
     WRITER,
 )
 
@@ -55,7 +59,7 @@ class Debug(XDebug):
         """
         if OS == WIN:
             app = LOApp(self.ctx, self.sm, self.desktop, self.toolkit)
-            doc = app.getDoc('debug.odt')
+            doc = app.getDoc(FILE_NAME_DEBUG)
             if not doc:
                 doc = app.newDoc(WRITER)
             out = OutputDoc(doc)
@@ -64,25 +68,25 @@ class Debug(XDebug):
         return
 
     def log(self, pathLog, data):
-        path_log = self._path_to_os(pathLog)
+        path_log = comun.path_to_os(pathLog)
         with open(path_log, 'a') as out:
             out.write('{} - {} - '.format(str(datetime.now())[:19], NAME_EXT))
             pprint(data, stream=out)
         return
 
-    def msgbox(self, message, type_msg='infobox'):
+    def msgbox(self, message, type_msg=INFOBOX):
         """ Create message box
             type_msg: infobox, warningbox, errorbox, querybox, messbox
         """
         parent = self.toolkit.getDesktopWindow()
         mb = self.toolkit.createMessageBox(
-            parent, 'infobox', BUTTONS_OK, 'Debug', str(message))
+            parent, type_msg, BUTTONS_OK, TITLE_DEBUG, str(message))
         return mb.execute()
 
     def mri(self, obj):
         m = self._create_instance('mytools.Mri')
         if m is None:
-            self.msgbox('La extensión MRI no esta instalada', 'errorbox')
+            self.msgbox('La extensión MRI no esta instalada', ERRORBOX)
             return
         m.inspect(obj)
         return
