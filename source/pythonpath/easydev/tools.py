@@ -481,7 +481,7 @@ class Arrays(XArrays):
     def __init__(self):
         pass
 
-    def array(self, array, method, data):
+    def array(self, array, method, value):
         """
             Methods of list to Basic
         """
@@ -511,24 +511,91 @@ class Arrays(XArrays):
         else:
             return res
 
-    def append(self, value, array):
+    def append(self, array, value):
         l = list(array)
         l.append(value)
         return tuple(l)
 
-    def exists(self, value, array):
-        return value in array
-
-    def slice(self, value, array):
+    def delete(self, array, pos):
         l = list(array)
-        l = eval('{}{}'.format(l, value))
+        del l[pos]
         return tuple(l)
+
+    def slice(self, array, value):
+        if value.startswith('[') and value.endswith(']'):
+            t = eval('{}{}'.format(array, value))
+        return t
+
+    def extend(self, array1, array2):
+        l = list(array1)
+        l.extend(list(array2))
+        return tuple(l)
+
+    def multi(self, array, value):
+        return array * value
 
     def unique(self, array):
         l = list(array)
         l = list(set(l))
         return tuple(l)
 
+    def reverse(self, array):
+        l = list(array)
+        l.reverse()
+        return tuple(l)
 
+    def sorted(self, array, column):
+        if isinstance(array[0], tuple):
+            t = sorted(array, key=lambda x: x[column])
+        else:
+            t = sorted(array)
+        return tuple(t)
 
+    def insert(self, array, pos, value):
+        l = list(array)
+        l.insert(pos, value)
+        return tuple(l)
+
+    def pop(self, array, pos):
+        l = list(array)
+        r = l.pop(pos)
+        return (tuple(l), r)
+
+    def remove(self, array, value, all):
+        l = list(array)
+        if not all:
+            l.remove(value)
+        else:
+            l = [i for i in array if i != value]
+        return tuple(l)
+
+    def len(self, array):
+        return len(array)
+
+    def min(self, array):
+        return min(array)
+
+    def max(self, array):
+        return max(array)
+
+    def sum(self, array):
+        return sum(int(i) for i in array if isinstance(i, (int, float)))
+
+    def exists(self, array, value):
+        return value in array
+
+    def equal(self, array1, array2):
+        return array1 == array2
+
+    def count(self, array, value):
+        l = list(array)
+        r = l.count(value)
+        return r
+
+    def index(self, array, value):
+        r = [i for i, v in enumerate(array) if v==value]
+        if len(r) == 1:
+            return r[0]
+        else:
+            return tuple(r)
 

@@ -67,12 +67,26 @@ module org { module universolibre { module EasyDev {
 
     interface XArrays : com::sun::star::uno::XInterface
     {
-        any array([in] sequence< any > array, [in] string method, [in] any data);
-        any append([in] any array, [in] any data);
-        boolean exists([in] any array, [in] any data);
-        any slice([in] any array, [in] any data);
+        any array([in] sequence< any > array, [in] string method, [in] any value);
+        any append([in] any array, [in] any value);
+        any delete([in] any array, [in] long pos);
+        any slice([in] any array, [in] string value);
+        any extend([in] any array1, [in] any array2);
+        any multi([in] any array, [in] long value);
         any unique([in] any array);
-        any insert([in] any array, [in] short pos, [in] any data);
+        any reverse([in] any array);
+        any sorted([in] any array, [in] short column);
+        any insert([in] any array, [in] long pos, [in] any value);
+        any pop([in] any array, [in] long pos);
+        any remove([in] any array, [in] any value, [in] boolean all);
+        long len([in] any array);
+        long count([in] any array, [in] any value);
+        any index([in] any array, [in] any value);
+        double min([in] any array);
+        double max([in] any array);
+        double sum([in] any array);
+        boolean exists([in] any array, [in] any value);
+        boolean equal([in] any array1, [in] any array2);
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
