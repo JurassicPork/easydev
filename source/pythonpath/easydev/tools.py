@@ -446,6 +446,25 @@ class Tools(XTools):
         del stop_thread[name]
         return
 
+    def exportCSV(self, path, data, options):
+        """
+            See https://docs.python.org/3.3/library/csv.html#csv.writer
+        """
+        try:
+            path = comun.path_to_os(path)
+            if options:
+                config = comun.to_dict(options)
+            with open(path, 'w') as f:
+                if options:
+                    writer = csv.writer(f, **config)
+                else:
+                    writer = csv.writer(f)
+                writer.writerows(data)
+            return True
+        except:
+            log.debug('CSV', exc_info=True)
+            return False
+
 
 class Arrays(XArrays):
 
@@ -593,4 +612,8 @@ class Arrays(XArrays):
         s2 = set(array2)
         s = s1.difference(s2)
         return tuple(s)
+
+    def getColumn(self, array, column):
+        a = [row[column] for row in array]
+        return tuple(a)
 

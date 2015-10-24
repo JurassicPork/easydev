@@ -10,7 +10,7 @@ Sub SendMail()
 	
 	server.Name = &quot;smtp.gmail.com&quot;
 	server.User = &quot;hipatia.blades@gmail.com&quot;
-	server.Password = &quot;kat4679TZ*15&quot;
+	server.Password = &quot;supersecret&quot;
 	server.Ssl = True
 
 	temp = &quot;Dear Madame: $name\n\nBest regards from $country&quot;
@@ -42,7 +42,7 @@ Sub SendMailNoWait()
 	
 	server.Name = &quot;smtp.gmail.com&quot;
 	server.User = &quot;hipatia.blades@gmail.com&quot;
-	server.Password = &quot;kat4679TZ*15&quot;
+	server.Password = &quot;supersecret&quot;
 	server.Ssl = True
 	server.Thread = True	&apos;Send in other thread
 
@@ -72,7 +72,7 @@ Sub SendMailNoWaitAndCCBCC()
 	
 	server.Name = &quot;smtp.gmail.com&quot;
 	server.User = &quot;hipatia.blades@gmail.com&quot;
-	server.Password = &quot;kat4679TZ*15&quot;
+	server.Password = &quot;supersecret&quot;
 	server.Ssl = True
 	server.Thread = True	&apos;Send in other thread
 
@@ -104,7 +104,7 @@ Sub SendMailWithAttachment()
 	
 	server.Name = &quot;smtp.gmail.com&quot;
 	server.User = &quot;hipatia.blades@gmail.com&quot;
-	server.Password = &quot;kat4679TZ*15&quot;
+	server.Password = &quot;supersecret&quot;
 	server.Ssl = True
 	server.Thread = True	&apos;Send in other thread
 
@@ -138,7 +138,7 @@ Sub SendMailAndSave()
 	
 	server.Name = &quot;smtp.gmail.com&quot;
 	server.User = &quot;hipatia.blades@gmail.com&quot;
-	server.Password = &quot;kat4679TZ*15&quot;
+	server.Password = &quot;supersecret&quot;
 	server.Ssl = True
 	server.Thread = True	&apos;Send in other thread
 	server.PathSave = &quot;/home/mau/.thunderbird/cwfln0bi.default/Mail/Local Folders/Sent&quot;

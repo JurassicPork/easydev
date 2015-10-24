@@ -179,9 +179,13 @@ Sub FoldersAndFiles()
 	files = util.getFiles(&quot;/home/mau/Pictures&quot;, &quot;png&quot;)
 	util.msgbox(files)
 
-	&apos;Open file and read
-	data = util.fileOpen(&quot;/home/mau/log.txt&quot;, &quot;r&quot;)
+	&apos;Open file, read all content
+	data = util.fileOpen(&quot;/home/mau/log.txt&quot;, &quot;r&quot;, False)
 	util.msgbox(data)
+	
+	&apos;Open file, get lines in array
+	data = util.fileOpen(&quot;/home/mau/log.txt&quot;, &quot;r&quot;, True)
+	util.msgbox(data)	
 
 	&apos;Save data in new file
 	data = &quot;Hello World Python&quot;
@@ -476,6 +480,9 @@ Sub ArraySorted()
 	a = util.sorted(a, 4)
 	util.msgbox( a )
 	
+	&apos;Get column
+	util.msgbox(util.getColumn(a, 1))
+	
 End Sub
 
 
@@ -496,6 +503,38 @@ Sub ArraysOperations()
 	a = util.symmetricDifference(a1, a2)
 	util.msgbox( a )		
 
+End Sub
+
+
+Sub ExportCSV()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)	
+	
+	range = ThisComponent.CurrentSelection
+	
+	path = &quot;/home/mau/test.csv&quot;
+	data = range.getDataArray()
+	options = Array()
+
+	util.exportCSV(path, data, options)
+	
+End Sub
+
+
+
+Sub ExportCSVOptions()
+&apos;https://docs.python.org/3.3/library/csv.html#csv.writer
+Dim options(0) As New com.sun.star.beans.NamedValue
+
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)	
+	
+	range = ThisComponent.CurrentSelection
+	
+	path = &quot;/home/mau/test.csv&quot;
+	data = range.getDataArray()
+	options(0).Name = &quot;delimiter&quot;
+	options(0).Value = &quot;|&quot;
+	util.exportCSV(path, data, options)
+	
 End Sub
 
 </script:module>

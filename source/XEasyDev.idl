@@ -63,6 +63,7 @@ module org { module universolibre { module EasyDev {
         any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
         void timer([in] string name, [in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
         void stopTimer([in] string name);
+        void exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< any > options);
     };
 
     interface XArrays : com::sun::star::uno::XInterface
@@ -91,7 +92,7 @@ module org { module universolibre { module EasyDev {
         any union([in] any array1, [in] any array2);
         any symmetricDifference([in] any array1, [in] any array2);
         any difference([in] any array1, [in] any array2);
-
+        any getColumn([in] any array, [in] short column);
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
@@ -104,14 +105,27 @@ module org { module universolibre { module EasyDev {
         void setFocus([in] any doc);
         any getStatusBar([in] any doc);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
-        boolean exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< sequence< any > > options);
+    };
+
+    published struct CellRangeAddress
+    {
+        any Doc;
+        any Sheet;
+        string Name;
+        long Col;
+        long Row;
+        long EndCol;
+        long EndRow;
     };
 
     interface XLOCalc : com::sun::star::uno::XInterface
     {
-        any getCell([in] any doc, [in] any sheetName, [in] any cellAddress);
-        any getRange([in] any doc, [in] any sheetName, [in] any rangeAddress);
-        void selectRange([in] any doc, [in] any sheetName, [in] any rango);
+        [attribute, readonly] any cell;
+        [attribute, readonly] any range;
+
+        any getCell([in] org::universolibre::EasyDev::CellRangeAddress data);
+        any getRange([in] org::universolibre::EasyDev::CellRangeAddress data);
+        void selectRange([in] any rango);
         any getCurrentRegion([in] any cell);
         long getLastRow([in] any cell);
     };
