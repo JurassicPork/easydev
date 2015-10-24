@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Tools" script:language="StarBasic">REM  *****  BASIC  *****
+
+
+Sub ShowInfoPC()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Version EasyDev
+    util.msgbox(util.VERSION)
+    
+    &apos;Operator System
+    util.msgbox(util.OS)
+    
+    &apos;App Name
+    util.msgbox(util.APP_NAME)
+    
+    &apos;App Version
+    util.msgbox(util.APP_VERSION)
+    
+    &apos;App Language
+	util.msgbox(util.LANGUAGE)
+	
+	&apos;Size screen
+	util.msgbox(util.getSizeScreen())
+	
+	&apos; https://docs.python.org/3.3/library/platform.html
+    &apos; Get info PC:
+    &apos; name user,
+    &apos; name pc
+    &apos; system/OS name,
+    &apos; machine type,
+    &apos; Returns the (real) processor name
+    &apos; string identifying platform with as much useful information as possible,
+	util.msgbox(util.getInfoPC())
+End Sub
+
+
+Sub Question()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	title = &quot;My App&quot;
+	message = &quot;Is easy Python?&quot;
+	res = util.question(title, message)
+	
+	&apos;If Yes return True, else return False
+	util.msgbox(res)
+	
+End Sub
+
+
+Sub RenderString()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+	&apos;Render text replace arguments, used NamedValue
+	message = &quot;Hello $data with $language, from Basic 1!!&quot;
+	Dim data1(1) As New com.sun.star.beans.NamedValue
+	
+	data1(0).Name = &quot;data&quot;
+	data1(0).Value = &quot;World&quot;
+	data1(1).Name = &quot;language&quot;
+	data1(1).Value = &quot;Python&quot;	
+	message = util.render(message, data1)
+	util.msgbox(message)
+
+	&apos;Used PropertyValue
+	message = &quot;Hello $data with $language, from Basic 2!!&quot;
+	Dim data2(1) As New com.sun.star.beans.PropertyValue
+	
+	data2(0).Name = &quot;data&quot;
+	data2(0).Value = &quot;World&quot;
+	data2(1).Name = &quot;language&quot;
+	data2(1).Value = &quot;Python&quot;	
+	message = util.render(message, data2)
+	util.msgbox(message)	
+
+	&apos;Used Arrays
+	message = &quot;Hello $data with $language, from Basic 3!!&quot;	
+	data = Array( _
+		Array(&quot;data&quot;, &quot;World&quot;), _
+		Array(&quot;language&quot;, &quot;Python&quot;) _
+	)
+	message = util.render(message, data2)
+	util.msgbox(message)
+
+End Sub
+
+
+Sub FormatData()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Using method format https://pyformat.info/
+	
+	MsgBox util.format(&quot;Hello {}&quot;, &quot;World&quot;)
+
+    MsgBox util.format(&quot;Hello {} from {}&quot;, Array(&quot;World&quot;, &quot;PyUNO&quot;))
+
+    MsgBox util.format(&quot;Hello {1} from {0}&quot;, Array(&quot;World&quot;, &quot;PyUNO&quot;))
+
+    MsgBox util.format(&quot;{:&lt;20}|{:^20}|{:&gt;20}&quot;, Array(&quot;Left&quot;, &quot;Center&quot;, &quot;Rigth&quot;))
+
+    MsgBox util.format(&quot;{:_&lt;20}|{:-^20}|{:_&gt;20}&quot;, Array(&quot;Left&quot;, &quot;Center&quot;, &quot;Rigth&quot;))
+
+    MsgBox util.format(&quot;{:d} {:f}&quot;, Array(100, 3.1416))
+
+    MsgBox util.format(&quot;{0:,.2f}&quot;, 123456789.2468)
+
+    MsgBox util.format(&quot;Number {n1} y {n2}&quot;, Array(Array(&quot;n1&quot;, &quot;one&quot;), Array(&quot;n2&quot;, &quot;two&quot;)))
+
+    MsgBox util.format(&quot;Number {n2} y {n1}&quot;, Array(Array(&quot;n1&quot;, &quot;one&quot;), Array(&quot;n2&quot;, &quot;two&quot;)))
+    
+	my_date = createUnoStruct(&quot;com.sun.star.util.Date&quot;)
+	my_date.Day = 15
+	my_date.Month = 1
+	my_date.Year = 1974
+	MsgBox util.format(&quot;{:%d-%B-%Y}&quot;, my_date)    	
+	
+	my_date = createUnoStruct(&quot;com.sun.star.util.DateTime&quot;)
+	my_date.Day = 15
+	my_date.Month = 1
+	my_date.Year = 1974
+	my_date.Hours = 13
+	my_date.Minutes = 30
+	
+	MsgBox util.format(&quot;{:%Y-%b-%d %H:%M}&quot;, my_date)	
+	
+End Sub
+
+
+Sub FoldersAndFiles()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+    &apos;Return de path name in config
+    &apos;http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html
+    
+    path = util.getPath(&quot;Temp&quot;)
+	util.msgbox(path)
+    path = util.getPath(&quot;Work&quot;)
+	util.msgbox(path)	
+	
+	&apos;Get info from path: path base, file name, file name without extension, extension
+	data = util.getPathInfo(&quot;/home/mau/log.txt&quot;)
+	util.msgbox(data)
+	
+	&apos;Join paths
+	path = util.pathJoin(Array(&quot;/home&quot;, &quot;mau&quot;, &quot;Documents&quot;))
+	util.msgbox(path)
+	path = util.pathJoin(Array(&quot;/home/mau/Documents&quot;, &quot;..&quot;, &quot;Picture&quot;))
+	util.msgbox(path)
+	
+	&apos;Select folder, default path documents user
+	folder = util.getFolder(&quot;&quot;)
+	util.msgbox(folder)
+	&apos;With other init folder
+	folder = util.getFolder(&quot;/home/mau&quot;)
+	util.msgbox(folder)	
+	
+	&apos;Select one file: init folder, multiple, filters
+	file = util.getSelectedFiles(&quot;&quot;, False, Array())
+	util.msgbox(file)
+	&apos;Select multiple files
+	files = util.getSelectedFiles(&quot;&quot;, True, Array())
+	util.msgbox(files)
+	&apos;Select multiple files with filter
+	filters = Array( _
+		Array(&quot;TXT&quot;, &quot;*.txt&quot;), _
+		Array(&quot;LOG&quot;, &quot;*.log&quot;), _
+		Array(&quot;CER | KEY&quot;, &quot;*.cer;*.key&quot;) _
+	)
+	files = util.getSelectedFiles(&quot;&quot;, True, filters)
+	util.msgbox(files)
+	
+	&apos;Get all files recursive
+	files = util.getFiles(&quot;/home/mau/Pictures&quot;, &quot;&quot;)
+	util.msgbox(files)
+	&apos;Get all files with filter extension
+	files = util.getFiles(&quot;/home/mau/Pictures&quot;, &quot;jpg&quot;)
+	util.msgbox(files)
+	files = util.getFiles(&quot;/home/mau/Pictures&quot;, &quot;png&quot;)
+	util.msgbox(files)
+
+	&apos;Open file and read
+	data = util.fileOpen(&quot;/home/mau/log.txt&quot;, &quot;r&quot;)
+	util.msgbox(data)
+
+	&apos;Save data in new file
+	data = &quot;Hello World Python&quot;
+	util.fileSave(&quot;/home/mau/test.txt&quot;, &quot;w&quot;, data)
+	&apos;Verify
+	data = util.fileOpen(&quot;/home/mau/test.txt&quot;, &quot;r&quot;)
+	util.msgbox(data)
+	
+	&apos;Save data in append file
+	data = &quot;Hello World Python&quot; &amp; CHR(10)
+	util.fileSave(&quot;/home/mau/test2.txt&quot;, &quot;a&quot;, data)
+	&apos;Verify
+	data = util.fileOpen(&quot;/home/mau/test2.txt&quot;, &quot;r&quot;)
+	util.msgbox(data)
+End Sub
+
+
+Sub Execute()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+	&apos;Execute command and wait response
+	res = util.execute(Array(&quot;ls&quot;,&quot;-la&quot;), True)	
+	util.msgbox(res)
+	
+	&apos;Execute command and not wait
+	util.execute(Array(&quot;gnome-calculator&quot;), False)
+	
+End Sub
+
+
+Sub SaveDataConfig()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Save value in config, save is persistente
+	util.setConfig(&quot;DefaultMail&quot;, &quot;test@correolibre.net&quot;)	
+	&apos;Get value from config
+	value = util.getConfig(&quot;DefaultMail&quot;)	
+	util.msgbox(value)
+	
+	&apos;Is posible save arrays
+	util.setConfig(&quot;Matriz&quot;, Array(1,2,3))	
+	value = util.getConfig(&quot;Matriz&quot;)	
+	util.msgbox(value)
+	
+End Sub
+
+
+Sub Clipboards()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Get text from clipboard
+	value = util.getClipboard()
+	util.msgbox(value)
+	
+	&apos;Send text to clipboard
+	util.setClipboard(&quot;Hello World PyUNO!!&quot;)
+	&apos;Verify
+	value = util.getClipboard()
+	util.msgbox(value)
+	
+End Sub
+
+
+Sub GetEpochTime()
+	&apos; https://en.wikipedia.org/wiki/Unix_time
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	epoch = util.getEpoch()
+	util.msgbox(epoch)
+
+End Sub
+
+
+Sub CallMacro()
+	&apos;https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+&apos;Save macro in /home/USER/.config/libreoffice/4/user/Scripts/python/mymacros.py
+&apos;import uno
+&apos;import time
+
+&apos;def show_time(cell):
+&apos;    cell.setString(time.strftime(&apos;%c&apos;))
+&apos;    time.sleep(3)
+&apos;    return
+
+	&apos;Call macro in Python, wait end
+	macro = createUnoStruct(&quot;org.universolibre.EasyDev.Macro&quot;)
+	macro.Library = &quot;mymacros&quot;
+    macro.Name = &quot;show_time&quot;
+    cell = ThisComponent.CurrentSelection
+    util.callMacro(macro, Array(cell))
+
+	&apos;Call macro in Python, and NOT wait end
+	macro = createUnoStruct(&quot;org.universolibre.EasyDev.Macro&quot;)
+	macro.Library = &quot;mymacros&quot;
+    macro.Name = &quot;show_time&quot;
+    macro.Thread = True	&apos;Execute in other thread
+    cell = ThisComponent.CurrentSelection
+    util.callMacro(macro, Array(cell))
+	
+	&apos;Call macro in Basic
+	macro = createUnoStruct(&quot;org.universolibre.EasyDev.Macro&quot;)
+	macro.Library = &quot;EasyDevLib&quot;
+    macro.Module = &quot;Examples&quot;
+    macro.Name = &quot;HelloWorld&quot;
+    macro.Language = &quot;Basic&quot;
+    macro.Thread = False
+    util.callMacro(macro, Array())
+
+End Sub
+
+
+Sub CallMacroTimer()
+&apos;Save macro in /home/USER/.config/libreoffice/4/user/Scripts/python/mymacros.py
+&apos;import uno
+&apos;import time
+
+&apos;def show_time(cell):
+&apos;    cell.setString(time.strftime(&apos;%c&apos;))
+&apos;    return
+	
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Make data macro
+	macro = createUnoStruct(&quot;org.universolibre.EasyDev.Macro&quot;)
+	macro.Library = &quot;mymacros&quot;
+    macro.Name = &quot;show_time&quot;
+    &apos;Arguments
+    cell = ThisComponent.CurrentSelection
+    
+	&apos;util.timer(NAME_TIMER, SECONDS_WAIT, MACRO, ARGUMENTS)
+	&apos;NAME_TIMER is import for stop
+	&apos;timer always execute in other thread
+    util.timer(&quot;time&quot;, 1, macro, Array(cell))
+End Sub
+
+
+Sub StopTimer()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	util.stopTimer(&quot;time&quot;)
+End Sub
+
+
+Sub Arrays()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+	&apos;Append value
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;)
+	a = util.append(a, &quot;Sofia&quot;)
+	util.msgbox( a )
+	
+	&apos;Delete value
+	a = util.delete(a, &quot;Nikole&quot;)
+	util.msgbox( a )		
+
+	&apos;Extend 
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;)
+	a2 = Array(&quot;Sofia&quot;, &quot;Anita&quot;)
+	a = util.extend(a, a2)
+	util.msgbox( a )	
+	
+	&apos;Multiplicate !!!
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;)
+	a = util.multi(a, 2)
+	util.msgbox( a )	
+	
+	&apos;Values uniques
+	a = Array(1,2,&quot;Two&quot;,3,3,3,4,4,4,4,5,5,5,5,5,&quot;Uno&quot;,&quot;Uno&quot;)
+	a = util.unique(a)
+	util.msgbox( a )	
+	
+	&apos;Reverse, see ArraySlice too
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;)
+	a = util.reverse(a)
+	util.msgbox( a )	
+        
+	&apos;Insert element in pos
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;)
+	a = util.insert(a, 2, &quot;Mary&quot;)
+	util.msgbox( a )
+	
+	&apos;Remove element in pos and return array and element
+	a = Array(1,2,&quot;Two&quot;,3,3,3,4,4,4,4,5,5,5,5,5,&quot;Uno&quot;,&quot;Uno&quot;)
+	data = util.pop(a, 2)
+	util.msgbox( data(0) )	&apos;Array without element in pos
+	util.msgbox( data(1) )	&apos;Element removed
+
+	&apos;Remove first element found
+	a = Array(1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,&quot;Uno&quot;,&quot;Uno&quot;)
+	util.msgbox( util.remove(a, 5, False) )
+	&apos;Remove all elements found
+	util.msgbox( util.remove(a, 5, True) )
+	
+	&apos;Len array
+	a = Array(1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,&quot;Uno&quot;,&quot;Uno&quot;)
+	util.msgbox( util.len(a) )
+	
+	&apos;Count elements
+	a = Array(1,2,2,3,3,3,4,4,4,4,5,5,5,5,5,&quot;Uno&quot;,&quot;Uno&quot;)
+	util.msgbox( util.count(a, 3) )
+	util.msgbox( util.count(a, 5) )
+	util.msgbox( util.count(a, &quot;Uno&quot;) )
+	
+	&apos;Index of element
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;)
+	util.msgbox( util.index(a, &quot;Naomi&quot;) )
+	util.msgbox( util.index(a, &quot;Monica&quot;) )
+
+	&apos;Max and Min in array
+	a = Array(1,2,3,4,5,6,7,8,9,10)
+	util.msgbox( util.max(a) )
+	util.msgbox( util.min(a) )
+
+	&apos;Sum elements in array
+	a = Array(1,2,3,4,5,6,7,8,9,10)
+	util.msgbox( util.sum(a) )
+	&apos;Only sum values, the first element is string
+	a = Array(&quot;10&quot;, 1,2,3,4,5,6,7,8,9,10, &quot;One&quot;, &quot;Two&quot;)
+	util.msgbox( util.sum(a) )
+
+	&apos;If value exists in array
+	a = Array(1,2,3,4,5,&quot;One&quot;,&quot;Seven&quot;,9,10)
+	util.msgbox( util.exists(a, &quot;One&quot;) )
+	util.msgbox( util.exists(a, &quot;Two&quot;) )
+	
+	&apos;If array 1 is equal to array2
+	a1 = Array(1,2,3) : a2 = Array(1,2,3)
+	util.msgbox( util.equal(a1, a2) )
+
+	a1 = Array(1,&quot;Dos&quot;,3) : a2 = Array(1,2,&quot;Tres&quot;)
+	util.msgbox( util.equal(a1, a2) )
+
+End Sub
+
+
+Sub ArraySlice()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+        
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;,&quot;Sofia&quot;,&quot;Anita&quot;)
+	&apos;Copy array
+	a2 = util.slice(a, &quot;[:]&quot;)
+	util.msgbox( a2 )
+
+	&apos;First two elements
+	a2 = util.slice(a, &quot;[:2]&quot;)
+	util.msgbox( a2 )
+
+	&apos;Last two elements
+	a2 = util.slice(a, &quot;[-2:]&quot;)
+	util.msgbox( a2 )
+	
+	&apos;Range
+	a2 = util.slice(a, &quot;[2:-2]&quot;)
+	util.msgbox( a2 )	
+	
+	a2 = util.slice(a, &quot;[::2]&quot;)
+	util.msgbox( a2 )
+	
+	a2 = util.slice(a, &quot;[1::2]&quot;)
+	util.msgbox( a2 )		
+
+	&apos;Reverse
+	a2 = util.slice(a, &quot;[::-1]&quot;)
+	util.msgbox( a2 )	
+End Sub
+
+
+Sub ArraySorted()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+        
+	a = Array(&quot;Nikole&quot;,&quot;Scarlett&quot;,&quot;Monica&quot;,&quot;Naomi&quot;,&quot;Marion&quot;,&quot;Sofia&quot;,&quot;Anita&quot;)
+	a = util.sorted(a, 0)
+	util.msgbox( a )
+	
+	&apos;Sorted multidimension array
+	a = Array( _
+		Array(1, 1, 3, &quot;a&quot;, 56), _
+		Array(1, 2, 3, &quot;z&quot;, 43), _
+		Array(1, 3, 3, &quot;g&quot;, 78), _
+		Array(1, 4, 3, &quot;e&quot;, 32), _
+		Array(1, 5, 3, &quot;M&quot;, 89) _
+	)
+	a = util.sorted(a, 0)
+	util.msgbox( a )	
+	a = util.sorted(a, 1)
+	util.msgbox( a )
+	a = util.sorted(a, 2)
+	util.msgbox( a )
+	a = util.sorted(a, 3)
+	util.msgbox( a )
+	a = util.sorted(a, 4)
+	util.msgbox( a )
+	
+End Sub
+
+
+Sub ArraysOperations()
+	&apos;https://es.wikibooks.org/wiki/Operaciones_entre_Conjuntos
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	a1 = Array(1,2,3,4,5) : a2 = Array(3,4,5,6,7,8)
+	a = util.union(a1, a2)
+	util.msgbox( a )
+	
+	a = util.intersection(a1, a2)
+	util.msgbox( a )	
+	
+	a = util.difference(a1, a2)
+	util.msgbox( a )	
+	
+	a = util.symmetricDifference(a1, a2)
+	util.msgbox( a )		
+
+End Sub
+
+</script:module>

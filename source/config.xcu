@@ -3,7 +3,7 @@
 xmlns:oor="http://openoffice.org/2001/registry"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
 oor:name="Configuration"
-oor:package="org.universolibre.util.EasyDev">
+oor:package="org.universolibre.EasyDev">
     <node oor:name="Settings">
         <prop oor:name="Origin" oor:type="xs:string">
             <value>%origin%</value>

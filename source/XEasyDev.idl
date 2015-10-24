@@ -1,19 +1,101 @@
-#ifndef __org_universolibre_util_EasyDev_idl__
-#define __org_universolibre_util_EasyDev_idl__
+#ifndef __org_universolibre_EasyDev_idl__
+#define __org_universolibre_EasyDev_idl__
 
-module org { module universolibre { module util { module EasyDev {
+#include <com/sun/star/uno/XInterface.idl>
 
-    interface XEasyDev
+
+module org { module universolibre { module EasyDev {
+
+    interface XDebug : com::sun::star::uno::XInterface
+    {
+        [attribute, readonly] string error;
+
+        void debug([in] any data);
+        void log([in] string pathLog, [in] any data);
+        void msgbox([in] any data);
+        void mri([in] any obj);
+        any test([in] any data);
+    };
+
+    published struct Macro
+    {
+        string Library;
+        string Module;
+        string Name;
+        string Language;
+        string Location;
+        boolean Thread;
+    };
+
+    interface XTools : com::sun::star::uno::XInterface
     {
         [attribute, readonly] string VERSION;
         [attribute, readonly] string OS;
-        [attribute] string value;
+        [attribute, readonly] string LANGUAGE;
+        [attribute, readonly] string APP_NAME;
+        [attribute, readonly] string APP_VERSION;
+        [attribute] any value;
 
-        void debug([in] any data);
-        void msgbox([in] any data);
-        void mri([in] any obj);
-        any cmd([in] string command, [in] any data);
+        string getSizeScreen();
+        sequence< string > getInfoPC();
+        boolean question([in] string title, [in] string message);
 
+        string render([in] string template, [in] sequence< any > data);
+        string format([in] string template, [in] any data);
+
+        string getPath([in] string name);
+        sequence< string > getPathInfo([in] string path);
+        string pathJoin([in] sequence< string > paths);
+        string getFolder([in] string initFolder);
+        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< sequence< string > > filters);
+        sequence< string > getFiles([in] string path, [in] string ext);
+        any fileOpen([in] string path, [in] string mode);
+        any fileSave([in] string path, [in] string mode, [in] any data);
+
+        any execute([in] sequence< string > args, [in] boolean wait);
+
+        any getConfig([in] string key);
+        boolean setConfig([in] string key, [in] any value);
+        string getClipboard();
+        void setClipboard([in] string text);
+
+        long getEpoch();
+        any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
+        void timer([in] string name, [in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
+        void stopTimer([in] string name);
+    };
+
+    interface XArrays : com::sun::star::uno::XInterface
+    {
+        any array([in] sequence< any > array, [in] string method, [in] any value);
+        any append([in] any array, [in] any value);
+        any delete([in] any array, [in] long pos);
+        any slice([in] any array, [in] string value);
+        any extend([in] any array1, [in] any array2);
+        any multi([in] any array, [in] long value);
+        any unique([in] any array);
+        any reverse([in] any array);
+        any sorted([in] any array, [in] short column);
+        any insert([in] any array, [in] long pos, [in] any value);
+        any pop([in] any array, [in] long pos);
+        any remove([in] any array, [in] any value, [in] boolean all);
+        long len([in] any array);
+        long count([in] any array, [in] any value);
+        any index([in] any array, [in] any value);
+        double min([in] any array);
+        double max([in] any array);
+        double sum([in] any array);
+        boolean exists([in] any array, [in] any value);
+        boolean equal([in] any array1, [in] any array2);
+        any intersection([in] any array1, [in] any array2);
+        any union([in] any array1, [in] any array2);
+        any symmetricDifference([in] any array1, [in] any array2);
+        any difference([in] any array1, [in] any array2);
+
+    };
+
+    interface XLOApp : com::sun::star::uno::XInterface
+    {
         any newDoc([in] string typeDoc);
         any getDoc([in] string title);
         string getTypeDoc([in] any doc);
@@ -23,38 +105,58 @@ module org { module universolibre { module util { module EasyDev {
         any getStatusBar([in] any doc);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
         boolean exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< sequence< any > > options);
+    };
 
+    interface XLOCalc : com::sun::star::uno::XInterface
+    {
         any getCell([in] any doc, [in] any sheetName, [in] any cellAddress);
         any getRange([in] any doc, [in] any sheetName, [in] any rangeAddress);
         void selectRange([in] any doc, [in] any sheetName, [in] any rango);
         any getCurrentRegion([in] any cell);
         long getLastRow([in] any cell);
-
-        any array([in] sequence< any > array, [in] string method, [in] any data);
-
-        string getSizeScreen();
-        sequence< string > getInfoPC();
-        string getPath([in] string name);
-        sequence< string > getPathInfo([in] string path);
-        string pathJoin([in] sequence< string > paths);
-        string getFolder([in] string initFolder);
-        any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< string > filters);
-        sequence< string > getFiles([in] string path, [in] string ext);
-        any execute([in] sequence< string > args, [in] boolean wait);
-
-        any getConfig([in] string key);
-        boolean setConfig([in] string key, [in] any value);
-        string getClipboard();
-        void setClipboard([in] string text);
-
-        boolean sendMail([in] sequence< sequence< any > > server, [in] sequence< sequence< string > > mail, [in] sequence< string > files);
-        string render([in] string template, [in] sequence< sequence< any > > data);
-        any fileOpen([in] string path, [in] string mode);
-        string format([in] string template, [in] any data);
-
-        boolean question([in] string title, [in] string message);
     };
 
-    service EasyDev: XEasyDev;
-}; }; }; };
+    service EasyDev {
+        interface XDebug;
+        interface XTools;
+        interface XArrays;
+        interface XLOApp;
+        interface XLOCalc;
+    };
+
+    published struct SmtpServer
+    {
+        string Name;
+        unsigned short Port;
+        boolean Ssl;
+        string User;
+        string Password;
+        boolean Thread;
+        string PathSave;
+    };
+
+    published struct EmailMessage
+    {
+        string To;
+        string Cc;
+        string Bcc;
+        string Subject;
+        string Body;
+        sequence< string > Files;
+        boolean Save;
+    };
+
+    interface XEMail : com::sun::star::uno::XInterface
+    {
+        boolean sendMail(
+            [in] org::universolibre::EasyDev::SmtpServer server,
+            [in] org::universolibre::EasyDev::EmailMessage message
+        );
+    };
+
+    service Email {
+        interface XEMail;
+    };
+
+}; }; };
 #endif
