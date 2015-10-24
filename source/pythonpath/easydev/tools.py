@@ -41,30 +41,37 @@ from easydev.setting import (
 
 
 log = logging.getLogger(NAME_EXT)
-stop_thread = []
+stop_thread = {}
 
 
 def call_macro(factory, macro, args):
     #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
     if not macro.Language:
         macro.Language = PYTHON
-    if macro.Language == PYTHON:
+    if macro.Language == 'Basic':
+        if not macro.Location:
+            macro.Location = 'application'
+    else:
         if not macro.Location:
             macro.Location = LOCATION_USER
+    if macro.Language == PYTHON:
         main = 'vnd.sun.star.script:{}.py${}?language=Python&location={}'.format(
             macro.Library, macro.Name, macro.Location)
     elif macro.Language == 'Basic':
-        if not macro.Location:
-            macro.Location = 'application'
         main = 'vnd.sun.star.script:{}.{}.{}?language=Basic&location={}'.format(
-        macro.Library, macro.Module, macro.Name, macro.Location)
+            macro.Library, macro.Module, macro.Name, macro.Location)
+    elif macro.Language == 'BeanShell':
+        main = 'vnd.sun.star.script:{}.{}.bsh?language=BeanShell&location={}'.format(
+            macro.Library, macro.Name, macro.Location)
+    elif macro.Language == 'Java':
+        main = 'vnd.sun.star.script:{}.{}?language=Java&location={}'.format(
+            macro.Library, macro.Name, macro.Location)
+    elif macro.Language == 'BeanShell':
+        main = 'vnd.sun.star.script:{}.{}.js?language=JavaScript&location={}'.format(
+            macro.Library, macro.Name, macro.Location)
+
     script = factory.createScriptProvider('').getScript(main)
     return script.invoke(args, None, None)[0]
-
-#~ vnd.sun.star.script:myLibrary.myMacro.bsh?language=BeanShell&location=user
-#~ vnd.sun.star.script:myLibrary.myMethod?language=Java&location=user
-#~ vnd.sun.star.script:myLibrary.myMacro.js?language=JavaScript&location=user
-
 
 
 class TextTransferable(unohelper.Base, XTransferable):
@@ -175,42 +182,6 @@ class Tools(XTools):
         except Exception as e:
             log.debug(e)
             return ''
-
-    #~ def _to_dict(self, data, to_date=False):
-        #~ if isinstance(data[0], tuple):
-            #~ if to_date:
-                #~ dic = {r[0]: self._to_date(r[1]) for r in data}
-            #~ else:
-                #~ dic = {r[0]: r[1] for r in data}
-        #~ elif isinstance(data[0], (NamedValue, PropertyValue)):
-            #~ if to_date:
-                #~ dic = {r.Name: self._to_date(r.Value) for r in data}
-            #~ else:
-                #~ dic = {r.Name: r.Value for r in data}
-        #~ return dic
-
-    #~ def _to_date(self, value):
-        #~ if isinstance(value, Time):
-            #~ new_value = datetime.time(value.Hours, value.Minutes, value.Seconds)
-        #~ elif isinstance(value, Date):
-            #~ new_value = datetime.date(value.Year, value.Month, value.Day)
-        #~ elif isinstance(value, DateTime):
-            #~ new_value = datetime.datetime(
-                #~ value.Year, value.Month, value.Day,
-                #~ value.Hours, value.Minutes, value.Seconds)
-        #~ else:
-            #~ new_value = value
-        #~ return new_value
-
-    #~ def _path_to_os(self, path):
-        #~ if path.startswith('file://'):
-            #~ path = uno.fileUrlToSystemPath(path)
-        #~ return path
-#~
-    #~ def _path_to_url(self, path):
-        #~ if path.startswith('file://'):
-            #~ return path
-        #~ return uno.systemPathToFileUrl(path)
 
     def _create_instance(self, name, with_context=True):
         if with_context:
@@ -460,19 +431,19 @@ class Tools(XTools):
         else:
             return call_macro(factory, macro, args)
 
-    def timer(self, wait, macro, args):
+    def timer(self, name, wait, macro, args):
         global stop_thread
         factory = self._create_instance(
             'com.sun.star.script.provider.MasterScriptProviderFactory', False)
-        stop_thread.append(Event())
-        thread = TimerThread(stop_thread[-1], wait, factory, macro, args)
+        stop_thread[name] = Event()
+        thread = TimerThread(stop_thread[name], wait, factory, macro, args)
         thread.start()
         return
 
-    def stopTimer(self, index=0):
+    def stopTimer(self, name):
         global stop_thread
-        stop_thread[index].set()
-        del stop_thread[index]
+        stop_thread[name].set()
+        del stop_thread[name]
         return
 
 
@@ -598,4 +569,28 @@ class Arrays(XArrays):
             return r[0]
         else:
             return tuple(r)
+
+    def intersection(self, array1, array2):
+        s1 = set(array1)
+        s2 = set(array2)
+        s = s1.intersection(s2)
+        return tuple(s)
+
+    def union(self, array1, array2):
+        s1 = set(array1)
+        s2 = set(array2)
+        s = s1.union(s2)
+        return tuple(s)
+
+    def symmetricDifference(self, array1, array2):
+        s1 = set(array1)
+        s2 = set(array2)
+        s = s1.symmetric_difference(s2)
+        return tuple(s)
+
+    def difference(self, array1, array2):
+        s1 = set(array1)
+        s2 = set(array2)
+        s = s1.difference(s2)
+        return tuple(s)
 

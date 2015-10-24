@@ -2,4 +2,6 @@
 <!DOCTYPE library:library PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "library.dtd">
 <library:library xmlns:library="http://openoffice.org/2000/library" library:name="EasyDevLib" library:readonly="true" library:passwordprotected="false">
  <library:element library:name="Debug"/>
+ <library:element library:name="Tools"/>
+ <library:element library:name="Examples"/>
 </library:library>

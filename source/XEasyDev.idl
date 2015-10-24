@@ -61,8 +61,8 @@ module org { module universolibre { module EasyDev {
 
         long getEpoch();
         any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
-        void timer([in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
-        void stopTimer([in] short index);
+        void timer([in] string name, [in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
+        void stopTimer([in] string name);
     };
 
     interface XArrays : com::sun::star::uno::XInterface
@@ -87,6 +87,11 @@ module org { module universolibre { module EasyDev {
         double sum([in] any array);
         boolean exists([in] any array, [in] any value);
         boolean equal([in] any array1, [in] any array2);
+        any intersection([in] any array1, [in] any array2);
+        any union([in] any array1, [in] any array2);
+        any symmetricDifference([in] any array1, [in] any array2);
+        any difference([in] any array1, [in] any array2);
+
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
