@@ -2,6 +2,7 @@
 
 import logging
 import datetime
+import os
 
 import uno
 from com.sun.star.beans import PropertyValue, NamedValue
@@ -13,6 +14,32 @@ from easydev.setting import (
 
 
 log = logging.getLogger(NAME_EXT)
+
+
+
+def replace_ext(path, ext):
+    path, _, name, _ = get_path_info(path)
+    return '{}/{}.{}'.format(path, name, ext)
+
+
+def replace_filename(path, filename):
+    path, _, _, _ = get_path_info(path)
+    return os.path.join(path, filename)
+
+
+def get_path_info(path):
+    path = path_to_os(path)
+    path, filename = os.path.split(path)
+    name, extension = os.path.splitext(filename)
+    return (path, filename, name, extension)
+
+
+def basename(path):
+    return os.path.basename(path)
+
+
+def exists(path):
+    return os.path.exists(path)
 
 
 def path_to_os(path):
@@ -70,3 +97,32 @@ def to_dict(data, test_date=False):
         else:
             dic = {r.Name: r.Value for r in data}
     return dic
+
+
+def export_csv(path, data, options=()):
+    try:
+        headers = ()
+        config = {}
+        path = path_to_os(path)
+        if options:
+            config = {r[0]: r[1] for r in options}
+        write_headers = config.get('write_headers', False)
+        config.pop('write_headers', None)
+        if write_headers:
+            headers = config.get('headers', ())
+            config.pop('headers', None)
+            if not headers:
+                headers = data[0]
+            data = data[1:]
+        with open(path, 'w') as f:
+            if config:
+                writer = csv.writer(f, **config)
+            else:
+                writer = csv.writer(f)
+            if headers:
+                writer.writerow(headers)
+            writer.writerows(data)
+        return True
+    except:
+        log.debug('CSV', exc_info=True)
+        return False

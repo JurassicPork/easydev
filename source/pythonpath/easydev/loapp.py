@@ -152,65 +152,6 @@ def export_pdf(doc, path_save, options):
     return ''
 
 
-
-
-
-
-
-
-
-
-
-def replace_ext(path, ext):
-    path, _, name, _ = get_path_info(path)
-    return '{}/{}.{}'.format(path, name, ext)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def export_csv(path, data, options=()):
-    try:
-        headers = ()
-        config = {}
-        path = path_to_os(path)
-        if options:
-            config = {r[0]: r[1] for r in options}
-        write_headers = config.get('write_headers', False)
-        config.pop('write_headers', None)
-        if write_headers:
-            headers = config.get('headers', ())
-            config.pop('headers', None)
-            if not headers:
-                headers = data[0]
-            data = data[1:]
-        with open(path, 'w') as f:
-            if config:
-                writer = csv.writer(f, **config)
-            else:
-                writer = csv.writer(f)
-            if headers:
-                writer.writerow(headers)
-            writer.writerows(data)
-        return True
-    except:
-        log.debug('CSV', exc_info=True)
-        return False
-
-
 def get_range(doc, sheet_name=None, range_address=None):
     if isinstance(doc, str):
         doc = get_doc(doc)

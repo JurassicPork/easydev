@@ -261,10 +261,7 @@ class Tools(XTools):
         return comun.path_to_os(getattr(path, name))
 
     def getPathInfo(self, path):
-        path = comun.path_to_os(path)
-        path, filename = os.path.split(path)
-        name, extension = os.path.splitext(filename)
-        return (path, filename, name, extension)
+        return comun.get_path_info(path)
 
     def pathJoin(self, paths):
         return os.path.normpath(os.path.join(*paths))
@@ -320,13 +317,16 @@ class Tools(XTools):
             paths += [os.path.join(folder, f) for f in files if pattern.search(f)]
         return tuple(paths)
 
-    def fileOpen(self, path, mode='r'):
+    def fileOpen(self, path, mode='r', array=False):
         data = ''
         if not mode:
             mode = 'r'
         path = comun.path_to_os(path)
         with open(path, mode) as f:
-            data = f.read()
+            if array:
+                data = tuple(f.read().splitlines())
+            else:
+                data = f.read()
         return data
 
     def fileSave(self, path, mode='w', data=None):

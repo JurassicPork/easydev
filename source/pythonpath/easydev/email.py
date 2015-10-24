@@ -8,12 +8,26 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email import encoders
+import mailbox
 
 from org.universolibre.EasyDev import XEMail
+from easydev import comun
 from easydev.setting import LOG, NAME_EXT, TIMEOUT
 
 
 log = logging.getLogger(NAME_EXT)
+
+
+def save_message(path, email):
+    mbox = mailbox.mbox(path, create=True)
+    mbox.lock()
+    try:
+        msg = mailbox.mboxMessage(email)
+        mbox.add(msg)
+        mbox.flush()
+    finally:
+        mbox.unlock()
+    return
 
 
 def send_mail(server, message):
@@ -29,15 +43,15 @@ def send_mail(server, message):
     email.attach(MIMEText(body, 'html'))
 
     for f in message.Files:
-        path = path_os(f)
-        if not os.path.exists(path):
+        path = comun.path_to_os(f)
+        if not comun.exists(path):
             continue
         part = MIMEBase('application', 'octet-stream')
         part.set_payload(open(path, 'rb').read())
         encoders.encode_base64(part)
         part.add_header(
             'Content-Disposition',
-            "attachment; filename={}".format(os.path.basename(path)))
+            "attachment; filename={}".format(comun.basename(path)))
         email.attach(part)
     try:
         smtp = smtplib.SMTP(server.Name, server.Port, timeout=TIMEOUT)
@@ -51,15 +65,17 @@ def send_mail(server, message):
         smtp.sendmail(sender, receivers, email.as_string())
         log.info('Log out server...')
         smtp.quit()
+        if server.PathSave and message.Save:
+            save_message(server.PathSave, email)
         log.info('Close...')
         return True
     except SMTPAuthenticationError as e:
         if e[0] == 534 and 'gmail' in server.Server:
-            msg = 'Necesitas activar el acceso a otras aplicaciones en tu cuenta de GMail'
+            msg = 'Need activate cant access other app in your account GMail'
             log.debug(msg)
             return False
         elif e[0] == 535:
-            msg = 'Nombre de usuario o contraseña inválidos'
+            msg = 'User or password are invalid'
             log.debug(msg)
             return False
     except SMTPException as e:
@@ -82,7 +98,11 @@ class EMail(XEMail):
             log.info('Send in thread...')
             thread = Thread(target=send_mail, args=(server, message))
             thread.start()
+            return True
         else:
             log.info('Send normal...')
             return send_mail(server, message)
+
+    def readMail(self, server, all_msg=False):
+        return
 

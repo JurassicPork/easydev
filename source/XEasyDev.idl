@@ -49,7 +49,7 @@ module org { module universolibre { module EasyDev {
         string getFolder([in] string initFolder);
         any getSelectedFiles([in] string initFolder, [in] boolean multiple, [in] sequence< sequence< string > > filters);
         sequence< string > getFiles([in] string path, [in] string ext);
-        any fileOpen([in] string path, [in] string mode);
+        any fileOpen([in] string path, [in] string mode, [in] boolean array);
         any fileSave([in] string path, [in] string mode, [in] any data);
 
         any execute([in] sequence< string > args, [in] boolean wait);
