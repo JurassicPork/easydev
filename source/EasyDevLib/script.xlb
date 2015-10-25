@@ -5,4 +5,5 @@
  <library:element library:name="Tools"/>
  <library:element library:name="Mail"/>
  <library:element library:name="Examples"/>
+ <library:element library:name="LOApp"/>
 </library:library>

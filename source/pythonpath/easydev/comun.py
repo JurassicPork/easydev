@@ -17,6 +17,10 @@ log = logging.getLogger(NAME_EXT)
 
 
 
+def isdir(path):
+    return os.path.isdir(path_to_os(path))
+
+
 def replace_ext(path, ext):
     path, _, name, _ = get_path_info(path)
     return '{}/{}.{}'.format(path, name, ext)
@@ -27,6 +31,11 @@ def replace_filename(path, filename):
     return os.path.join(path, filename)
 
 
+def replace_name_ext(path_target, path_source, ext):
+    _, _, name, _ = get_path_info(path_source)
+    return os.path.join(path_target, '{}.{}'.format(path, name, ext))
+
+
 def get_path_info(path):
     path = path_to_os(path)
     path, filename = os.path.split(path)
@@ -35,11 +44,11 @@ def get_path_info(path):
 
 
 def basename(path):
-    return os.path.basename(path)
+    return os.path.basename(path_to_os(path))
 
 
 def exists(path):
-    return os.path.exists(path)
+    return os.path.exists(path_to_os(path))
 
 
 def path_to_os(path):
@@ -55,20 +64,30 @@ def path_to_url(path):
 
 
 def set_properties(data):
+    if not data:
+        return ()
     properties = []
     if isinstance(data[0], tuple):
         for p in data:
             pv = PropertyValue()
             pv.Name = p[0]
-            pv.Value = p[1]
+            pv.Value = _verify_type(p[0], p[1])
             properties.append(pv)
     elif isinstance(data[0], NamedValue):
         for p in data:
             pv = PropertyValue()
             pv.Name = p.Name
-            pv.Value = p.Value
+            pv.Value = _verify_type(p.Name, p.Value)
             properties.append(pv)
+    else:
+        properties = data
     return tuple(properties)
+
+
+def _verify_type(name, value):
+    if name == 'FilterData':
+        return uno.Any("[]com.sun.star.beans.PropertyValue", value)
+    return value
 
 
 def to_date(value):

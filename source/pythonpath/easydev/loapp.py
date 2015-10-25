@@ -2,7 +2,8 @@
 
 import logging
 from org.universolibre.EasyDev import XLOApp
-from easydev.setting import LOG, NAME_EXT, CALC
+from easydev import comun
+from easydev.setting import LOG, NAME_EXT, CALC, EXT_PDF
 
 
 log = logging.getLogger(NAME_EXT)
@@ -40,6 +41,13 @@ class LOApp(XLOApp):
         path = 'private:factory/{}'.format(type_doc)
         doc = self.desktop.loadComponentFromURL(path, '_default', 0, ())
         return doc
+
+    def newDB(self, path):
+        dbc = self._create_instance('com.sun.star.sdb.DatabaseContext')
+        db = dbc.createInstance()
+        db.URL = 'sdbc:embedded:hsqldb'
+        db.DatabaseDocument.storeAsURL(comun.path_to_url(path), ())
+        return db
 
     def getDoc(self, title=''):
         """
@@ -90,66 +98,60 @@ class LOApp(XLOApp):
             http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
             http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html
         """
-        properties = make_properties(options)
-        path_url = path_to_url(path)
+        properties = comun.set_properties(options)
+        path_url = comun.path_to_url(path)
         doc = self.desktop.loadComponentFromURL(path_url, '_blank', 0, properties)
         return doc
 
+    def setFocus(self, doc):
+        """
+            Active doc
+        """
+        window = doc.getCurrentController().getFrame().getComponentWindow()
+        window.setFocus()
+        return
 
-def set_focus(doc):
-    """
-        Active doc
-    """
-    window = doc.getCurrentController().getFrame().getComponentWindow()
-    window.setFocus()
-    return
+    def getStatusBar(self, doc):
+        """
+            Return status bar
+        """
+        statusbar = doc.getCurrentController().getStatusIndicator()
+        return statusbar
 
-
-def get_status_bar(doc):
-    """
-        Return status bar
-    """
-    statusbar = doc.getCurrentController().getStatusIndicator()
-    return statusbar
-
-
-def export_pdf(doc, path_save, options):
-    """
-        Export to PDF
-        http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export
-    """
-    close = False
-    if isinstance(doc, str):
-        close = True
-        doc = open_doc(doc, ('Hidden', True))
-    if path_save:
-        if os.path.isdir(path_save):
-            _, _, name, extension = get_path_info(path_to_os(doc.getURL()))
-            path_save = path_to_url(
-                os.path.normpath('{}/{}.{}'.format(path_save, name, EXT_PDF)))
+    def exportPDF(self, doc, path_save, options):
+        """
+            Export to PDF
+            http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export
+        """
+        close = False
+        if isinstance(doc, str):
+            close = True
+            doc = self.openDoc(doc, (('Hidden', True),))
+        if path_save:
+            if comun.isdir(path_save):
+                path_save = comun.replace_name_ext(path_save, doc.getURL(), EXT_PDF)
         else:
-            path_save = path_to_url(path_save)
-    else:
-        path_save = path_to_url(replace_ext(path_to_os(doc.getURL()), EXT_PDF))
-    type_doc = get_type_doc(doc)
-    filters = {
-        'calc': 'calc_pdf_Export',
-        'writer': 'writer_pdf_Export',
-        'impress': 'impress_pdf_Export',
-        'draw': 'draw_pdf_Export',
-        'math': 'math_pdf_Export',
-    }
-    filter_data = _make_properties(options)
-    media_descriptor = _make_properties((
-        'FilterName', filters[type_doc],
-        'FilterData', uno.Any("[]com.sun.star.beans.PropertyValue", filter_data)
-    ))
-    doc.storeToURL(path_save, media_descriptor)
-    if close:
-        doc.dispose()
-    if os.path.exists(path_to_os(path_save)):
-        return path_save
-    return ''
+            path_save = comun.replace_ext(doc.getURL(), EXT_PDF)
+        path_save = comun.path_to_url(path_save)
+        try:
+            filter_name = '{}_pdf_Export'.format(self.getTypeDoc(doc))
+            if options:
+                filter_data = comun.set_properties(options)
+                filter_options = (
+                    ('FilterName', filter_name),
+                    ('FilterData', filter_data),
+                )
+            else:
+                filter_options = (('FilterName', filter_name),)
+            media_descriptor = comun.set_properties(filter_options)
+            doc.storeToURL(path_save, media_descriptor)
+        except:
+            log.error('PDF', exc_info=True)
+        if close:
+            doc.dispose()
+        if comun.exists(path_save):
+            return comun.path_to_os(path_save)
+        return ''
 
 
 def get_range(doc, sheet_name=None, range_address=None):

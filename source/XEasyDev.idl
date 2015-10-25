@@ -98,6 +98,7 @@ module org { module universolibre { module EasyDev {
     interface XLOApp : com::sun::star::uno::XInterface
     {
         any newDoc([in] string typeDoc);
+        any newDB([in] string path);
         any getDoc([in] string title);
         string getTypeDoc([in] any doc);
         sequence< any > getDocs();
@@ -120,8 +121,8 @@ module org { module universolibre { module EasyDev {
 
     interface XLOCalc : com::sun::star::uno::XInterface
     {
-        [attribute, readonly] any cell;
-        [attribute, readonly] any range;
+        [attribute] any cell;
+        [attribute] any range;
 
         any getCell([in] org::universolibre::EasyDev::CellRangeAddress data);
         any getRange([in] org::universolibre::EasyDev::CellRangeAddress data);
