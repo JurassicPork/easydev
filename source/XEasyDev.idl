@@ -95,50 +95,6 @@ module org { module universolibre { module EasyDev {
         any getColumn([in] any array, [in] short column);
     };
 
-    interface XLOApp : com::sun::star::uno::XInterface
-    {
-        any newDoc([in] string typeDoc);
-        any newDB([in] string path);
-        any getDoc([in] string title);
-        string getTypeDoc([in] any doc);
-        sequence< any > getDocs();
-        any openDoc([in] string pathDoc, [in] sequence< any > data);
-        void setFocus([in] any doc);
-        any getStatusBar([in] any doc);
-        string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
-    };
-
-    published struct CellRangeAddress
-    {
-        any Doc;
-        any Sheet;
-        string Name;
-        long Col;
-        long Row;
-        long EndCol;
-        long EndRow;
-    };
-
-    interface XLOCalc : com::sun::star::uno::XInterface
-    {
-        [attribute] any cell;
-        [attribute] any range;
-
-        any getCell([in] org::universolibre::EasyDev::CellRangeAddress data);
-        any getRange([in] org::universolibre::EasyDev::CellRangeAddress data);
-        void selectRange([in] any rango);
-        any getCurrentRegion([in] any cell);
-        long getLastRow([in] any cell);
-    };
-
-    service EasyDev {
-        interface XDebug;
-        interface XTools;
-        interface XArrays;
-        interface XLOApp;
-        interface XLOCalc;
-    };
-
     published struct SmtpServer
     {
         string Name;
@@ -171,6 +127,57 @@ module org { module universolibre { module EasyDev {
 
     service Email {
         interface XEMail;
+    };
+
+    interface XLOApp : com::sun::star::uno::XInterface
+    {
+        any newDoc([in] string typeDoc);
+        any newDB([in] string path);
+        any getDoc([in] string title);
+        string getTypeDoc([in] any doc);
+        sequence< any > getDocs();
+        any openDoc([in] string pathDoc, [in] sequence< any > data);
+        void setFocus([in] any doc);
+        any getStatusBar([in] any doc);
+        string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
+    };
+
+    published struct CellRangeAddress
+    {
+        any Doc;
+        boolean Current;
+        any Sheet;
+        string Name;
+        long Col;
+        long Row;
+        long EndCol;
+        long EndRow;
+    };
+
+    interface XLOCalc : com::sun::star::uno::XInterface
+    {
+        any getCell([in] org::universolibre::EasyDev::CellRangeAddress address);
+        any getRange([in] org::universolibre::EasyDev::CellRangeAddress address);
+        void selectRange([in] any doc, [in] any rango);
+        any getCurrentRegion([in] any cell, [in] boolean getCursor);
+        long getLastRow([in] any cell);
+        long getNextID([in] any cell, [in] long col);
+        long getValue([in] any cell);
+        long setValue([in] any cell, [in] any value);
+    };
+
+    interface XLODialog : com::sun::star::uno::XInterface
+    {
+        any createControl([in] any dialog, [in] type, [in] sequence< any > properties)
+    }:
+
+    service EasyDev {
+        interface XDebug;
+        interface XTools;
+        interface XArrays;
+        interface XLOApp;
+        interface XLOCalc;
+        interface XLODialog;
     };
 
 }; }; };
