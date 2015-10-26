@@ -166,6 +166,11 @@ module org { module universolibre { module EasyDev {
         void setValue([in] any cell, [in] any value);
     };
 
+    interface XLOWriter : com::sun::star::uno::XInterface
+    {
+        any getParagraphs([in] any doc);
+    };
+
     interface XLODialog : com::sun::star::uno::XInterface
     {
         any createDialog([in] any path);
@@ -178,6 +183,7 @@ module org { module universolibre { module EasyDev {
         interface XArrays;
         interface XLOApp;
         interface XLOCalc;
+        interface XLOWriter;
         interface XLODialog;
     };
 

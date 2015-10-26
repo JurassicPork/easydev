@@ -7,11 +7,12 @@ from easydev.debug import Debug
 from easydev.tools import Tools, Arrays
 from easydev.email import EMail
 from easydev.localc import LOCalc
+from easydev.lowriter import LOWriter
 from easydev.setting import ID_EXT, SRV_JOB, DESKTOP, TOOLKIT
 
 
 class EasyDev(unohelper.Base, XServiceName, XServiceInfo,
-    Debug, Tools, Arrays, EMail, LOCalc):
+    Debug, Tools, Arrays, EMail, LOCalc, LOWriter):
 
     service_name = implementation_name = ID_EXT
 
