@@ -2,8 +2,121 @@
 <!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="Examples" script:language="StarBasic">REM  *****  BASIC  *****
 
+
 Sub HelloWorld()
-    MsgBox &quot;Hello World Python!!&quot;
+	MsgBox &quot;Hello World!!&quot;
 End Sub
+
+
+Sub GuardarDatos()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)	
+	
+	ruta = util.getPathInfo(ThisComponent.getURL())
+	nueva_ruta = util.pathJoin(Array(ruta(0), &quot;SIIlog2.txt&quot;))
+
+    sApell = InputBox(&quot;Apellidos? &quot;)
+    sNombr = InputBox(&quot;Nombres?&quot;)
+    sNacio = InputBox(&quot;Nacionalidad?&quot;)
+          
+    sRegis = &quot;&gt; &quot; &amp; sApell &amp; &quot;,&quot;   &amp; sNombr &amp; &quot;,&quot; &amp; sNacio &amp; &quot;,&quot; &amp; _
+    	Format(Date, &quot;ddd, dd-mmm-yy&quot;) &amp; &quot;,&quot; &amp; Format(Now, &quot;HH:mm:ss&quot;) &amp; &quot;, &lt;&quot; &amp; CHR(10)
+
+	util.fileSave(nueva_ruta, &quot;a&quot;, sRegis)
+
+	MsgBox &quot;Se leerá el archivo.&quot;
+	
+	data = util.fileOpen(nueva_ruta, &quot;r&quot;, True)
+	util.msgbox(Join(data, CHR(10)))
+
+End Sub
+
+    
+Sub Main()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+	doc = util.getDoc(&quot;&quot;)
+	cell = util.getCell(doc, &quot;&quot;, &quot;&quot;)
+	util.msgbox(cell)
+	
+	Exit Sub
+	
+	cell = util.getCell(&quot;&quot;, &quot;&quot;, &quot;&quot;)
+	range = util.getCurrentRegion(cell)
+	MsgBox range.AbsoluteName
+	
+	MsgBox util.getLastRow(cell)
+	
+	Exit Sub
+	
+	util.selectRange(&quot;&quot;, &quot;&quot;, &quot;C5&quot;)
+	
+	MsgBox ThisComponent.getCurrentSelection().AbsoluteName
+	
+	util.selectRange(&quot;&quot;, &quot;&quot;, &quot;B2:H5&quot;)
+	
+	MsgBox ThisComponent.getCurrentSelection().AbsoluteName
+	
+	util.selectRange(&quot;&quot;, &quot;Sheet2&quot;, &quot;B2:H5&quot;)
+	
+	MsgBox ThisComponent.getCurrentSelection().AbsoluteName
+	
+	util.selectRange(&quot;Untitled 1&quot;, &quot;Sheet2&quot;, &quot;C2:G5&quot;)
+	
+	MsgBox ThisComponent.getCurrentSelection().AbsoluteName
+
+	Exit Sub
+	
+
+	range = util.getRange(&quot;&quot;, &quot;&quot;, &quot;&quot;)
+
+	MsgBox range.AbsoluteName
+	
+	range = util.getRange(&quot;Untitled 1&quot;, &quot;&quot;, &quot;&quot;)	
+	
+	MsgBox range.AbsoluteName
+	
+	doc = util.getDoc(&quot;&quot;)
+	
+	range = util.getRange(doc, &quot;&quot;, &quot;&quot;)	
+	
+	MsgBox range.AbsoluteName
+	
+	range = util.getRange(doc, &quot;Sheet2&quot;, &quot;A1:C5&quot;)
+	
+	MsgBox range.AbsoluteName
+	
+	sheet = doc.getSheets().getByIndex(1)
+
+	range = util.getRange(doc, sheet, &quot;A15:C20&quot;)
+
+	MsgBox range.AbsoluteName
+	
+	range = util.getRange(&quot;&quot;, &quot;&quot;, Array(1, 1, 5, 5))
+
+	MsgBox range.AbsoluteName
+	
+End Sub
+
+
+Sub CrearConsulta()
+&apos;Dim dbContexte As Object, maSource As Object,lesQueries As Object, descrQuery As Object, dbDoc As Object
+
+nomQuery = &quot;ConsultaAutomatica&quot;
+sSQL = &quot;SELECT * FROM contactos&quot;
+sdb = CreateUnoService(&quot;com.sun.star.sdb.DatabaseContext&quot;)
+con = sdb.getByName(&quot;DB_MYSQL&quot;)
+queries = con.QueryDefinitions
+if not queries.hasByName(nomQuery) then
+   descrQuery = queries.createInstance
+   descrQuery.Command = sSQL
+   queries.insertByName(nomQuery, descrQuery)
+   dbDoc = con.DatabaseDocument
+   dbDoc.store()           &apos; guardar la consulta en el fichero.odb
+   MsgBox(&quot;Consulta guardada : &quot; &amp; nomQuery)
+else
+   MsgBox(&quot;Esta consulta ya existet - No es posible crear la Consulta&quot;, 16)
+endif
+End Sub
+
 
 </script:module>

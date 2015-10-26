@@ -90,7 +90,7 @@ class LOCalc(XLOCalc, LOApp):
 
     def setValue(self, cell, value):
         if isinstance(value, str):
-            if valur.startswith('='):
+            if value.startswith('='):
                 cell.setFormula(value)
             else:
                 cell.setString(value)

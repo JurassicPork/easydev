@@ -162,14 +162,15 @@ module org { module universolibre { module EasyDev {
         any getCurrentRegion([in] any cell, [in] boolean getCursor);
         long getLastRow([in] any cell);
         long getNextID([in] any cell, [in] long col);
-        long getValue([in] any cell);
-        long setValue([in] any cell, [in] any value);
+        any getValue([in] any cell);
+        void setValue([in] any cell, [in] any value);
     };
 
     interface XLODialog : com::sun::star::uno::XInterface
     {
-        any createControl([in] any dialog, [in] type, [in] sequence< any > properties)
-    }:
+        any createDialog([in] any path);
+        any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > properties);
+    };
 
     service EasyDev {
         interface XDebug;
