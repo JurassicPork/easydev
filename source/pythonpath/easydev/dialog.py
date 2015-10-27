@@ -4,6 +4,7 @@ import logging
 
 import unohelper
 from com.sun.star.awt import XItemListener
+from com.sun.star.awt import XMouseListener
 
 from org.universolibre.EasyDev import XLODialog
 from easydev import comun
@@ -14,7 +15,7 @@ from easydev.setting import LOG, NAME_EXT, COLORS
 log = logging.getLogger(NAME_EXT)
 
 
-class MapItemEvents(unohelper.Base, XItemListener):
+class ItemEvents(unohelper.Base, XItemListener):
 
     def __init__(self, dialog):
         self.dialog = dialog
@@ -23,7 +24,47 @@ class MapItemEvents(unohelper.Base, XItemListener):
         pass
 
     def itemStateChanged(self, event):
+        pass
+
+
+class MapItemEvents(ItemEvents):
+
+    def itemStateChanged(self, event):
         self.dialog.Model.Step = event.ItemId + 1
+        return
+
+
+class MouseEvents(unohelper.Base, XMouseListener):
+
+    def __init__(self):
+        pass
+
+    def disposing(self, event):
+        pass
+
+    def mousePressed(self, event):
+        pass
+
+    def mouseReleased(self, event):
+        pass
+
+    def mouseEntered(self, event):
+        pass
+
+    def mouseExited(self, event):
+        pass
+
+
+class LinkMouseEvents(MouseEvents):
+
+    def mouseEntered(self, event):
+        obj = event.Source.Model
+        obj.TextColor = COLORS['BLUE']
+        return
+
+    def mouseExited(self, event):
+        obj = event.Source.Model
+        obj.TextColor = 0
         return
 
 
@@ -40,6 +81,8 @@ class LODialog(XLODialog, LODefault):
     def createControl(self, dialog, type_control, options):
         properties = comun.to_dict(options)
         base_properties = {
+            'Width': 100,
+            'Height': 10,
             'PositionX': 0,
             'PositionY': 0,
             'Step': 0,
@@ -77,20 +120,11 @@ class LODialog(XLODialog, LODefault):
             'Roadmap': base_properties.copy(),
             'Grid': base_properties.copy(),
         }
-        controls_properties['FixedHyperlink'].update({
-            'Width': 60,
-            'Height': 13,
-            'TextColor': COLORS['BLUE'],
-            'Step': 0,
-            'TabIndex': 1})
         controls_properties['Roadmap'].update({
-            'Width': 70,
             'Height': 100,
-            'Step': 0,
-            'TabIndex': 1,
-            'Visible': True,
             'Text': 'Menu'})
         controls_properties['Grid'].update({
+            'Height': 100,
             'BackgroundColor': COLORS['WHITE'],
             'Sizeable': False,
             'ShowColumnHeader': True,
@@ -98,26 +132,16 @@ class LODialog(XLODialog, LODefault):
             'UseGridLines': True})
 
         controls_properties['Button'] = base_properties.update({
-            'Width': 60,
-            'Height': 12,
             'Label': 'CommandButton',
             'DefaultButton': False,
             'PushButtonType': 0})
         controls_properties['CheckBox'] = base_properties.update({
-            'Width': 40,
-            'Height': 10,
             'Label': 'CheckBox'})
         controls_properties['ComboBox'] = base_properties.update({
-            'Width': 60,
-            'Height': 13,
             'Dropdown': True})
         controls_properties['CurrencyField'] = base_properties.update({
-            'Width': 60,
-            'Height': 13,
             'Spin': True})
         controls_properties['DateField'] = base_properties.update({
-            'Width':60,
-            'Height':13,
             'Dropdown':True})
         controls_properties['Edit'] = base_properties.update({
             'Width':60,
@@ -129,8 +153,6 @@ class LODialog(XLODialog, LODefault):
             'Width':60,
             'Height':5})
         controls_properties['FixedText'] = base_properties.update({
-            'Width':40,
-            'Height':10,
             'Label':'Label'})
         controls_properties['FormattedField'] = base_properties.update({
             'Width':60,
@@ -189,7 +211,7 @@ class LODialog(XLODialog, LODefault):
                 if type_control == 'Grid':
                     properties['GridDataModel'] = self._create_instance(
                         'com.sun.star.awt.grid.DefaultGridDataModel')
-                    properties['ColumnModel'] = self._add_columns_grid()
+                    properties['ColumnModel'] = self._add_columns_grid(properties['Columns'])
             # Only properties in control
             for k, v in properties.items():
                 if control.getPropertySetInfo().hasPropertyByName(k):
@@ -201,12 +223,20 @@ class LODialog(XLODialog, LODefault):
                     #~ else:
                     control.setPropertyValue(k, v)
         dialog_model.insertByName(properties['Name'], control)
+        obj = self._verify_control(dialog, type_control, control, properties)
+        return obj
+
+    def _verify_control(self, dialog, type_control, control, properties):
+        obj = dialog.getControl(properties['Name'])
         if type_control == 'Roadmap':
             if 'Options' in properties:
                 self._add_options_roadmap(control, properties['Options'])
-            control = dialog.getControl(properties['Name'])
-            control.addItemListener(MapItemEvents(dialog))
-        return control
+            obj.addItemListener(MapItemEvents(dialog))
+            return
+        if type_control == 'FixedHyperlink':
+            obj.addMouseListener(LinkMouseEvents())
+            return
+        return obj
 
     def _add_options_roadmap(self, roadmap, options):
         for i, v in enumerate(options):
@@ -216,19 +246,27 @@ class LODialog(XLODialog, LODefault):
             roadmap.insertByIndex(i, opt)
         return
 
-    def _add_columns_grid(self):
-        columns = (
-            {'Title': 'Colonias', 'ColumnWidth': 80, 'HorizontalAlign': 0},
-            {'Title': 'Municipio', 'ColumnWidth': 0, 'HorizontalAlign': 0},
-            {'Title': 'Estado', 'ColumnWidth': 0, 'HorizontalAlign': 0}
-        )
+    def _add_columns_grid(self, columns):
+        #~ https://www.openoffice.org/api/docs/common/ref/com/sun/star/awt/grid/XGridColumn.html
         column_model = self._create_instance(
             'com.sun.star.awt.grid.DefaultGridColumnModel')
         for col in columns:
+            values = comun.to_dict(col)
             grid_column = self._create_instance('com.sun.star.awt.grid.GridColumn')
-            for k, v in col.items():
+            for k, v in values.items():
                 setattr(grid_column, k, v)
-            setattr(grid_column, 'Resizeable', True)
             column_model.addColumn(grid_column)
         return column_model
+
+    def setGridData(self, grid, data):
+        grid_dm = grid.Model.GridDataModel
+        grid_dm.removeAllRows()
+        heading = tuple(range(1, len(data) + 1))
+        rows = tuple(tuple(i) for i in data)
+        grid_dm.addRows(heading, rows)
+
+        rows = range(grid_dm.RowCount)
+        colors = [COLORS['GRAY'] if r % 2 else COLORS['WHITE'] for r in rows]
+        grid.Model.RowBackgroundColors = tuple(colors)
+        return
 

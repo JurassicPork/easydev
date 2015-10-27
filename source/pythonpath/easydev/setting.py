@@ -35,7 +35,7 @@ TITLE_DEBUG = 'Debug'
 COLORS = {
     'YELLOW': 16777164,
     'WHITE': 16777215,
-    'BLUE': 80,
+    'BLUE': 255,
     'GRAY': 16119285,
     'GREEN': 12255176,
     'RED': 16764108,

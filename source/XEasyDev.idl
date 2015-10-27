@@ -176,6 +176,7 @@ module org { module universolibre { module EasyDev {
     {
         any createDialog([in] any path);
         any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);
+        any setGridData([in] any grid, [in] sequence< any > data);
     };
 
     interface XLODataBase : com::sun::star::uno::XInterface
