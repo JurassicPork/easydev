@@ -175,7 +175,7 @@ module org { module universolibre { module EasyDev {
     interface XLODialog : com::sun::star::uno::XInterface
     {
         any createDialog([in] any path);
-        any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > properties);
+        any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);
     };
 
     service EasyDev {

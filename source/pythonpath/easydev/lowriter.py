@@ -4,6 +4,7 @@ import logging
 from easydev.loapp import LOApp
 from org.universolibre.EasyDev import XLOWriter
 from easydev.setting import LOG, NAME_EXT
+from easydev import comun
 
 
 log = logging.getLogger(NAME_EXT)

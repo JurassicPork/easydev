@@ -16,6 +16,21 @@ from easydev.setting import (
 log = logging.getLogger(NAME_EXT)
 
 
+class LODefault(object):
+
+    def __init__(self, ctx, sm, desktop, toolkit):
+        self.ctx = ctx
+        self.sm = sm
+        self.desktop = desktop
+        self.toolkit = toolkit
+
+    def _create_instance(self, name, with_context=True):
+        if with_context:
+            instance = self.sm.createInstanceWithContext(name, self.ctx)
+        else:
+            instance = self.sm.createInstance(name)
+        return instance
+
 
 def isdir(path):
     return os.path.isdir(path_to_os(path))

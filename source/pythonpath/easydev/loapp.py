@@ -3,26 +3,17 @@
 import logging
 from org.universolibre.EasyDev import XLOApp
 from easydev import comun
+from easydev.comun import LODefault
 from easydev.setting import LOG, NAME_EXT, CALC, EXT_PDF
 
 
 log = logging.getLogger(NAME_EXT)
 
 
-class LOApp(XLOApp):
+class LOApp(XLOApp, LODefault):
 
     def __init__(self, ctx, sm, desktop, toolkit):
-        self.ctx = ctx
-        self.sm = sm
-        self.desktop = desktop
-        self.toolkit = toolkit
-
-    def _create_instance(self, name, with_context=True):
-        if with_context:
-            instance = self.sm.createInstanceWithContext(name, self.ctx)
-        else:
-            instance = self.sm.createInstance(name)
-        return instance
+        LODefault.__init__(self, ctx, sm, desktop, toolkit)
 
     def newDoc(self, type_doc=CALC):
         """

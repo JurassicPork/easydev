@@ -23,6 +23,7 @@ from com.sun.star.datatransfer import XTransferable, DataFlavor
 from org.universolibre.EasyDev import XTools
 from org.universolibre.EasyDev import XArrays
 from easydev import comun
+from easydev.comun import LODefault
 
 from easydev.setting import (
     BUTTONS_YES_NO,
@@ -122,7 +123,7 @@ class TimerThread(Thread):
         log.info('Timer stopped... {}'.format(self.macro.Name))
 
 
-class Tools(XTools):
+class Tools(XTools, LODefault):
     VERSION = VERSION
     OS = OS
     LANGUAGE = ''
@@ -131,10 +132,7 @@ class Tools(XTools):
     value = None
 
     def __init__(self, ctx, sm, desktop, toolkit):
-        self.ctx = ctx
-        self.sm = sm
-        self.desktop = desktop
-        self.toolkit = toolkit
+        LODefault.__init__(self, ctx, sm, desktop, toolkit)
         self._init_vars()
 
     def _init_vars(self):
@@ -182,13 +180,6 @@ class Tools(XTools):
         except Exception as e:
             log.debug(e)
             return ''
-
-    def _create_instance(self, name, with_context=True):
-        if with_context:
-            instance = self.sm.createInstanceWithContext(name, self.ctx)
-        else:
-            instance = self.sm.createInstance(name)
-        return instance
 
     def getSizeScreen(self):
         if OS == WIN:

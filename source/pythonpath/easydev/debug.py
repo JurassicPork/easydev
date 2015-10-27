@@ -6,6 +6,7 @@ from datetime import datetime
 from pprint import pprint
 from org.universolibre.EasyDev import XDebug
 from easydev import comun
+from easydev.comun import LODefault
 from easydev.loapp import LOApp
 from easydev.setting import (
     BUTTONS_OK,
@@ -36,21 +37,11 @@ class OutputDoc(object):
         return
 
 
-class Debug(XDebug):
+class Debug(XDebug, LODefault):
     error = ''
 
     def __init__(self, ctx, sm, desktop, toolkit):
-        self.ctx = ctx
-        self.sm = sm
-        self.desktop = desktop
-        self.toolkit = toolkit
-
-    def _create_instance(self, name, with_context=True):
-        if with_context:
-            instance = self.sm.createInstanceWithContext(name, self.ctx)
-        else:
-            instance = self.sm.createInstance(name)
-        return instance
+        LODefault.__init__(self, ctx, sm, desktop, toolkit)
 
     def debug(self, data):
         """ Show data for debug

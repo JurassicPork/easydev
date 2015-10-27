@@ -32,3 +32,11 @@ PYTHON = 'Python'
 LOCATION_USER = 'user'
 FILE_NAME_DEBUG = 'debug.odt'
 TITLE_DEBUG = 'Debug'
+COLORS = {
+    'YELLOW': 16777164,
+    'WHITE': 16777215,
+    'BLUE': 80,
+    'GRAY': 16119285,
+    'GREEN': 12255176,
+    'RED': 16764108,
+}
