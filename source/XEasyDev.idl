@@ -85,6 +85,7 @@ module org { module universolibre { module EasyDev {
         any index([in] any array, [in] any value);
         double min([in] any array);
         double max([in] any array);
+        double average([in] any array);
         double sum([in] any array);
         boolean exists([in] any array, [in] any value);
         boolean equal([in] any array1, [in] any array2);
@@ -168,7 +169,7 @@ module org { module universolibre { module EasyDev {
 
     interface XLOWriter : com::sun::star::uno::XInterface
     {
-        any getParagraphs([in] any doc);
+        any getParagraphs([in] any doc, [in] boolean empty);
     };
 
     interface XLODialog : com::sun::star::uno::XInterface

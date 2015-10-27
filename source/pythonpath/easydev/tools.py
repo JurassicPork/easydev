@@ -568,6 +568,10 @@ class Arrays(XArrays):
     def max(self, array):
         return max(array)
 
+    def average(self, array):
+        s = self.sum(array)
+        return s / float(len(array))
+
     def sum(self, array):
         return sum(int(i) for i in array if isinstance(i, (int, float)))
 

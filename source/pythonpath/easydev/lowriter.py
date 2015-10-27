@@ -14,11 +14,15 @@ class LOWriter(XLOWriter, LOApp):
     def __init__(self, ctx, sm, desktop, toolkit):
         LOApp.__init__(self, ctx, sm, desktop, toolkit)
 
-    def getParagraphs(self, doc):
+    def getParagraphs(self, doc, empty):
         paragraphs = []
         enum = doc.Text.createEnumeration()
         while enum.hasMoreElements():
             t = enum.nextElement()
             if t.supportsService('com.sun.star.text.Paragraph'):
-                paragraphs.append(t)
+                if empty:
+                    paragraphs.append(t)
+                else:
+                    if t.String:
+                        paragraphs.append(t)
         return tuple(paragraphs)
