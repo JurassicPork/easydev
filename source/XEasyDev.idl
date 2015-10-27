@@ -178,6 +178,11 @@ module org { module universolibre { module EasyDev {
         any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);
     };
 
+    interface XLODataBase : com::sun::star::uno::XInterface
+    {
+        any conODBC([in] string name, [in] string user, [in] string password);
+    };
+
     service EasyDev {
         interface XDebug;
         interface XTools;
@@ -186,6 +191,7 @@ module org { module universolibre { module EasyDev {
         interface XLOCalc;
         interface XLOWriter;
         interface XLODialog;
+        interface XLODataBase;
     };
 
 }; }; };
