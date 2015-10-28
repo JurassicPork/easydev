@@ -9,7 +9,7 @@ from com.sun.star.awt import XMouseListener
 from org.universolibre.EasyDev import XLODialog
 from easydev import comun
 from easydev.comun import LODefault
-from easydev.setting import LOG, NAME_EXT, COLORS
+from easydev.setting import LOG, NAME_EXT, COLORS, DECIMALS, FORMAT
 
 
 log = logging.getLogger(NAME_EXT)
@@ -68,7 +68,25 @@ class LinkMouseEvents(MouseEvents):
         return
 
 
+class GridMouseEvents(MouseEvents):
+    selected = False
+
+    def mousePressed(self, event):
+        obj = event.Source
+        col = obj.getColumnAtPoint(event.X, event.Y)
+        row = obj.getRowAtPoint(event.X, event.Y)
+        if col == -1 and row == -1:
+            if self.selected:
+                obj.deselectAllRows()
+            else:
+                obj.selectAllRows()
+            self.selected = not self.selected
+        return
+
+
 class LODialog(XLODialog, LODefault):
+    decimals = DECIMALS
+    numfmt = FORMAT.format(decimals)
 
     def __init__(self, ctx, sm, desktop, toolkit):
         LODefault.__init__(self, ctx, sm, desktop, toolkit)
@@ -129,6 +147,7 @@ class LODialog(XLODialog, LODefault):
             'Sizeable': False,
             'ShowColumnHeader': True,
             'ShowRowHeader': True,
+            'SelectionModel': 2,
             'UseGridLines': True})
 
         controls_properties['Button'] = base_properties.update({
@@ -223,19 +242,19 @@ class LODialog(XLODialog, LODefault):
                     #~ else:
                     control.setPropertyValue(k, v)
         dialog_model.insertByName(properties['Name'], control)
-        obj = self._verify_control(dialog, type_control, control, properties)
+        obj = self._listeners(dialog, type_control, control, properties)
         return obj
 
-    def _verify_control(self, dialog, type_control, control, properties):
+    def _listeners(self, dialog, type_control, control, properties):
         obj = dialog.getControl(properties['Name'])
         if type_control == 'Roadmap':
             if 'Options' in properties:
                 self._add_options_roadmap(control, properties['Options'])
             obj.addItemListener(MapItemEvents(dialog))
-            return
-        if type_control == 'FixedHyperlink':
+        elif type_control == 'FixedHyperlink':
             obj.addMouseListener(LinkMouseEvents())
-            return
+        elif type_control == 'Grid':
+            obj.addMouseListener(GridMouseEvents())
         return obj
 
     def _add_options_roadmap(self, roadmap, options):
@@ -258,15 +277,50 @@ class LODialog(XLODialog, LODefault):
             column_model.addColumn(grid_column)
         return column_model
 
-    def setGridData(self, grid, data):
+    def setGridData(self, grid, data, colFormat):
         grid_dm = grid.Model.GridDataModel
         grid_dm.removeAllRows()
         heading = tuple(range(1, len(data) + 1))
-        rows = tuple(tuple(i) for i in data)
+        if colFormat:
+            rows = tuple(tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data)
+        else:
+            rows = tuple(tuple(self._format(r) for r in row) for row in data)
         grid_dm.addRows(heading, rows)
 
         rows = range(grid_dm.RowCount)
         colors = [COLORS['GRAY'] if r % 2 else COLORS['WHITE'] for r in rows]
         grid.Model.RowBackgroundColors = tuple(colors)
         return
+
+    def _format(self, value, fmt=''):
+        if fmt:
+            return fmt.format(value)
+        else:
+            if isinstance(value, (int, float)):
+                new_value = self.numfmt.format(value)
+            else:
+                new_value = value
+        return new_value
+
+    def getGridData(self, grid, exclude):
+        gdm = grid.Model.GridDataModel
+        gcm = grid.Model.ColumnModel
+        cell = getattr(gdm, 'getCellData')
+        cols = range(gdm.ColumnCount)
+        rows = range(gdm.RowCount)
+        data = tuple(
+            tuple(self._cell(cell, gcm, c, r) for c in cols if not c in exclude) for r in rows
+        )
+        return data
+
+    def _cell(self, cell, gcm, c, r):
+        value = cell(c, r)
+        if gcm.getColumn(c).Identifier:
+            try:
+                value = float(value.strip('$').replace(',', ''))
+            except ValueError:
+                value = cell(c, r)
+        return value
+
+
 

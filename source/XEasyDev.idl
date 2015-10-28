@@ -174,9 +174,13 @@ module org { module universolibre { module EasyDev {
 
     interface XLODialog : com::sun::star::uno::XInterface
     {
+        [attribute, readonly] byte decimals;
+        [attribute] string numfmt;
+
         any createDialog([in] any path);
         any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);
-        any setGridData([in] any grid, [in] sequence< any > data);
+        any setGridData([in] any grid, [in] sequence< any > data, [in] sequence< string > colFormat);
+        any getGridData([in] any grid, [in] sequence< unsigned short > exclude);
     };
 
     interface XLODataBase : com::sun::star::uno::XInterface
