@@ -14,7 +14,7 @@ module org { module universolibre { module EasyDev {
         void log([in] string pathLog, [in] any data);
         void msgbox([in] any data);
         void mri([in] any obj);
-        any test([in] any data);
+        boolean test([in] any data);
     };
 
     published struct Macro

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to EasyDev’s documentation! &mdash; EasyDev 2.0.0 documentation</title>
+    <title>Introduction &mdash; EasyDev 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,8 +23,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="EasyDev 2.0.0 documentation" href="#" />
-    <link rel="next" title="Introduction" href="intro.html" />
+    <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
+    <link rel="next" title="Debug" href="debug.html" />
+    <link rel="prev" title="Welcome to EasyDev’s documentation!" href="index.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -37,33 +38,32 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-easydev-s-documentation">
-<h1>Welcome to EasyDev&#8217;s documentation!<a class="headerlink" href="#welcome-to-easydev-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#test-installation">Test installation</a></li>
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>EasyDev can you help to develop macros in LibreOffice.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Download lates version from <a class="reference external" href="https://github.com/UniversoLibreMexicoAC/easydev/tree/master/files">GitHub</a>.</li>
+<li>Open LibreOffice</li>
+<li>Tools -&gt; Extension manager...</li>
+<li>Add...</li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="debug.html">Tools for debug</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="debug.html#show-info-en-shell">Show info en shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug.html#save-info-in-file">Save info in file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug.html#special-msgbox">Special msgbox</a></li>
-<li class="toctree-l2"><a class="reference internal" href="debug.html#call-mri">Call MRI</a></li>
-</ul>
-</li>
-</ul>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/img001.png"><img alt="_images/img001.png" class="align-center" src="_images/img001.png" style="width: 500px;" /></a>
+</div>
+<div class="section" id="test-installation">
+<h2>Test installation<a class="headerlink" href="#test-installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">Test</span><span class="p">()</span>
+    <span class="c">&#39;Create service</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">VERSION</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
-</ul>
 </div>
 
 
@@ -72,23 +72,27 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to EasyDev&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#test-installation">Test installation</a></li>
+</ul>
+</li>
 </ul>
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="intro.html" title="next chapter">Introduction</a></li>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to EasyDev&#8217;s documentation!</a></li>
+      <li>Next: <a href="debug.html" title="next chapter">Debug</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/intro.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -117,7 +121,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="_sources/index.txt"
+      <a href="_sources/intro.txt"
           rel="nofollow">Page source</a>
     </div>
 
