@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Introduction &mdash; EasyDev 2.0.0 documentation</title>
+    <title>Calc &mdash; EasyDev 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
-    <link rel="next" title="Tools for debug" href="debug.html" />
-    <link rel="prev" title="Welcome to EasyDev’s documentation!" href="index.html" />
+    <link rel="next" title="Tools for debug" href="libobase.html" />
+    <link rel="prev" title="Documents" href="liboapp.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -38,31 +38,10 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p>EasyDev can you help to develop macros in LibreOffice.</p>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><ul class="simple">
-<li>Download lates version from <a class="reference external" href="https://github.com/UniversoLibreMexicoAC/easydev/tree/master/files">GitHub</a>.</li>
-<li>Open LibreOffice</li>
-<li>Tools -&gt; Extension manager...</li>
-<li>Add...</li>
-</ul>
-</div></blockquote>
-<a class="reference internal image-reference" href="_images/img001.png"><img alt="_images/img001.png" class="align-center" src="_images/img001.png" style="width: 500px;" /></a>
-</div>
-<div class="section" id="test-installation">
-<h2>Test installation<a class="headerlink" href="#test-installation" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">Test</span><span class="p">()</span>
-    <span class="c">&#39;Create service</span>
-    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
-
-    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">VERSION</span>
-<span class="k">End</span> <span class="k">Sub</span>
-</pre></div>
-</div>
+  <div class="section" id="calc">
+<h1>Calc<a class="headerlink" href="#calc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="cell">
+<h2>Cell<a class="headerlink" href="#cell" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -74,9 +53,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Introduction</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
-<li><a class="reference internal" href="#test-installation">Test installation</a></li>
+<li><a class="reference internal" href="#">Calc</a><ul>
+<li><a class="reference internal" href="#cell">Cell</a></li>
 </ul>
 </li>
 </ul>
@@ -84,15 +62,15 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to EasyDev&#8217;s documentation!</a></li>
-      <li>Next: <a href="debug.html" title="next chapter">Tools for debug</a></li>
+      <li>Previous: <a href="liboapp.html" title="previous chapter">Documents</a></li>
+      <li>Next: <a href="libobase.html" title="next chapter">Tools for debug</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/intro.txt"
+      <li><a href="_sources/libocalc.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -121,7 +99,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
       
       |
-      <a href="_sources/intro.txt"
+      <a href="_sources/libocalc.txt"
           rel="nofollow">Page source</a>
     </div>
 

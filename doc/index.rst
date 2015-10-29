@@ -13,6 +13,13 @@ Contents:
 
    intro
    debug
+   tools
+   email
+   arrays
+   liboapp
+   libocalc
+   libowriter
+   libobase
 
 
 Indices and tables
