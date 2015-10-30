@@ -1,0 +1,500 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tools &mdash; EasyDev 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
+    <link rel="next" title="Send mail" href="email.html" />
+    <link rel="prev" title="Tools for debug" href="debug.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tools">
+<h1>Tools<a class="headerlink" href="#tools" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="show-info-pc">
+<h2>Show info PC<a class="headerlink" href="#show-info-pc" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">ShowInfoPC</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Operator System</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">OS</span><span class="p">)</span>
+
+    <span class="c">&#39;App Name</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">APP_NAME</span><span class="p">)</span>
+
+    <span class="c">&#39;App Version</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">APP_VERSION</span><span class="p">)</span>
+
+    <span class="c">&#39;App Language</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">LANGUAGE</span><span class="p">)</span>
+
+    <span class="c">&#39;Size screen</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">getSizeScreen</span><span class="p">())</span>
+
+    <span class="c">&#39; https://docs.python.org/3.3/library/platform.html</span>
+    <span class="c">&#39; Get info PC:</span>
+    <span class="c">&#39; name user,</span>
+    <span class="c">&#39; name pc</span>
+    <span class="c">&#39; system/OS name,</span>
+    <span class="c">&#39; machine type,</span>
+    <span class="c">&#39; Returns the (real) processor name</span>
+    <span class="c">&#39; string identifying platform with as much useful information as possible,</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">getInfoPC</span><span class="p">())</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="make-question">
+<h2>Make question<a class="headerlink" href="#make-question" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">Question</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="s">&quot;My App&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Is easy Python?&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">question</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+    <span class="c">&#39;If Yes return True, else return False</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="render-string">
+<h2>Render string<a class="headerlink" href="#render-string" title="Permalink to this headline">¶</a></h2>
+<p>Render text and replace arguments.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">RenderString</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Used NamedValue</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Hello $data with $language, from Basic 1!!&quot;</span>
+    <span class="k">Dim</span> <span class="n">data1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">com</span><span class="p">.</span><span class="n">sun</span><span class="p">.</span><span class="n">star</span><span class="p">.</span><span class="n">beans</span><span class="p">.</span><span class="n">NamedValue</span>
+
+    <span class="n">data1</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;data&quot;</span>
+    <span class="n">data1</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&quot;World&quot;</span>
+    <span class="n">data1</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;language&quot;</span>
+    <span class="n">data1</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&quot;Python&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">render</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">data1</span><span class="p">)</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c">&#39;Used PropertyValue</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Hello $data with $language, from Basic 2!!&quot;</span>
+    <span class="k">Dim</span> <span class="n">data2</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">com</span><span class="p">.</span><span class="n">sun</span><span class="p">.</span><span class="n">star</span><span class="p">.</span><span class="n">beans</span><span class="p">.</span><span class="n">PropertyValue</span>
+
+    <span class="n">data2</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;data&quot;</span>
+    <span class="n">data2</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&quot;World&quot;</span>
+    <span class="n">data2</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;language&quot;</span>
+    <span class="n">data2</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&quot;Python&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">render</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">data2</span><span class="p">)</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+    <span class="c">&#39;Used Arrays</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Hello $data with $language, from Basic 3!!&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="s">&quot;World&quot;</span><span class="p">),</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;language&quot;</span><span class="p">,</span> <span class="s">&quot;Python&quot;</span><span class="p">)</span> _
+    <span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">render</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">data2</span><span class="p">)</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="format">
+<h2>Format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h2>
+<p>Look more info and examples <a class="reference external" href="https://pyformat.info/">here</a>.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">FormatData</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Hello {}&quot;</span><span class="p">,</span> <span class="s">&quot;World&quot;</span><span class="p">)</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Hello {} from {}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">,</span> <span class="s">&quot;PyUNO&quot;</span><span class="p">))</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Hello {1} from {0}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">,</span> <span class="s">&quot;PyUNO&quot;</span><span class="p">))</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{:&lt;20}|{:^20}|{:&gt;20}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Left&quot;</span><span class="p">,</span> <span class="s">&quot;Center&quot;</span><span class="p">,</span> <span class="s">&quot;Rigth&quot;</span><span class="p">))</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{:_&lt;20}|{:-^20}|{:_&gt;20}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Left&quot;</span><span class="p">,</span> <span class="s">&quot;Center&quot;</span><span class="p">,</span> <span class="s">&quot;Rigth&quot;</span><span class="p">))</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{:d} {:f}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">3.1416</span><span class="p">))</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{0:,.2f}&quot;</span><span class="p">,</span> <span class="mf">123456789.2468</span><span class="p">)</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Number {n1} y {n2}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;n1&quot;</span><span class="p">,</span> <span class="s">&quot;one&quot;</span><span class="p">),</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;n2&quot;</span><span class="p">,</span> <span class="s">&quot;two&quot;</span><span class="p">)))</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;Number {n2} y {n1}&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;n1&quot;</span><span class="p">,</span> <span class="s">&quot;one&quot;</span><span class="p">),</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;n2&quot;</span><span class="p">,</span> <span class="s">&quot;two&quot;</span><span class="p">)))</span>
+
+    <span class="n">my_date</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;com.sun.star.util.Date&quot;</span><span class="p">)</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Day</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Month</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Year</span> <span class="o">=</span> <span class="mi">1974</span>
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{:%d-%B-%Y}&quot;</span><span class="p">,</span> <span class="n">my_date</span><span class="p">)</span>
+
+    <span class="n">my_date</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;com.sun.star.util.DateTime&quot;</span><span class="p">)</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Day</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Month</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Year</span> <span class="o">=</span> <span class="mi">1974</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Hours</span> <span class="o">=</span> <span class="mi">13</span>
+    <span class="n">my_date</span><span class="p">.</span><span class="n">Minutes</span> <span class="o">=</span> <span class="mi">30</span>
+
+    <span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{:%Y-%b-%d %H:%M}&quot;</span><span class="p">,</span> <span class="n">my_date</span><span class="p">)</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="files-and-folders">
+<h2>Files and folders<a class="headerlink" href="#files-and-folders" title="Permalink to this headline">¶</a></h2>
+<p>Return de path name in config. Look <a class="reference external" href="http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html">XPathSettings</a>.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">path</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;Temp&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getPath</span><span class="p">(</span><span class="s">&quot;Work&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get info from path: path base, file name, file name without extension, extension</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getPathInfo</span><span class="p">(</span><span class="s">&quot;/home/USER/log.txt&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Join paths</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">path</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">pathJoin</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;/home&quot;</span><span class="p">,</span> <span class="s">&quot;USER&quot;</span><span class="p">,</span> <span class="s">&quot;Documents&quot;</span><span class="p">))</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">pathJoin</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;/home/USER/Documents&quot;</span><span class="p">,</span> <span class="s">&quot;..&quot;</span><span class="p">,</span> <span class="s">&quot;Picture&quot;</span><span class="p">))</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Select folder, default path documents user</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">folder</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getFolder</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+<span class="c">&#39;With other init folder</span>
+<span class="n">folder</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getFolder</span><span class="p">(</span><span class="s">&quot;/home/USER&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Select one file without filters</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">file</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSelectedFiles</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="k">False</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Select multiple files</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">files</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSelectedFiles</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Select multiple files with filter</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">filters</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;TXT&quot;</span><span class="p">,</span> <span class="s">&quot;*.txt&quot;</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LOG&quot;</span><span class="p">,</span> <span class="s">&quot;*.log&quot;</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;CER | KEY&quot;</span><span class="p">,</span> <span class="s">&quot;*.cer;*.key&quot;</span><span class="p">)</span> _
+<span class="p">)</span>
+<span class="n">files</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSelectedFiles</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get all files recursive</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">files</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getFiles</span><span class="p">(</span><span class="s">&quot;/home/USER/Pictures&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get all files with filter extension</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">files</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getFiles</span><span class="p">(</span><span class="s">&quot;/home/USER/Pictures&quot;</span><span class="p">,</span> <span class="s">&quot;jpg&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+<span class="n">files</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getFiles</span><span class="p">(</span><span class="s">&quot;/home/USER/Pictures&quot;</span><span class="p">,</span> <span class="s">&quot;png&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Open file, read all content</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">fileOpen</span><span class="p">(</span><span class="s">&quot;/home/USER/log.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Open file, get lines in array</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">fileOpen</span><span class="p">(</span><span class="s">&quot;/home/USER/log.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save data in new file</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="s">&quot;Hello World Python&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">fileSave</span><span class="p">(</span><span class="s">&quot;/home/USER/test.txt&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="c">&#39;Verify</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">fileOpen</span><span class="p">(</span><span class="s">&quot;/home/mau/test.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Save data in append file</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="s">&quot;Hello World Python&quot;</span> <span class="o">&amp;</span> <span class="n">CHR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">fileSave</span><span class="p">(</span><span class="s">&quot;/home/USER/test2.txt&quot;</span><span class="p">,</span> <span class="s">&quot;a&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="c">&#39;Verify</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">fileOpen</span><span class="p">(</span><span class="s">&quot;/home/USER/test2.txt&quot;</span><span class="p">,</span> <span class="s">&quot;r&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="execute">
+<h2>Execute<a class="headerlink" href="#execute" title="Permalink to this headline">¶</a></h2>
+<p>Execute command and wait response</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">res</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;ls&quot;</span><span class="p">,</span><span class="s">&quot;-la&quot;</span><span class="p">),</span> <span class="k">True</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Execute command and not wait</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Array</span><span class="p">(</span><span class="s">&quot;gnome-calculator&quot;</span><span class="p">),</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="config">
+<h2>Config<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<p>Save value in config, save is persistente</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">setConfig</span><span class="p">(</span><span class="s">&quot;DefaultMail&quot;</span><span class="p">,</span> <span class="s">&quot;test@correolibre.net&quot;</span><span class="p">)</span>
+<span class="c">&#39;Get value from config</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&quot;DefaultMail&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Is posible save arrays</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">setConfig</span><span class="p">(</span><span class="s">&quot;Matriz&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getConfig</span><span class="p">(</span><span class="s">&quot;Matriz&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clipboard">
+<h2>Clipboard<a class="headerlink" href="#clipboard" title="Permalink to this headline">¶</a></h2>
+<p>Get text from clipboard</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getClipboard</span><span class="p">()</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Send text to clipboard</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">setClipboard</span><span class="p">(</span><span class="s">&quot;Hello World PyUNO!!&quot;</span><span class="p">)</span>
+<span class="c">&#39;Verify</span>
+<span class="n">value</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getClipboard</span><span class="p">()</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="unix-time">
+<h2>Unix time<a class="headerlink" href="#unix-time" title="Permalink to this headline">¶</a></h2>
+<p>Look <a class="reference external" href="https://en.wikipedia.org/wiki/Unix_time">https://en.wikipedia.org/wiki/Unix_time</a></p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">epoch</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getEpoch</span><span class="p">()</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="call-macros">
+<h2>Call macros<a class="headerlink" href="#call-macros" title="Permalink to this headline">¶</a></h2>
+<p>Look: <a class="reference external" href="https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification">Scripting Framework</a></p>
+<p>Save next macro in:</p>
+<p><code class="docutils literal"><span class="pre">/home/USER/.config/libreoffice/4/user/Scripts/python/mymacros.py</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">uno</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">show_time</span><span class="p">(</span><span class="n">cell</span><span class="p">):</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">setString</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%c</span><span class="s">&#39;</span><span class="p">))</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>Call macro in Python (is default), wait end</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">macro</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.Macro&quot;</span><span class="p">)</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Library</span> <span class="o">=</span> <span class="s">&quot;mymacros&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;show_time&quot;</span>
+<span class="n">cell</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">CurrentSelection</span>
+<span class="n">util</span><span class="p">.</span><span class="n">callMacro</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img005.png"><img alt="_images/img005.png" class="align-center" src="_images/img005.png" style="width: 400px;" /></a>
+<p>Call macro in Python, and NOT wait end</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">macro</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.Macro&quot;</span><span class="p">)</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Library</span> <span class="o">=</span> <span class="s">&quot;mymacros&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;show_time&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Thread</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">cell</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">CurrentSelection</span>
+<span class="n">util</span><span class="p">.</span><span class="n">callMacro</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Call macro in Basic</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">macro</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.Macro&quot;</span><span class="p">)</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Library</span> <span class="o">=</span> <span class="s">&quot;EasyDevLib&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Module</span> <span class="o">=</span> <span class="s">&quot;Examples&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;HelloWorld&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Language</span> <span class="o">=</span> <span class="s">&quot;Basic&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Thread</span> <span class="o">=</span> <span class="k">False</span>
+<span class="n">util</span><span class="p">.</span><span class="n">callMacro</span><span class="p">(</span><span class="n">macro</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img006.png"><img alt="_images/img006.png" class="align-center" src="_images/img006.png" style="width: 150px;" /></a>
+</div>
+<div class="section" id="timer">
+<h2>Timer<a class="headerlink" href="#timer" title="Permalink to this headline">¶</a></h2>
+<p>Save next macro in:</p>
+<p><code class="docutils literal"><span class="pre">/home/USER/.config/libreoffice/4/user/Scripts/python/mymacros.py</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">uno</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">show_time</span><span class="p">(</span><span class="n">cell</span><span class="p">):</span>
+    <span class="n">cell</span><span class="o">.</span><span class="n">setString</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%c</span><span class="s">&#39;</span><span class="p">))</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>timer(NAME_TIMER, SECONDS_WAIT, MACRO, ARGUMENTS)</p>
+<p>NAME_TIMER is import for stop timer. Timer always execute in other thread.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Make data macro</span>
+<span class="n">macro</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.Macro&quot;</span><span class="p">)</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Library</span> <span class="o">=</span> <span class="s">&quot;mymacros&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;show_time&quot;</span>
+<span class="c">&#39;Arguments</span>
+<span class="n">cell</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">CurrentSelection</span>
+<span class="c">&#39;Timer name &quot;time&quot; and wait one second</span>
+<span class="n">util</span><span class="p">.</span><span class="n">timer</span><span class="p">(</span><span class="s">&quot;time&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">macro</span><span class="p">,</span> <span class="n">Array</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Stop timer for name</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">StopTimer</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">stopTimer</span><span class="p">(</span><span class="s">&quot;time&quot;</span><span class="p">)</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="export-csv">
+<h2>Export CSV<a class="headerlink" href="#export-csv" title="Permalink to this headline">¶</a></h2>
+<p>Set range with data and select.</p>
+<a class="reference internal image-reference" href="_images/img007.png"><img alt="_images/img007.png" class="align-center" src="_images/img007.png" style="width: 400px;" /></a>
+<p>and export</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">range</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">CurrentSelection</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/test.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">getDataArray</span><span class="p">()</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">exportCSV</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Change options for export, look: <a class="reference external" href="https://docs.python.org/3.3/library/csv.html#csv.writer">https://docs.python.org/3.3/library/csv.html#csv.writer</a></p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Dim</span> <span class="n">options</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">com</span><span class="p">.</span><span class="n">sun</span><span class="p">.</span><span class="n">star</span><span class="p">.</span><span class="n">beans</span><span class="p">.</span><span class="n">NamedValue</span>
+
+<span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">range</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">CurrentSelection</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/test.csv&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">range</span><span class="p">.</span><span class="n">getDataArray</span><span class="p">()</span>
+<span class="n">options</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;delimiter&quot;</span>
+<span class="n">options</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&quot;|&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">exportCSV</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tools</a><ul>
+<li><a class="reference internal" href="#show-info-pc">Show info PC</a></li>
+<li><a class="reference internal" href="#make-question">Make question</a></li>
+<li><a class="reference internal" href="#render-string">Render string</a></li>
+<li><a class="reference internal" href="#format">Format</a></li>
+<li><a class="reference internal" href="#files-and-folders">Files and folders</a></li>
+<li><a class="reference internal" href="#execute">Execute</a></li>
+<li><a class="reference internal" href="#config">Config</a></li>
+<li><a class="reference internal" href="#clipboard">Clipboard</a></li>
+<li><a class="reference internal" href="#unix-time">Unix time</a></li>
+<li><a class="reference internal" href="#call-macros">Call macros</a></li>
+<li><a class="reference internal" href="#timer">Timer</a></li>
+<li><a class="reference internal" href="#export-csv">Export CSV</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="debug.html" title="previous chapter">Tools for debug</a></li>
+      <li>Next: <a href="email.html" title="next chapter">Send mail</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tools.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Mauricio Baeza.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/tools.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <oor:component-schema
 oor:name="Configuration"
-oor:package="org.universolibre.util.EasyDev" xml:lang="es-MX"
+oor:package="org.universolibre.EasyDev" xml:lang="es-MX"
 xmlns:oor="http://openoffice.org/2001/registry"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

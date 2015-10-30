@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tools for debug &mdash; EasyDev 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
+    <link rel="next" title="Tools" href="tools.html" />
+    <link rel="prev" title="Introduction" href="intro.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tools-for-debug">
+<h1>Tools for debug<a class="headerlink" href="#tools-for-debug" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="show-info-en-shell">
+<h2>Show info en shell<a class="headerlink" href="#show-info-en-shell" title="Permalink to this headline">¶</a></h2>
+<p>Only Linux</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">Debug</span><span class="p">()</span>
+    <span class="c">&#39;Create service</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="n">util</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Test debug&quot;</span><span class="p">)</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img002.png"><img alt="_images/img002.png" class="align-center" src="_images/img002.png" style="width: 500px;" /></a>
+<p>In Windows, you can open a new document Writer, save with name <strong>debug.odt</strong>
+and show info debug in this document.</p>
+<a class="reference internal image-reference" href="_images/img003.png"><img alt="_images/img003.png" class="align-center" src="_images/img003.png" style="width: 500px;" /></a>
+</div>
+<div class="section" id="save-info-in-file">
+<h2>Save info in file<a class="headerlink" href="#save-info-in-file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">LogFile</span><span class="p">()</span>
+
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="n">util</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="s">&quot;/home/USER/log.txt&quot;</span><span class="p">,</span> <span class="n">util</span><span class="p">)</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+<p>Automatic add date and time.</p>
+<div class="highlight-python"><div class="highlight"><pre>2015-10-28 20:56:35 - EasyDev - &lt;uno_component.EasyDev object at 0x7f96caf34438&gt;
+2015-10-28 20:56:41 - EasyDev - &lt;uno_component.EasyDev object at 0x7f96caf34438&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="special-msgbox">
+<h2>Special msgbox<a class="headerlink" href="#special-msgbox" title="Permalink to this headline">¶</a></h2>
+<p>Show any data in msgbox like objects and arrays.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">MessageBox</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Show info in message box</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="s">&quot;Debug data&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Show any data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="s">&quot;This is string&quot;</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="mi">12345</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Uno&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">)</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="call-mri">
+<h2>Call MRI<a class="headerlink" href="#call-mri" title="Permalink to this headline">¶</a></h2>
+<p>MRI is the best extension for introspeccion of objects for Apache OpenOffice
+and LibreOffice. <a class="reference external" href="http://extensions.openoffice.org/en/project/MRI">Download</a> and install.</p>
+<p>Call from EasyDev.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">CallMRI</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;MRI is a great extension</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">mri</span><span class="p">(</span><span class="n">util</span><span class="p">)</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img004.png"><img alt="_images/img004.png" class="align-center" src="_images/img004.png" style="width: 500px;" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tools for debug</a><ul>
+<li><a class="reference internal" href="#show-info-en-shell">Show info en shell</a></li>
+<li><a class="reference internal" href="#save-info-in-file">Save info in file</a></li>
+<li><a class="reference internal" href="#special-msgbox">Special msgbox</a></li>
+<li><a class="reference internal" href="#call-mri">Call MRI</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="intro.html" title="previous chapter">Introduction</a></li>
+      <li>Next: <a href="tools.html" title="next chapter">Tools</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/debug.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Mauricio Baeza.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/debug.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

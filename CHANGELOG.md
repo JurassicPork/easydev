@@ -1,3 +1,8 @@
+v 2.0.0 [05-Sep-2015]
+---------------------
+    - [IMPORT] Change name service to: org.universolibre.EasyDev
+    - [Feature] Separate class in files.
+
 v 1.3.1 [30-Aug-2015]
 ---------------------
     - [Fix] BCC in send mail

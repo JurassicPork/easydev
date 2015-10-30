@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="LOCalc" script:language="StarBasic">REM  *****  BASIC  *****
+
+Sub getCellDoc()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+
+	&apos;Get active cell, always get one cell
+	address.Current = True
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Get active cell from document by title name, document must be open
+	address.Doc = &quot;test.ods&quot;	&apos;Title doc
+	address.Current = True
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Get active cell from object doc
+	doc = util.getDoc(&quot;&quot;)
+	address.Doc = doc
+	address.Current = True
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)
+	
+End Sub
+
+Sub getCellSheet()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+	
+	&apos;Get cell from object doc, sheet by name, cell by name
+	doc = util.getDoc(&quot;&quot;)
+	address.Doc = doc
+	address.Sheet = &quot;Sheet2&quot;
+	address.Name = &quot;B5&quot;
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)
+
+	&apos;Get cell from object doc, sheet by name, cell by col, row
+	address.Sheet = &quot;Sheet2&quot;
+	address.Name = &quot;&quot;
+	address.Col = 1
+	address.Row = 4
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Get cell from object sheet, object doc is ommited
+	sheet = doc.getCurrentController().getActiveSheet()
+	address.Sheet = sheet
+	address.Name = &quot;D5&quot;
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)	
+End Sub
+
+
+
+
+Sub getRangeDoc()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+
+	&apos;Get active range
+	address.Current = True
+	range = util.getRange(address)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Get active range from document by title name, document must be open
+	address.Doc = &quot;test.ods&quot;	&apos;Title doc
+	address.Current = True
+	range = util.getRange(address)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Get active range from object doc
+	doc = util.getDoc(&quot;&quot;)
+	address.Doc = doc
+	address.Current = True
+	range = util.getRange(address)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)
+	
+End Sub
+
+Sub getRangeSheet()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+	
+	&apos;Get range from object doc, sheet by name, range by name
+	doc = util.getDoc(&quot;&quot;)
+	address.Doc = doc
+	address.Sheet = &quot;Sheet2&quot;
+	address.Name = &quot;B5:C10&quot;
+	range = util.getRange(address)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)
+
+	&apos;Get range from object doc, sheet by name, range by position
+	address.Sheet = &quot;Sheet2&quot;
+	address.Name = &quot;&quot;
+	address.Col = 1
+	address.Row = 4
+	address.EndCol = 3
+	address.EndRow = 9
+	range = util.getRange(address)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Get range from object sheet, object doc is ommited
+	sheet = doc.getCurrentController().getActiveSheet()
+	address.Sheet = sheet
+	address.Name = &quot;D5:E10&quot;
+	range = util.getRange(address)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)	
+End Sub
+
+
+Sub SelectRange()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+	
+	doc = util.getDoc(&quot;&quot;)
+	address.Doc = doc
+	address.Sheet = &quot;Sheet2&quot;
+	address.Name = &quot;B5:C10&quot;
+	range = util.getRange(address)
+	
+	&apos;Select range
+	util.selectRange(doc, range)
+	
+End Sub
+
+
+Sub getCurrentRegion()
+
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+
+	address.Current = True
+	cell = util.getCell(address)
+	msg = util.format(&quot;{} {}&quot;, Array(cell.ImplementationName, cell.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Only one cell into current region is necesary, get cursor
+	cursor = util.getCurrentRegion(cell, True)
+	msg = util.format(&quot;{} {}&quot;, Array(cursor.ImplementationName, cursor.AbsoluteName))
+	util.msgbox(msg)
+	
+	&apos;Only one cell into current region is necesary, get range
+	range = util.getCurrentRegion(cell, False)
+	msg = util.format(&quot;{} {}&quot;, Array(range.ImplementationName, range.AbsoluteName))
+	util.msgbox(msg)	
+	
+End Sub
+
+
+Sub getLastRow()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+
+	address.Current = True
+	cell = util.getCell(address)
+	row = util.getLastRow(cell)
+	util.msgbox(row)
+
+End Sub
+
+
+
+Sub getNextID()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+
+	address.Current = True
+	cell = util.getCell(address)
+	value = util.getNextID(cell, 0)
+	util.msgbox(value)
+
+End Sub
+
+
+Sub CellValue()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	address = createUnoStruct(&quot;org.universolibre.EasyDev.CellRangeAddress&quot;)
+
+	address.Current = True
+	cell = util.getCell(address)
+	
+	value = &quot;String&quot;
+	util.setValue(cell, value)
+	value = util.getValue(cell)
+	util.msgbox(value)
+	
+	value = 12345
+	util.setValue(cell, value)
+	value = util.getValue(cell)
+	util.msgbox(value)
+	
+	value = &quot;=SUM(A1:C1)&quot;
+	util.setValue(cell, value)
+	value = util.getValue(cell)
+	util.msgbox(value)
+	
+End Sub
+
+
+</script:module>

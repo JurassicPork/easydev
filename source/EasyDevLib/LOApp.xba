@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="LOApp" script:language="StarBasic">REM  *****  BASIC  *****
+
+Sub NewDoc()
+	&apos;Create new doc
+    &apos;http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Default Calc
+	doc = util.newDoc(&quot;&quot;)
+	
+	&apos;Other values: swriter, simpress, sdraw, smath
+	doc = util.newDoc(&quot;sdraw&quot;)
+
+End Sub
+
+
+Sub NewDB()
+
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	path_db = &quot;/home/mau/dbtest.odb&quot;
+	db = util.newDB(path_db)
+	
+End Sub
+
+
+Sub GetDoc()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+
+	&apos;Get current doc
+	doc = util.getDoc(&quot;&quot;)
+	MsgBox doc.Title
+	
+	&apos;Get doc by title, if not title, doc is None
+	doc = util.getDoc(&quot;Name_doc.odt&quot;)
+	MsgBox doc.Title	
+
+End Sub
+
+
+Sub GetTypeDoc()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	doc = util.newDoc(&quot;sdraw&quot;)
+	MsgBox util.getTypeDoc(doc)
+
+	doc = util.newDoc(&quot;swriter&quot;)
+	MsgBox util.getTypeDoc(doc)
+
+End Sub
+
+
+Sub GetAllDocuments()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	docs = util.getDocs()
+	MsgBox util.format(&quot;{} Documentos abiertos&quot;, util.len(docs))
+	
+End Sub
+
+
+Sub OpenDoc()
+Dim options1(0) As New com.sun.star.beans.NamedValue
+
+    &apos;http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html
+    &apos;http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Open path doc
+	path = &quot;/home/mau/Downloads/Plantilla.ods&quot;
+	options = Array()
+	doc = util.openDoc(path, options)
+	
+	&apos;Open like template
+    options1(0).Name = &quot;AsTemplate&quot;
+    options1(0).Value = True
+	path = &quot;/home/mau/Downloads/Plantilla.ods&quot;
+	doc = util.openDoc(path, options1)
+
+	&apos;Open hidden 
+    options1(0).Name = &quot;Hidden&quot;
+    options1(0).Value = True
+	path = &quot;/home/mau/Downloads/Plantilla.ods&quot;
+	doc = util.openDoc(path, options1)
+	MsgBox &quot;Close doc&quot;
+	doc.dispose()
+	
+End Sub
+
+
+Sub ActiveDoc()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Active doc
+	doc1 = util.newDoc(&quot;&quot;)
+	doc2 = util.newDoc(&quot;swriter&quot;)
+	wait(1000)
+	util.setFocus(doc1)
+
+End Sub
+
+
+Sub StatusBar()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	&apos;Get current doc
+	doc = util.getDoc(&quot;&quot;)
+	&apos;Get status bar
+	sb = util.getStatusBar(doc)
+
+    &apos;Init text and up limit
+    sb.start( &quot;Row &quot;, 10 )
+    For co1 = 1 To 10
+    	&apos;Set value
+		sb.setValue( co1 )
+        Wait 1000
+    Next
+    &apos;Is import free status bar
+    sb.end()	
+
+End Sub
+
+
+Sub ExportPDF()
+&apos;http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export
+
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Export current doc in the same folder and same name
+	doc = util.getDoc(&quot;&quot;)
+	path = util.exportPDF(doc, &quot;&quot;, Array())
+	MsgBox util.format(&quot;PDF export in: {}&quot;, path)
+	
+	&apos;For save in other folder and same name
+	path_save = &quot;/home/USER/OTHER_FOLDER&quot;
+	path_pdf = util.exportPDF(doc, path_save, Array())
+
+	&apos;For save in other folder and other name
+	path_save = &quot;/home/USER/OTHER_FOLDER/NAME.pdf&quot;
+	path_pdf = util.exportPDF(doc, path_save, Array())
+
+End Sub
+
+
+
+Sub ExportPDFOptions()
+&apos;http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export
+Dim options(0) As New com.sun.star.beans.NamedValue
+
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+	
+	&apos;Export current doc in the same folder
+	doc = util.getDoc(&quot;&quot;)
+	options(0).Name = &quot;PageRange&quot;
+	options(0).Value = &quot;2&quot;
+	path = util.exportPDF(doc, &quot;&quot;, options)
+	MsgBox util.format(&quot;PDF export in: {}&quot;, path)
+
+End Sub
+
+
+</script:module>

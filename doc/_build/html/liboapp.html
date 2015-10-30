@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documents &mdash; EasyDev 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
+    <link rel="next" title="Calc" href="libocalc.html" />
+    <link rel="prev" title="Arrays" href="arrays.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documents">
+<h1>Documents<a class="headerlink" href="#documents" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="new">
+<h2>New<a class="headerlink" href="#new" title="Permalink to this headline">¶</a></h2>
+<p>Look: <a class="reference external" href="http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html">http://www.openoffice.org/api/docs/common/ref/com/sun/star/frame/XComponentLoader.html</a></p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">NewDoc</span><span class="p">()</span>
+    <span class="c">&#39;Create new doc</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Default Calc</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+<p>Other values: swriter, simpress, sdraw, smath</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;sdraw&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For Base document.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">path_db</span> <span class="o">=</span> <span class="s">&quot;/home/USER/dbtest.odb&quot;</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDB</span><span class="p">(</span><span class="n">path_db</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-doc">
+<h2>Get doc<a class="headerlink" href="#get-doc" title="Permalink to this headline">¶</a></h2>
+<p>Current</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Current doc can be IDE</p>
+</div>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc1</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">doc1</span><span class="p">.</span><span class="n">Title</span>
+</pre></div>
+</div>
+<p>Get doc by title, if not found, doc is Empty</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc2</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;Name_doc.odt&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">doc2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-type">
+<h2>Get type<a class="headerlink" href="#get-type" title="Permalink to this headline">¶</a></h2>
+<p>Values return: calc, writer, impress, draw, math, base, ide</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc1</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;sdraw&quot;</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">getTypeDoc</span><span class="p">(</span><span class="n">doc1</span><span class="p">)</span>
+
+<span class="n">doc2</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;swriter&quot;</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">getTypeDoc</span><span class="p">(</span><span class="n">doc2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="get-documents">
+<h2>Get documents<a class="headerlink" href="#get-documents" title="Permalink to this headline">¶</a></h2>
+<p>Get all open documents</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">docs</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDocs</span><span class="p">()</span>
+<span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;{} Open documents&quot;</span><span class="p">,</span> <span class="n">util</span><span class="p">.</span><span class="n">len</span><span class="p">(</span><span class="n">docs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="open">
+<h2>Open<a class="headerlink" href="#open" title="Permalink to this headline">¶</a></h2>
+<p>More info and options:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1frame_1_1XComponentLoader.html">Component Loader</a></li>
+<li><a class="reference external" href="http://api.libreoffice.org/docs/idl/ref/servicecom_1_1sun_1_1star_1_1document_1_1MediaDescriptor.html">Media Descriptor</a></li>
+</ul>
+</div></blockquote>
+<p>Open by path document</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Dim</span> <span class="n">options1</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">com</span><span class="p">.</span><span class="n">sun</span><span class="p">.</span><span class="n">star</span><span class="p">.</span><span class="n">beans</span><span class="p">.</span><span class="n">NamedValue</span>
+<span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/Plantilla.ods&quot;</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">openDoc</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Open like template</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">options1</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;AsTemplate&quot;</span>
+<span class="n">options1</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/Plantilla.ods&quot;</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">openDoc</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">options1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Open hidden</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">options1</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Hidden&quot;</span>
+<span class="n">options1</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/Plantilla.ods&quot;</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">openDoc</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">options1</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="s">&quot;Close doc&quot;</span>
+<span class="n">doc</span><span class="p">.</span><span class="n">dispose</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="active">
+<h2>Active<a class="headerlink" href="#active" title="Permalink to this headline">¶</a></h2>
+<p>Send focus to document</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc1</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">doc2</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;swriter&quot;</span><span class="p">)</span>
+<span class="n">wait</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">setFocus</span><span class="p">(</span><span class="n">doc1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="status-bar">
+<h2>Status bar<a class="headerlink" href="#status-bar" title="Permalink to this headline">¶</a></h2>
+<p>Set text and show progress bar</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="c">&#39;Get current doc</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="c">&#39;Get status bar</span>
+<span class="n">sb</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getStatusBar</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+<span class="c">&#39;Init text and up limit</span>
+<span class="n">sb</span><span class="p">.</span><span class="n">start</span><span class="p">(</span> <span class="s">&quot;Row &quot;</span><span class="p">,</span> <span class="mi">10</span> <span class="p">)</span>
+<span class="k">For</span> <span class="n">co1</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">To</span> <span class="mi">10</span>
+    <span class="c">&#39;Set value</span>
+    <span class="n">sb</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span> <span class="n">co1</span> <span class="p">)</span>
+    <span class="n">Wait</span> <span class="mi">1000</span>
+<span class="k">Next</span>
+<span class="c">&#39;Is import free status bar</span>
+<span class="n">sb</span><span class="p">.</span><span class="n">end</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="export-pdf">
+<h2>Export PDF<a class="headerlink" href="#export-pdf" title="Permalink to this headline">¶</a></h2>
+<p>All options in <a class="reference external" href="http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export">PDF Export</a> in wiki.</p>
+<p>If export is correct, return path save PDF</p>
+<p>Export current doc in the same folder and same name</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">exportPDF</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span>
+<span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;PDF export in: {}&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For save in other folder and same name</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">path_save</span> <span class="o">=</span> <span class="s">&quot;/home/USER/OTHER_FOLDER&quot;</span>
+<span class="n">path_pdf</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">exportPDF</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">path_save</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>For save in other folder and other name</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">path_save</span> <span class="o">=</span> <span class="s">&quot;/home/USER/OTHER_FOLDER/NAME.pdf&quot;</span>
+<span class="n">path_pdf</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">exportPDF</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">path_save</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Export with options</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Dim</span> <span class="n">options</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">com</span><span class="p">.</span><span class="n">sun</span><span class="p">.</span><span class="n">star</span><span class="p">.</span><span class="n">beans</span><span class="p">.</span><span class="n">NamedValue</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">options</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;PageRange&quot;</span>
+<span class="n">options</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&quot;2&quot;</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">exportPDF</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">util</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">&quot;PDF export in: {}&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documents</a><ul>
+<li><a class="reference internal" href="#new">New</a></li>
+<li><a class="reference internal" href="#get-doc">Get doc</a></li>
+<li><a class="reference internal" href="#get-type">Get type</a></li>
+<li><a class="reference internal" href="#get-documents">Get documents</a></li>
+<li><a class="reference internal" href="#open">Open</a></li>
+<li><a class="reference internal" href="#active">Active</a></li>
+<li><a class="reference internal" href="#status-bar">Status bar</a></li>
+<li><a class="reference internal" href="#export-pdf">Export PDF</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="arrays.html" title="previous chapter">Arrays</a></li>
+      <li>Next: <a href="libocalc.html" title="next chapter">Calc</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/liboapp.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, Mauricio Baeza.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="_sources/liboapp.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

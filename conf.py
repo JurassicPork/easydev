@@ -2,11 +2,11 @@ import logging
 
 #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Extensions/description.xml
 
-ADDIN_VERSION = '1.3.1'
+ADDIN_VERSION = '2.0.0'
 ADDIN_NAME = 'EasyDev'
 FILE_OXT = '{}_v{}.oxt'.format(ADDIN_NAME, ADDIN_VERSION)
 FILE_UPDATE = '{}.update.xml'.format(ADDIN_NAME.lower())
-ADDIN_ID = "org.universolibre.util.EasyDev"
+ADDIN_ID = "org.universolibre.EasyDev"
 ADDIN_AUTHOR_WEB = "http://www.universolibre.org"
 ADDIN_AUTHOR_NAME = "Universo Libre Mexico, A.C."
 ADDIN_PLATFORM = 'all'
@@ -56,6 +56,7 @@ DIR_FILES = 'files'
 
 XML_MANIFEST = """<?xml version="1.0" encoding="UTF-8"?>
 <manifest:manifest>
+    <manifest:file-entry manifest:full-path="EasyDevLib/" manifest:media-type="application/vnd.sun.star.basic-library"/>
     <manifest:file-entry manifest:full-path="{}" manifest:media-type="application/vnd.sun.star.uno-component;type=Python"/>
     <manifest:file-entry manifest:full-path="{}" manifest:media-type="application/vnd.sun.star.uno-typelibrary;type=RDB"/>
     <manifest:file-entry manifest:full-path="config.xcs" manifest:media-type="application/vnd.sun.star.configuration-schema"/>

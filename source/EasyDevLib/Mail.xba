@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Mail" script:language="StarBasic">REM  *****  BASIC  *****
+
+Sub SendMail()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+		
+	server = createUnoStruct(&quot;org.universolibre.EasyDev.SmtpServer&quot;)
+	message = createUnoStruct(&quot;org.universolibre.EasyDev.EmailMessage&quot;)
+	
+	server.Name = &quot;smtp.gmail.com&quot;
+	server.User = &quot;hipatia.blades@gmail.com&quot;
+	server.Password = &quot;supersecret&quot;
+	server.Ssl = True
+
+	temp = &quot;Dear Madame: $name\n\nBest regards from $country&quot;
+	data = Array( _
+		Array(&quot;name&quot;, &quot;Teresa&quot;), _
+		Array(&quot;country&quot;, &quot;México&quot;), _
+	)
+	body = util.render(temp, data)
+
+	message.To = &quot;mauricio.baeza@correolibre.net&quot;
+	message.Subject = &quot;Email test&quot;
+	message.Body = body	
+	
+	&apos;Send mail and wait response
+	result = util.sendMail(server, message)
+	If result Then
+		MsgBox &quot;Send mail&quot;
+	Else
+		MsgBox &quot;Error send mail&quot;
+	End If
+End Sub
+
+
+Sub SendMailNoWait()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+		
+	server = createUnoStruct(&quot;org.universolibre.EasyDev.SmtpServer&quot;)
+	message = createUnoStruct(&quot;org.universolibre.EasyDev.EmailMessage&quot;)
+	
+	server.Name = &quot;smtp.gmail.com&quot;
+	server.User = &quot;hipatia.blades@gmail.com&quot;
+	server.Password = &quot;supersecret&quot;
+	server.Ssl = True
+	server.Thread = True	&apos;Send in other thread
+
+	temp = &quot;Dear Madame: $name\n\nBest regards from $country&quot;
+	data = Array( _
+		Array(&quot;name&quot;, &quot;Teresa&quot;), _
+		Array(&quot;country&quot;, &quot;México&quot;), _
+	)
+	body = util.render(temp, data)
+
+	message.To = &quot;mauricio.baeza@correolibre.net&quot;
+	message.Subject = &quot;Email test&quot;
+	message.Body = body	
+	
+	&apos;Send mail and NO wait response
+	util.sendMail(server, message)
+	MsgBox &quot;Send mail&quot;
+	
+End Sub
+
+
+Sub SendMailNoWaitAndCCBCC()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+		
+	server = createUnoStruct(&quot;org.universolibre.EasyDev.SmtpServer&quot;)
+	message = createUnoStruct(&quot;org.universolibre.EasyDev.EmailMessage&quot;)
+	
+	server.Name = &quot;smtp.gmail.com&quot;
+	server.User = &quot;hipatia.blades@gmail.com&quot;
+	server.Password = &quot;supersecret&quot;
+	server.Ssl = True
+	server.Thread = True	&apos;Send in other thread
+
+	temp = &quot;Dear Madame: $name\n\nBest regards from $country&quot;
+	data = Array( _
+		Array(&quot;name&quot;, &quot;Teresa&quot;), _
+		Array(&quot;country&quot;, &quot;México&quot;), _
+	)
+	body = util.render(temp, data)
+
+	message.To = &quot;mauricio.baeza@correolibre.net&quot;
+	message.Subject = &quot;Email test&quot;
+	message.Body = body	
+	message.Cc = &quot;listas@mauriciobaeza.net,public@mauriciobaeza.net&quot;
+	message.Bcc = &quot;listas@mauriciobaeza.net,web@mauriciobaeza.net&quot;
+	
+	&apos;Send mail and NO wait response
+	util.sendMail(server, message)
+	MsgBox &quot;Send mail&quot;
+	
+End Sub
+
+
+Sub SendMailWithAttachment()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+		
+	server = createUnoStruct(&quot;org.universolibre.EasyDev.SmtpServer&quot;)
+	message = createUnoStruct(&quot;org.universolibre.EasyDev.EmailMessage&quot;)
+	
+	server.Name = &quot;smtp.gmail.com&quot;
+	server.User = &quot;hipatia.blades@gmail.com&quot;
+	server.Password = &quot;supersecret&quot;
+	server.Ssl = True
+	server.Thread = True	&apos;Send in other thread
+
+	temp = &quot;Dear Madame: $name\n\nBest regards from $country&quot;
+	data = Array( _
+		Array(&quot;name&quot;, &quot;Teresa&quot;), _
+		Array(&quot;country&quot;, &quot;México&quot;), _
+	)
+	body = util.render(temp, data)
+
+	files = Array(&quot;/home/mau/Documents/pruebas.cer&quot;, &quot;/home/mau/Documents/pruebas.key&quot;)
+
+	message.To = &quot;mauricio.baeza@correolibre.net&quot;
+	message.Subject = &quot;Email test&quot;
+	message.Body = body	
+	message.Cc = &quot;listas@mauriciobaeza.net&quot;
+	message.Files = files
+	
+	&apos;Send mail and NO wait response
+	util.sendMail(server, message)
+	MsgBox &quot;Send mail&quot;
+	
+End Sub
+
+
+Sub SendMailAndSave()
+	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
+		
+	server = createUnoStruct(&quot;org.universolibre.EasyDev.SmtpServer&quot;)
+	message = createUnoStruct(&quot;org.universolibre.EasyDev.EmailMessage&quot;)
+	
+	server.Name = &quot;smtp.gmail.com&quot;
+	server.User = &quot;hipatia.blades@gmail.com&quot;
+	server.Password = &quot;supersecret&quot;
+	server.Ssl = True
+	server.Thread = True	&apos;Send in other thread
+	server.PathSave = &quot;/home/mau/.thunderbird/cwfln0bi.default/Mail/Local Folders/Sent&quot;
+
+	temp = &quot;Dear Madame: $name\n\nBest regards from $country&quot;
+	data = Array( _
+		Array(&quot;name&quot;, &quot;Teresa&quot;), _
+		Array(&quot;country&quot;, &quot;México&quot;), _
+	)
+	body = util.render(temp, data)
+
+	files = Array(&quot;/home/mau/Documents/pruebas.cer&quot;)
+
+	message.To = &quot;mauricio.baeza@correolibre.net&quot;
+	message.Subject = &quot;Email test&quot;
+	message.Body = body
+	message.Files = files
+	message.Save = True
+	
+	&apos;Send mail and NO wait response
+	util.sendMail(server, message)
+	MsgBox &quot;Send mail&quot;
+	
+End Sub
+</script:module>

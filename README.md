@@ -2,4 +2,4 @@
 
 Tool for easy develop macros in LibreOffice... with Python
 
-See wiki
+[Documentation for EasyDev] (http://easydev.readthedocs.org/en/latest/)
