@@ -40,8 +40,27 @@
             
   <div class="section" id="writer">
 <h1>Writer<a class="headerlink" href="#writer" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="text">
-<h2>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="paragraphs">
+<h2>Paragraphs<a class="headerlink" href="#paragraphs" title="Permalink to this headline">¶</a></h2>
+<p>Get all paragraphs in document.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">GetParagraps</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Get current doc</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Get all paragraphs</span>
+    <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getParagraphs</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">len</span><span class="p">(</span><span class="n">paragraphs</span><span class="p">))</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+<p>Get paragraphs with text</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">paragraphs</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getParagraphs</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">util</span><span class="p">.</span><span class="n">len</span><span class="p">(</span><span class="n">paragraphs</span><span class="p">))</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -54,7 +73,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Writer</a><ul>
-<li><a class="reference internal" href="#text">Text</a></li>
+<li><a class="reference internal" href="#paragraphs">Paragraphs</a></li>
 </ul>
 </li>
 </ul>
