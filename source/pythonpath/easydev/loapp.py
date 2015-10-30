@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import uno
 import logging
 from org.universolibre.EasyDev import XLOApp
 from easydev import comun
@@ -40,7 +41,7 @@ class LOApp(XLOApp, LODefault):
         db.DatabaseDocument.storeAsURL(comun.path_to_url(path), ())
         return db
 
-    def getDoc(self, title=''):
+    def getDoc(self, title):
         """
             If title is missing get current component,
             else search doc title in components
@@ -51,7 +52,7 @@ class LOApp(XLOApp, LODefault):
         enum = self.desktop.getComponents().createEnumeration()
         while enum.hasMoreElements():
             doc = enum.nextElement()
-            if doc.getTitle() == title:
+            if doc.Title == title:
                 return doc
         return None
 
