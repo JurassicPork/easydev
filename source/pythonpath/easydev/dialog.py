@@ -5,6 +5,7 @@ import logging
 import unohelper
 from com.sun.star.awt import XItemListener
 from com.sun.star.awt import XMouseListener
+from com.sun.star.awt import XFocusListener
 
 from org.universolibre.EasyDev import XLODialog
 from org.universolibre.EasyDev import Macro
@@ -85,6 +86,36 @@ class GridMouseEvents(MouseEvents):
         return
 
 
+class FocusEvents(unohelper.Base, XFocusListener):
+
+    def disposing(self, event):
+        pass
+
+    def focusGained(self, event):
+        pass
+
+    def focusLost(self, event):
+        pass
+
+
+class ControlFocusEvents(unohelper.Base, XFocusListener):
+
+    #~ def __init__(self, events):
+        #~ self.events = events
+
+    def focusGained(self, event):
+        obj = event.Source.Model
+        obj.Border = 0
+        obj.BackgroundColor = COLORS['YELLOW']
+        return
+
+    def focusLost(self, event):
+        obj = event.Source.Model
+        obj.Border = 1
+        obj.BackgroundColor = COLORS['WHITE']
+        return
+
+
 class LODialog(XLODialog, LODefault):
     decimals = DECIMALS
     numfmt = FORMAT.format(decimals)
@@ -115,7 +146,7 @@ class LODialog(XLODialog, LODefault):
         properties = comun.to_dict(options)
         base_properties = {
             'Width': 100,
-            'Height': 10,
+            'Height': 12,
             'PositionX': 0,
             'PositionY': 0,
             'Step': 0,
@@ -152,6 +183,7 @@ class LODialog(XLODialog, LODefault):
             'FixedHyperlink': base_properties.copy(),
             'Roadmap': base_properties.copy(),
             'Grid': base_properties.copy(),
+            'Edit': base_properties.copy(),
         }
         controls_properties['Roadmap'].update({
             'Height': 100,
@@ -177,9 +209,6 @@ class LODialog(XLODialog, LODefault):
             'Spin': True})
         controls_properties['DateField'] = base_properties.update({
             'Dropdown':True})
-        controls_properties['Edit'] = base_properties.update({
-            'Width':60,
-            'Height':13})
         controls_properties['FileControl'] = base_properties.update({
             'Width':60,
             'Height':13})
@@ -270,6 +299,8 @@ class LODialog(XLODialog, LODefault):
             obj.addMouseListener(LinkMouseEvents())
         elif type_control == 'Grid':
             obj.addMouseListener(GridMouseEvents())
+        elif type_control == 'Edit':
+            obj.addFocusListener(ControlFocusEvents())
         return obj
 
     def _add_options_roadmap(self, roadmap, options):
