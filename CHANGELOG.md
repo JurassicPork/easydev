@@ -1,4 +1,8 @@
-v 2.0.0 [05-Sep-2015]
+v 2.1.0 [31-Oct-2015]
+    - [Feature] Make query to DB
+    - [Feature] Query to grid
+
+v 2.0.0 [30-Oct-2015]
 ---------------------
     - [IMPORT] Change name service to: org.universolibre.EasyDev
     - [Feature] Separate class in files.
