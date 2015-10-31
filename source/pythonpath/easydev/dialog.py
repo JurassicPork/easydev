@@ -166,7 +166,6 @@ class LODialog(XLODialog, LODefault):
 
     def createControl(self, dialog, type_control, options):
         properties = comun.to_dict(options)
-        macro = properties.get('Macro', False)
         base_properties = {
             'Width': 100,
             'Height': 12,
@@ -208,10 +207,12 @@ class LODialog(XLODialog, LODefault):
             'Grid': base_properties.copy(),
             'Edit': base_properties.copy(),
             'Button': base_properties.copy(),
+            'DateField': base_properties.copy(),
         }
         controls_properties['Roadmap'].update({
             'Height': 100,
-            'Text': 'Menu'})
+            'Text': 'Menu'}
+        )
         controls_properties['Grid'].update({
             'Height': 100,
             'BackgroundColor': COLORS['WHITE'],
@@ -219,66 +220,69 @@ class LODialog(XLODialog, LODefault):
             'ShowColumnHeader': True,
             'ShowRowHeader': True,
             'SelectionModel': 2,
-            'UseGridLines': True})
+            'UseGridLines': True}
+        )
         controls_properties['Button'].update({
             'Label': 'CommandButton',
-            'DefaultButton': False})
+            'DefaultButton': False}
+        )
+        controls_properties['DateField'].update({
+            'Dropdown': True}
+        )
 
-        controls_properties['CheckBox'] = base_properties.update({
-            'Label': 'CheckBox'})
-        controls_properties['ComboBox'] = base_properties.update({
-            'Dropdown': True})
-        controls_properties['CurrencyField'] = base_properties.update({
-            'Spin': True})
-        controls_properties['DateField'] = base_properties.update({
-            'Dropdown':True})
-        controls_properties['FileControl'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['FixedLine'] = base_properties.update({
-            'Width':60,
-            'Height':5})
-        controls_properties['FixedText'] = base_properties.update({
-            'Label':'Label'})
-        controls_properties['FormattedField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['GroupBox'] = base_properties.update({
-            'Width':100,
-            'Height':30})
-        controls_properties['ImageControl'] = base_properties.update({
-            'Width':30,
-            'Height':30})
-        controls_properties['ListBox'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['NumericField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['PatternField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['ProgressBar'] = base_properties.update({
-            'Width':100,
-            'Height':13})
-        controls_properties['RadioButton'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['ScrollBar'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['SimpleAnimation'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['SpinButton'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['Throbber'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['TimeField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
+        #~ controls_properties['CheckBox'] = base_properties.update({
+            #~ 'Label': 'CheckBox'})
+        #~ controls_properties['ComboBox'] = base_properties.update({
+            #~ 'Dropdown': True})
+        #~ controls_properties['CurrencyField'] = base_properties.update({
+            #~ 'Spin': True})
+        #~ controls_properties['FileControl'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['FixedLine'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':5})
+        #~ controls_properties['FixedText'] = base_properties.update({
+            #~ 'Label':'Label'})
+        #~ controls_properties['FormattedField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['GroupBox'] = base_properties.update({
+            #~ 'Width':100,
+            #~ 'Height':30})
+        #~ controls_properties['ImageControl'] = base_properties.update({
+            #~ 'Width':30,
+            #~ 'Height':30})
+        #~ controls_properties['ListBox'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['NumericField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['PatternField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['ProgressBar'] = base_properties.update({
+            #~ 'Width':100,
+            #~ 'Height':13})
+        #~ controls_properties['RadioButton'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['ScrollBar'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['SimpleAnimation'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['SpinButton'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['Throbber'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['TimeField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
 
         """Create controls"""
         if not 'Name' in properties:
@@ -354,7 +358,9 @@ class LODialog(XLODialog, LODefault):
         grid_dm.removeAllRows()
         heading = tuple(range(1, len(data) + 1))
         if colFormat:
-            rows = tuple(tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data)
+            rows = tuple(
+                tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data
+            )
         else:
             rows = tuple(tuple(self._format(r) for r in row) for row in data)
         grid_dm.addRows(heading, rows)
@@ -373,6 +379,47 @@ class LODialog(XLODialog, LODefault):
             else:
                 new_value = value
         return new_value
+
+    def setQuery(self, grid, query, colid):
+        data = comun.parse_data_type(query)
+        headers = data[0]
+        row = data[1:2]
+        rows = data[1:]
+        col_fmt = False
+        if colid:
+            col_fmt = ('{}',) + ('',) * (len(headers) - 1)
+        self._make_columns(grid, headers, row)
+        self.setGridData(grid, rows, col_fmt)
+        return
+
+    def _make_columns(self, grid, headers, row):
+        if row:
+            align = tuple(self._get_align(r) for r in row[0])
+        else:
+            align = (0,) * len(headers)
+        columns = []
+        for i, v in enumerate(headers):
+            col = {}
+            col['Title'] = v
+            col['HorizontalAlign'] = align[i]
+            columns.append(col)
+        self.setGridColumns(grid, columns)
+        return
+
+    def _get_align(self, value):
+        align = 0
+        if isinstance(value, (int, float)):
+            align = 2
+        return align
+
+    def setGridColumns(self, grid, columns):
+        columns_model = grid.Model.ColumnModel
+        columns_model.setDefaultColumns(len(columns))
+        for i, col in enumerate(columns):
+            column = columns_model.getColumn(i)
+            for k, v in col.items():
+                setattr(column, k, v)
+        return
 
     def getGridData(self, grid, exclude):
         gdm = grid.Model.GridDataModel

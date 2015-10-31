@@ -2,15 +2,16 @@
 
 import logging
 from org.universolibre.EasyDev import XLODataBase
-from easydev.setting import LOG, NAME_EXT
 from easydev import comun
 from easydev.comun import LODefault
+from easydev.setting import LOG, NAME_EXT
 
 
 log = logging.getLogger(NAME_EXT)
 
 
 class LODataBase(XLODataBase, LODefault):
+
 
     def __init__(self, ctx, sm, desktop, toolkit):
         LODefault.__init__(self, ctx, sm, desktop, toolkit)
@@ -24,3 +25,13 @@ class LODataBase(XLODataBase, LODefault):
         except Exception as e:
             log.error(str(e))
             return None
+
+    def query(self, con, sql, array):
+        cursor = con.createStatement()
+        resulset = cursor.executeQuery(sql)
+        if array:
+            return comun.parse_data_type(resulset)
+        else:
+            return resulset
+
+

@@ -91,6 +91,7 @@ Add menu options, automatic add event item change for update property Step in di
     dlg.execute()
     dlg.dispose()
 
+.. _grid:
 
 Grid
 ----
@@ -142,6 +143,27 @@ Add data from range cells.
     col_format = Array()
     util.setGridData(grid, data, col_format)
 
+Set data from query, see :ref:`base-query`.
+
+.. code-block:: vbnet
+
+    odbc = "TESTODBCSQLITE"
+    user = ""
+    passw = ""
+
+    con = util.conODBC(odbc, user, passw)
+
+    sql = "SELECT id, name FROM contactos"
+    data = util.query(con, sql, False)
+    properties = Array( _
+        Array("Name", "grid"), _
+        Array("PositionX", 10), _
+        Array("PositionY", 10), _
+        Array("Columns", Array()) _
+    )
+    grid = util.createControl(dlg, "Grid", properties)
+    util.setQuery(grid, data, True)
+
 Change default format for columns with values.
 
 .. code-block:: vbnet
@@ -168,6 +190,10 @@ And get data grid in array.
 
     data = util.getGridData(grid, Array())
     util.msgbox(data)
+
+
+
+
 
 
 TextBox
