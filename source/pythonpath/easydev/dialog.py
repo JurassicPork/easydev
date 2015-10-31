@@ -366,10 +366,6 @@ class LODialog(XLODialog, LODefault):
         grid.Model.RowBackgroundColors = tuple(colors)
         return
 
-    def setQuery(self, grid, query):
-
-        return
-
     def _format(self, value, fmt=''):
         if fmt:
             return fmt.format(value)
@@ -379,6 +375,47 @@ class LODialog(XLODialog, LODefault):
             else:
                 new_value = value
         return new_value
+
+    def setQuery(self, grid, query, colid):
+        data = comun.parse_data_type(query)
+        headers = data[0]
+        row = data[1:2]
+        rows = data[1:]
+        col_fmt = False
+        if colid:
+            col_fmt = ('{}',) + ('',) * (len(headers) - 1)
+        self._make_columns(grid, headers, row)
+        self.setGridData(grid, rows, col_fmt)
+        return
+
+    def _make_columns(self, grid, headers, row):
+        if row:
+            align = tuple(self._get_align(r) for r in row[0])
+        else:
+            align = (0,) * len(headers)
+        columns = []
+        for i, v in enumerate(headers):
+            col = {}
+            col['Title'] = v
+            col['HorizontalAlign'] = align[i]
+            columns.append(col)
+        self.setGridColumns(grid, columns)
+        return
+
+    def _get_align(self, value):
+        align = 0
+        if isinstance(value, (int, float)):
+            align = 2
+        return align
+
+    def setGridColumns(self, grid, columns):
+        columns_model = grid.Model.ColumnModel
+        columns_model.setDefaultColumns(len(columns))
+        for i, col in enumerate(columns):
+            column = columns_model.getColumn(i)
+            for k, v in col.items():
+                setattr(column, k, v)
+        return
 
     def getGridData(self, grid, exclude):
         gdm = grid.Model.GridDataModel

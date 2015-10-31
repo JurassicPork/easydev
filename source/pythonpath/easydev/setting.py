@@ -42,3 +42,25 @@ COLORS = {
     'GREEN': 12255176,
     'RED': 16764108,
 }
+DATA_TYPES = {
+    #~ MySQL
+    'bit': 'getByte',
+    'tinyint': 'getLong',
+    'bigint': 'getLong',
+    'smallint': 'getLong',
+    'integer': 'getLong',
+    'decimal': 'getFloat',
+    'float': 'getFloat',
+    'double': 'getDouble',
+    'char': 'getString',
+    'varchar': 'getString',
+    'text': 'getString',
+    'date': 'getDate',
+    'time': 'getTime',
+    'timestamp': 'getTimestamp',
+    'datetime': 'getTimestamp',
+    #~ PostgreSQL
+    #~ SQLite
+    #~ MSSQL
+}
+
