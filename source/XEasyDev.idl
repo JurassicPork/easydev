@@ -177,6 +177,7 @@ module org { module universolibre { module EasyDev {
     {
         [attribute, readonly] byte decimals;
         [attribute] string numfmt;
+        [attribute] long colorOnFocus;
 
         any createDialog([in] any data);
         any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);

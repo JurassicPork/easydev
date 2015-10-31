@@ -47,6 +47,8 @@ stop_thread = {}
 
 def call_macro(factory, macro, args):
     #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
+    if not macro.Library:
+        macro.Library = 'Standard'
     if not macro.Language:
         macro.Language = PYTHON
     if macro.Language == 'Basic':
@@ -70,7 +72,7 @@ def call_macro(factory, macro, args):
     elif macro.Language == 'JavaScript':
         main = 'vnd.sun.star.script:{}.{}.js?language=JavaScript&location={}'.format(
             macro.Library, macro.Name, macro.Location)
-
+    #~ log.info(main)
     script = factory.createScriptProvider('').getScript(main)
     return script.invoke(args, None, None)[0]
 
