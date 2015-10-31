@@ -5,9 +5,13 @@ import logging
 import unohelper
 from com.sun.star.awt import XItemListener
 from com.sun.star.awt import XMouseListener
+from com.sun.star.awt import XFocusListener
+from com.sun.star.awt import XActionListener
 
 from org.universolibre.EasyDev import XLODialog
+from org.universolibre.EasyDev import Macro
 from easydev import comun
+from easydev.tools import call_macro
 from easydev.comun import LODefault
 from easydev.setting import LOG, NAME_EXT, COLORS, DECIMALS, FORMAT
 
@@ -84,23 +88,88 @@ class GridMouseEvents(MouseEvents):
         return
 
 
+class FocusEvents(unohelper.Base, XFocusListener):
+
+    def disposing(self, event):
+        pass
+
+    def focusGained(self, event):
+        pass
+
+    def focusLost(self, event):
+        pass
+
+
+class ControlFocusEvents(unohelper.Base, XFocusListener):
+
+    def __init__(self, color):
+        self.color = color
+
+    def focusGained(self, event):
+        obj = event.Source.Model
+        obj.Border = 0
+        obj.BackgroundColor = self.color
+        return
+
+    def focusLost(self, event):
+        obj = event.Source.Model
+        obj.Border = 1
+        obj.BackgroundColor = COLORS['WHITE']
+        return
+
+
+class ButtonEvents(unohelper.Base, XActionListener):
+
+    def __init__(self, factory, macro):
+        self.factory = factory
+        self.macro = macro
+
+    def disposing(self, event):
+        pass
+
+    def actionPerformed(self, event):
+        control_name = '{}_action'.format(event.Source.Model.Name)
+        if not self.macro.Name:
+            self.macro.Name = control_name
+        call_macro(self.factory, self.macro, (event,))
+        return
+
+
 class LODialog(XLODialog, LODefault):
     decimals = DECIMALS
     numfmt = FORMAT.format(decimals)
+    colorOnFocus = COLORS['YELLOW']
 
     def __init__(self, ctx, sm, desktop, toolkit):
         LODefault.__init__(self, ctx, sm, desktop, toolkit)
+        self.factory = self._create_instance(
+            'com.sun.star.script.provider.MasterScriptProviderFactory', False)
 
-    def createDialog(self, path):
-        """Create dialog from URL."""
+    def createDialog(self, data):
+        """
+            Create dialog from URL.
+            path in OS or URI Specification vnd.sun.star.script
+        """
         dp = self._create_instance('com.sun.star.awt.DialogProvider', True)
-        return dp.createDialog(comun.path_to_url(path))
+        if isinstance(data, Macro):
+            if not data.Library:
+                data.Library = 'Standard'
+            data.Location = 'application'
+            path = 'vnd.sun.star.script:{}.{}?location={}'.format(
+                data.Library, data.Dialog, data.Location)
+        elif comun.exists(data):
+            path = comun.path_to_url(data)
+        return dp.createDialog(path)
+        #~ path_current = __file__.split('/')
+        #~ path_dialog = "vnd.sun.star.tdoc:/{}/Dialogs/{}/{}.xml".format(
+            #~ path_current[1], module, name)
 
     def createControl(self, dialog, type_control, options):
         properties = comun.to_dict(options)
+        macro = properties.get('Macro', False)
         base_properties = {
             'Width': 100,
-            'Height': 10,
+            'Height': 12,
             'PositionX': 0,
             'PositionY': 0,
             'Step': 0,
@@ -137,6 +206,8 @@ class LODialog(XLODialog, LODefault):
             'FixedHyperlink': base_properties.copy(),
             'Roadmap': base_properties.copy(),
             'Grid': base_properties.copy(),
+            'Edit': base_properties.copy(),
+            'Button': base_properties.copy(),
         }
         controls_properties['Roadmap'].update({
             'Height': 100,
@@ -149,11 +220,10 @@ class LODialog(XLODialog, LODefault):
             'ShowRowHeader': True,
             'SelectionModel': 2,
             'UseGridLines': True})
-
-        controls_properties['Button'] = base_properties.update({
+        controls_properties['Button'].update({
             'Label': 'CommandButton',
-            'DefaultButton': False,
-            'PushButtonType': 0})
+            'DefaultButton': False})
+
         controls_properties['CheckBox'] = base_properties.update({
             'Label': 'CheckBox'})
         controls_properties['ComboBox'] = base_properties.update({
@@ -162,9 +232,6 @@ class LODialog(XLODialog, LODefault):
             'Spin': True})
         controls_properties['DateField'] = base_properties.update({
             'Dropdown':True})
-        controls_properties['Edit'] = base_properties.update({
-            'Width':60,
-            'Height':13})
         controls_properties['FileControl'] = base_properties.update({
             'Width':60,
             'Height':13})
@@ -255,6 +322,11 @@ class LODialog(XLODialog, LODefault):
             obj.addMouseListener(LinkMouseEvents())
         elif type_control == 'Grid':
             obj.addMouseListener(GridMouseEvents())
+        elif type_control == 'Edit':
+            obj.addFocusListener(ControlFocusEvents(self.colorOnFocus))
+        elif type_control == 'Button':
+            macro = properties.get('Macro', False)
+            obj.addActionListener(ButtonEvents(self.factory, macro))
         return obj
 
     def _add_options_roadmap(self, roadmap, options):

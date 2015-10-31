@@ -53,6 +53,23 @@
 <span class="k">End</span> <span class="k">Sub</span>
 </pre></div>
 </div>
+<p>Create dialog from Library, default library is <strong>Standard</strong></p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">macro</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.Macro&quot;</span><span class="p">)</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Dialog</span> <span class="o">=</span> <span class="s">&quot;Dialog1&quot;</span>
+
+<span class="n">dlg</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createDialog</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+
+<span class="c">&#39;Use other library</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Library</span> <span class="o">=</span> <span class="s">&quot;MyLibrary&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Dialog</span> <span class="o">=</span> <span class="s">&quot;MyDialog&quot;</span>
+
+<span class="n">dlg</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createDialog</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If dialog is into document, use standard method createUnoDialog</p>
+</div>
 </div>
 <div class="section" id="label-hyperlink">
 <h2>Label hyperlink<a class="headerlink" href="#label-hyperlink" title="Permalink to this headline">¶</a></h2>
@@ -158,6 +175,48 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="textbox">
+<h2>TextBox<a class="headerlink" href="#textbox" title="Permalink to this headline">¶</a></h2>
+<p>Create text box, automatic change background color in focus events.</p>
+<a class="reference internal image-reference" href="_images/img014.png"><img alt="_images/img014.png" class="align-center" src="_images/img014.png" style="width: 300px;" /></a>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;txt_name&quot;</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
+<span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Edit&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+<span class="n">dlg</span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="n">dlg</span><span class="p">.</span><span class="n">dispose</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can change default background color. Change color before create control.</p>
+<a class="reference internal image-reference" href="_images/img015.png"><img alt="_images/img015.png" class="align-center" src="_images/img015.png" style="width: 300px;" /></a>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">colorOnFocus</span> <span class="o">=</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">229</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">204</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="commandbutton">
+<h2>CommandButton<a class="headerlink" href="#commandbutton" title="Permalink to this headline">¶</a></h2>
+<p>Create command button and assigned macro to execute. Default library is <strong>Standard</strong>.
+For default, the macro name execute is: <strong>CONTROL_NAME + _action</strong>, in this example:</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">cmd_test_action</span><span class="p">(</span><span class="k">event</span><span class="p">):</span>
+    <span class="n">MsgBox</span> <span class="k">event</span><span class="p">.</span><span class="n">Source</span><span class="p">.</span><span class="n">Model</span><span class="p">.</span><span class="n">Name</span>
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+<p>Argument <strong>event</strong> is important.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">macro</span><span class="p">.</span><span class="n">Language</span> <span class="o">=</span> <span class="s">&quot;Basic&quot;</span>
+<span class="n">macro</span><span class="p">.</span><span class="n">Module</span> <span class="o">=</span> <span class="s">&quot;LODialog&quot;</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;cmd_test&quot;</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Macro&quot;</span><span class="p">,</span> <span class="n">macro</span><span class="p">),</span> _
+<span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Button&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -173,6 +232,8 @@
 <li><a class="reference internal" href="#label-hyperlink">Label hyperlink</a></li>
 <li><a class="reference internal" href="#roadmap">Roadmap</a></li>
 <li><a class="reference internal" href="#grid">Grid</a></li>
+<li><a class="reference internal" href="#textbox">TextBox</a></li>
+<li><a class="reference internal" href="#commandbutton">CommandButton</a></li>
 </ul>
 </li>
 </ul>

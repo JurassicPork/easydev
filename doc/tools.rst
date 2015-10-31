@@ -340,6 +340,7 @@ Save next macro in:
 
 ``/home/USER/.config/libreoffice/4/user/Scripts/python/mymacros.py``
 ::
+
     import uno
     import time
 
@@ -397,6 +398,7 @@ Save next macro in:
 
 ``/home/USER/.config/libreoffice/4/user/Scripts/python/mymacros.py``
 ::
+
     import uno
     import time
 
