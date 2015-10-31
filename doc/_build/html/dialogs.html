@@ -112,7 +112,7 @@
 </div>
 </div>
 <div class="section" id="grid">
-<h2>Grid<a class="headerlink" href="#grid" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Grid<a class="headerlink" href="#grid" title="Permalink to this headline">¶</a></h2>
 <p>Create grid and set data from array. Detect column values and format.</p>
 <a class="reference internal image-reference" href="_images/img013.png"><img alt="_images/img013.png" class="align-center" src="_images/img013.png" style="width: 300px;" /></a>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">c1</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
@@ -151,6 +151,25 @@
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">getCurrentSelection</span><span class="p">().</span><span class="n">getDataarray</span><span class="p">()</span>
 <span class="n">col_format</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
 <span class="n">util</span><span class="p">.</span><span class="n">setGridData</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">col_format</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Set data from query, see <a class="reference internal" href="libobase.html#base-query"><span>Query</span></a>.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">odbc</span> <span class="o">=</span> <span class="s">&quot;TESTODBCSQLITE&quot;</span>
+<span class="n">user</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">passw</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+
+<span class="n">con</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">conODBC</span><span class="p">(</span><span class="n">odbc</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">passw</span><span class="p">)</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;SELECT id, name FROM contactos&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;grid&quot;</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Columns&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span> _
+<span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Grid&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">setQuery</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Change default format for columns with values.</p>

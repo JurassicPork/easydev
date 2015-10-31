@@ -207,6 +207,7 @@ class LODialog(XLODialog, LODefault):
             'Grid': base_properties.copy(),
             'Edit': base_properties.copy(),
             'Button': base_properties.copy(),
+            'DateField': base_properties.copy(),
         }
         controls_properties['Roadmap'].update({
             'Height': 100,
