@@ -354,7 +354,9 @@ class LODialog(XLODialog, LODefault):
         grid_dm.removeAllRows()
         heading = tuple(range(1, len(data) + 1))
         if colFormat:
-            rows = tuple(tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data)
+            rows = tuple(
+                tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data
+            )
         else:
             rows = tuple(tuple(self._format(r) for r in row) for row in data)
         grid_dm.addRows(heading, rows)
@@ -362,6 +364,10 @@ class LODialog(XLODialog, LODefault):
         rows = range(grid_dm.RowCount)
         colors = [COLORS['GRAY'] if r % 2 else COLORS['WHITE'] for r in rows]
         grid.Model.RowBackgroundColors = tuple(colors)
+        return
+
+    def setQuery(self, grid, query):
+
         return
 
     def _format(self, value, fmt=''):
