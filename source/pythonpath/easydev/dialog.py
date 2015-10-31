@@ -7,6 +7,7 @@ from com.sun.star.awt import XItemListener
 from com.sun.star.awt import XMouseListener
 
 from org.universolibre.EasyDev import XLODialog
+from org.universolibre.EasyDev import Macro
 from easydev import comun
 from easydev.comun import LODefault
 from easydev.setting import LOG, NAME_EXT, COLORS, DECIMALS, FORMAT
@@ -91,10 +92,24 @@ class LODialog(XLODialog, LODefault):
     def __init__(self, ctx, sm, desktop, toolkit):
         LODefault.__init__(self, ctx, sm, desktop, toolkit)
 
-    def createDialog(self, path):
-        """Create dialog from URL."""
+    def createDialog(self, data):
+        """
+            Create dialog from URL.
+            path in OS or URI Specification vnd.sun.star.script
+        """
         dp = self._create_instance('com.sun.star.awt.DialogProvider', True)
-        return dp.createDialog(comun.path_to_url(path))
+        if isinstance(data, Macro):
+            if not data.Library:
+                data.Library = 'Standard'
+            data.Location = 'application'
+            path = 'vnd.sun.star.script:{}.{}?location={}'.format(
+                data.Library, data.Dialog, data.Location)
+        elif comun.exists(data):
+            path = comun.path_to_url(data)
+        return dp.createDialog(path)
+        #~ path_current = __file__.split('/')
+        #~ path_dialog = "vnd.sun.star.tdoc:/{}/Dialogs/{}/{}.xml".format(
+            #~ path_current[1], module, name)
 
     def createControl(self, dialog, type_control, options):
         properties = comun.to_dict(options)

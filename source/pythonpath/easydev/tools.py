@@ -67,7 +67,7 @@ def call_macro(factory, macro, args):
     elif macro.Language == 'Java':
         main = 'vnd.sun.star.script:{}.{}?language=Java&location={}'.format(
             macro.Library, macro.Name, macro.Location)
-    elif macro.Language == 'BeanShell':
+    elif macro.Language == 'JavaScript':
         main = 'vnd.sun.star.script:{}.{}.js?language=JavaScript&location={}'.format(
             macro.Library, macro.Name, macro.Location)
 
