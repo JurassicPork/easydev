@@ -140,12 +140,13 @@ def parse_data_type(resulset):
     info = resulset.getMetaData()
     cols = range(1, info.getColumnCount() + 1)
 
-    for c in cols:
-        dt = info.getColumnTypeName(c)
-        if not DATA_TYPES.get(dt, False):
-            log.info(dt)
+    #~ for c in cols:
+        #~ dt = info.getColumnTypeName(c).lower()
+        #~ print ('DATA TYPE', dt)
+        #~ if not DATA_TYPES.get(dt, False):
+            #~ log.info(dt)
 
-    cols_type = ('',) + tuple(DATA_TYPES[info.getColumnTypeName(c)] for c in cols)
+    cols_type = ('',) + tuple(DATA_TYPES[info.getColumnTypeName(c).lower()] for c in cols)
     headers = tuple(info.getColumnName(c) for c in cols)
     data = [headers]
     while resulset.next():

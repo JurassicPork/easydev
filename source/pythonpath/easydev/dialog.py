@@ -166,7 +166,6 @@ class LODialog(XLODialog, LODefault):
 
     def createControl(self, dialog, type_control, options):
         properties = comun.to_dict(options)
-        macro = properties.get('Macro', False)
         base_properties = {
             'Width': 100,
             'Height': 12,
@@ -211,7 +210,8 @@ class LODialog(XLODialog, LODefault):
         }
         controls_properties['Roadmap'].update({
             'Height': 100,
-            'Text': 'Menu'})
+            'Text': 'Menu'}
+        )
         controls_properties['Grid'].update({
             'Height': 100,
             'BackgroundColor': COLORS['WHITE'],
@@ -219,66 +219,69 @@ class LODialog(XLODialog, LODefault):
             'ShowColumnHeader': True,
             'ShowRowHeader': True,
             'SelectionModel': 2,
-            'UseGridLines': True})
+            'UseGridLines': True}
+        )
         controls_properties['Button'].update({
             'Label': 'CommandButton',
-            'DefaultButton': False})
+            'DefaultButton': False}
+        )
+        controls_properties['DateField'].update({
+            'Dropdown': True}
+        )
 
-        controls_properties['CheckBox'] = base_properties.update({
-            'Label': 'CheckBox'})
-        controls_properties['ComboBox'] = base_properties.update({
-            'Dropdown': True})
-        controls_properties['CurrencyField'] = base_properties.update({
-            'Spin': True})
-        controls_properties['DateField'] = base_properties.update({
-            'Dropdown':True})
-        controls_properties['FileControl'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['FixedLine'] = base_properties.update({
-            'Width':60,
-            'Height':5})
-        controls_properties['FixedText'] = base_properties.update({
-            'Label':'Label'})
-        controls_properties['FormattedField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['GroupBox'] = base_properties.update({
-            'Width':100,
-            'Height':30})
-        controls_properties['ImageControl'] = base_properties.update({
-            'Width':30,
-            'Height':30})
-        controls_properties['ListBox'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['NumericField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['PatternField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['ProgressBar'] = base_properties.update({
-            'Width':100,
-            'Height':13})
-        controls_properties['RadioButton'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['ScrollBar'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['SimpleAnimation'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['SpinButton'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['Throbber'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['TimeField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
+        #~ controls_properties['CheckBox'] = base_properties.update({
+            #~ 'Label': 'CheckBox'})
+        #~ controls_properties['ComboBox'] = base_properties.update({
+            #~ 'Dropdown': True})
+        #~ controls_properties['CurrencyField'] = base_properties.update({
+            #~ 'Spin': True})
+        #~ controls_properties['FileControl'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['FixedLine'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':5})
+        #~ controls_properties['FixedText'] = base_properties.update({
+            #~ 'Label':'Label'})
+        #~ controls_properties['FormattedField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['GroupBox'] = base_properties.update({
+            #~ 'Width':100,
+            #~ 'Height':30})
+        #~ controls_properties['ImageControl'] = base_properties.update({
+            #~ 'Width':30,
+            #~ 'Height':30})
+        #~ controls_properties['ListBox'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['NumericField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['PatternField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['ProgressBar'] = base_properties.update({
+            #~ 'Width':100,
+            #~ 'Height':13})
+        #~ controls_properties['RadioButton'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['ScrollBar'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['SimpleAnimation'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['SpinButton'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['Throbber'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['TimeField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
 
         """Create controls"""
         if not 'Name' in properties:

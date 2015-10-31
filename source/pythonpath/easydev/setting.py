@@ -60,7 +60,29 @@ DATA_TYPES = {
     'timestamp': 'getTimestamp',
     'datetime': 'getTimestamp',
     #~ PostgreSQL
+    '': 'getString',
+    'int8': 'getLong',
+    'int8': 'getLong',
+    'unknown': 'getString',
+    'bool': 'getBoolean',
+    'bytea': 'getBytes',
+    'cidr': 'getString',
+    'float8': 'getDouble',
+    'inet': 'getString',
+    'int4': 'getLong',
+    'macaddr': 'getString',
+    'money': 'getDouble',
+    'numeric': 'getDouble',
+    'float4': 'getDouble',
+    'int2': 'getLong',
+    'int4': 'getLong',
+    'timestamp without time zone': 'getTimestamp',
+    'timestamp with time zone': 'getTimestamp',
+    'uuid': 'getString',
+    'xml': 'getString',
     #~ SQLite
+    'real': 'getDouble',
+    'blob': '',
     #~ MSSQL
 }
 
