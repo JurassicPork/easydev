@@ -373,7 +373,6 @@ class Tools(XTools, LODefault):
         node = PropertyValue()
         node.Name = 'nodepath'
         node.Value = NODE
-        print (NODE)
         try:
             config_writer = cp.createInstanceWithArguments(
                 'com.sun.star.configuration.ConfigurationUpdateAccess', (node,))

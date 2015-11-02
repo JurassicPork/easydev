@@ -183,7 +183,7 @@ module org { module universolibre { module EasyDev {
         any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);
         void setGridData([in] any grid, [in] sequence< any > data, [in] sequence< string > colFormat);
         void setGridColumns([in] any grid, [in] sequence< any > columns);
-        void gridDataForm([in] org::universolibre::EasyDev::CellRangeAddress cell);
+        void gridDataForm([in] any cell);
         void setQuery([in] any grid, [in] any data, [in] boolean colid);
         any getGridData([in] any grid, [in] sequence< unsigned short > exclude);
     };

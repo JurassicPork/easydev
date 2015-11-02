@@ -9,8 +9,11 @@ from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.util import Time, Date, DateTime
 
 from easydev.setting import (
+    CONTROLS,
     DATA_TYPES,
+    ICONS,
     NAME_EXT,
+    PATHS,
 )
 
 
@@ -121,6 +124,8 @@ def to_date(value):
 
 
 def to_dict(data, test_date=False):
+    if isinstance(data, dict):
+        return data
     if isinstance(data[0], tuple):
         if test_date:
             dic = {r[0]: to_date(r[1]) for r in data}
@@ -154,4 +159,36 @@ def parse_data_type(resulset):
         data.append(row)
     return tuple(data)
 
+
+def join(*paths):
+    return os.path.normpath(os.path.join(*paths))
+
+
+def get_path_ext():
+    path, _, _, _ = get_path_info(__file__)
+    path = join(path, '..', '..')
+    return path
+
+
+def get_path_dlg(name):
+    path_ext = get_path_ext()
+    path_dlg = join(path_ext, PATHS['DIALOGS'], name)
+    return path_dlg
+
+
+def set_icons(dlg_model):
+    path_ext = get_path_ext()
+    path_img = path_to_url(join(path_ext, PATHS['IMAGES'])) + '/{}'
+    for control in dlg_model.ControlModels:
+        if control.ImplementationName == CONTROLS['BUTTONS']:
+            icon = path_img.format(ICONS.get(control.Tag, ''))
+            getattr(dlg_model, control.Name).ImageURL = icon
+    return
+
+
+def get_data_range(cell):
+    sheet = cell.getSpreadsheet()
+    cursor = sheet.createCursorByRange(cell)
+    cursor.collapseToCurrentRegion()
+    return cursor.getDataArray()
 

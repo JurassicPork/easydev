@@ -34,6 +34,34 @@ PYTHON = 'Python'
 LOCATION_USER = 'user'
 FILE_NAME_DEBUG = 'debug.odt'
 TITLE_DEBUG = 'Debug'
+PATHS = {
+    'DIALOGS': 'dialogs',
+    'IMAGES': 'images',
+}
+DIALOGS = {
+    'DATAFORM': 'dlg_dataform.xdl'
+}
+CONTROLS = {
+    'BUTTONS': 'stardiv.Toolkit.UnoControlButtonModel',
+    'TEXTBOX': 'stardiv.Toolkit.UnoControlEditModel',
+    'OPTIONBUTTON': 'stardiv.Toolkit.UnoControlRadioButtonModel',
+    'PATTERN': 'stardiv.Toolkit.UnoControlPatternFieldModel',
+    'CHECKBOX': 'stardiv.Toolkit.UnoControlCheckBoxModel',
+    'NUMERIC': 'stardiv.Toolkit.UnoControlNumericFieldModel',
+    'LISTBOX': 'stardiv.Toolkit.UnoControlListBoxModel',
+    'DATE': 'stardiv.Toolkit.UnoControlDateFieldModel',
+    'IMAGE': 'stardiv.Toolkit.UnoControlImageControlModel',
+    'TREE': 'stardiv.Toolkit.UnoTreeModel',
+    'GRID': 'stardiv.Toolkit.UnoGridModel',
+    'MAP': 'stardiv.Toolkit.UnoControlRoadmapModel',
+}
+ICONS = {
+    'CLOSE': 'close.png',
+    'NEW': 'new.png',
+    'EDIT': 'edit.png',
+    'DELETE': 'delete.png',
+    'CLEAN': 'clean.png',
+}
 COLORS = {
     'YELLOW': 16777164,
     'WHITE': 16777215,

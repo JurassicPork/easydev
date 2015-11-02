@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="dlg_dataform" dlg:left="15" dlg:top="12" dlg:width="300" dlg:height="200" dlg:help-text="&amp;14.dlg_dataform.HelpText" dlg:closeable="true" dlg:moveable="true" dlg:title="&amp;15.dlg_dataform.Title">
+ <dlg:bulletinboard>
+  <dlg:button dlg:id="cmd_close" dlg:tab-index="0" dlg:left="245" dlg:top="183" dlg:width="50" dlg:height="12" dlg:tag="CLOSE" dlg:help-text="&amp;16.dlg_dataform.cmd_close.HelpText" dlg:value="&amp;17.dlg_dataform.cmd_close.Label" dlg:image-position="left-center" dlg:image-align="left" dlg:grab-focus="false"/>
+  <dlg:button dlg:id="cmd_new" dlg:tab-index="1" dlg:left="5" dlg:top="5" dlg:width="50" dlg:height="12" dlg:tag="NEW" dlg:help-text="&amp;20.dlg_dataform.cmd_new.HelpText" dlg:value="&amp;21.dlg_dataform.cmd_new.Label" dlg:image-position="left-center" dlg:image-align="left" dlg:grab-focus="false"/>
+  <dlg:button dlg:id="cmd_edit" dlg:tab-index="2" dlg:left="57" dlg:top="5" dlg:width="50" dlg:height="12" dlg:tag="EDIT" dlg:help-text="&amp;24.dlg_dataform.cmd_edit.HelpText" dlg:value="&amp;25.dlg_dataform.cmd_edit.Label" dlg:image-position="left-center" dlg:image-align="left" dlg:grab-focus="false"/>
+  <dlg:button dlg:id="cmd_delete" dlg:tab-index="3" dlg:left="109" dlg:top="5" dlg:width="50" dlg:height="12" dlg:tag="DELETE" dlg:help-text="&amp;28.dlg_dataform.cmd_delete.HelpText" dlg:value="&amp;29.dlg_dataform.cmd_delete.Label" dlg:image-position="left-center" dlg:image-align="left" dlg:grab-focus="false"/>
+  <dlg:button dlg:id="cmd_clean" dlg:tab-index="4" dlg:left="283" dlg:top="5" dlg:width="12" dlg:height="12" dlg:tag="CLEAN" dlg:help-text="&amp;32.dlg_dataform.cmd_clean.HelpText" dlg:value="&amp;33.dlg_dataform.cmd_clean.Label" dlg:image-position="left-center" dlg:image-align="left" dlg:grab-focus="false"/>
+  <dlg:textfield dlg:id="txt_search" dlg:tab-index="5" dlg:left="161" dlg:top="5" dlg:width="120" dlg:height="12" dlg:help-text="&amp;36.dlg_dataform.txt_search.HelpText" dlg:value="&amp;37.dlg_dataform.txt_search.Text"/>
+ </dlg:bulletinboard>
+</dlg:window>

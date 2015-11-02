@@ -13,7 +13,14 @@ from org.universolibre.EasyDev import Macro
 from easydev import comun
 from easydev.tools import call_macro
 from easydev.comun import LODefault
-from easydev.setting import LOG, NAME_EXT, COLORS, DECIMALS, FORMAT
+from easydev.setting import (
+    LOG,
+    NAME_EXT,
+    COLORS,
+    DECIMALS,
+    FORMAT,
+    DIALOGS,
+)
 
 
 log = logging.getLogger(NAME_EXT)
@@ -160,7 +167,6 @@ class LODialog(XLODialog, LODefault):
         elif comun.exists(data):
             path = comun.path_to_url(data)
         return dp.createDialog(path)
-        #~ path_current = __file__.split('/')
         #~ path_dialog = "vnd.sun.star.tdoc:/{}/Dialogs/{}/{}.xml".format(
             #~ path_current[1], module, name)
 
@@ -397,11 +403,13 @@ class LODialog(XLODialog, LODefault):
             align = tuple(self._get_align(r) for r in row[0])
         else:
             align = (0,) * len(headers)
+        width = (grid.Model.Width - 30) / len(headers)
         columns = []
         for i, v in enumerate(headers):
             col = {}
             col['Title'] = v
             col['HorizontalAlign'] = align[i]
+            col['ColumnWidth'] = width
             columns.append(col)
         self.setGridColumns(grid, columns)
         return
@@ -441,5 +449,48 @@ class LODialog(XLODialog, LODefault):
                 value = cell(c, r)
         return value
 
+    def gridDataForm(self, cell):
+        try:
+            dlg = self._get_dlg()
+            data = comun.get_data_range(cell)
+            grid = self._create_grid(dlg)
+            self._set_grid_data(grid, data)
+            dlg.execute()
+            dlg.dispose()
+        except:
+            log.error('Data form', exc_info=True)
+        return
 
+    def _get_dlg(self):
+        path_dlg = comun.get_path_dlg(DIALOGS['DATAFORM'])
+        dlg = self.createDialog(path_dlg)
+        comun.set_icons(dlg.Model)
+        return dlg
 
+    def _create_grid(self, dialog):
+        dm = dialog.Model
+        properties = {
+            'Name': 'grid',
+            'Width': dm.Width - 10,
+            'Height': dm.Height - 44,
+            'PositionX': 5,
+            'PositionY': 22,
+            'Step': 0,
+            'TabIndex': 1,
+            'Columns': (),
+        }
+        grid = self.createControl(dialog, 'Grid', properties)
+        return grid
+
+    def _set_grid_data(self, grid, data):
+        headers = data[0]
+        row = data[1:2]
+        rows = data[1:]
+        self._make_columns(grid, headers, row)
+        #~ col_fmt = ('',) * len(headers)
+        self.setGridData(grid, rows, False)
+        return
+        #~ for control in self.dialog.Controls:
+            #~ if control.ImplementationName in EXCLUDE_CONTROLS:
+                #~ continue
+            #~ setattr(self, control.Model.Name, control)
