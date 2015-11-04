@@ -58,13 +58,14 @@ class LOCalc(XLOCalc, LOApp):
         return
 
     def getCurrentRegion(self, cell, getCursor):
-        sheet = cell.getSpreadsheet()
-        cursor = sheet.createCursorByRange(cell)
-        cursor.collapseToCurrentRegion()
-        if getCursor:
-            return cursor
-        else:
-            return sheet.getCellRangeByName(cursor.AbsoluteName)
+        return comun.get_current_region(cell, getCursor)
+        #~ sheet = cell.getSpreadsheet()
+        #~ cursor = sheet.createCursorByRange(cell)
+        #~ cursor.collapseToCurrentRegion()
+        #~ if getCursor:
+            #~ return cursor
+        #~ else:
+            #~ return sheet.getCellRangeByName(cursor.AbsoluteName)
 
     def getLastRow(self, cell):
         cursor = cell.getSpreadsheet().createCursorByRange(cell)

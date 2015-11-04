@@ -192,3 +192,12 @@ def get_data_range(cell):
     cursor.collapseToCurrentRegion()
     return cursor.getDataArray()
 
+
+def get_current_region(cell, cursor=False):
+    sheet = cell.getSpreadsheet()
+    cursor = sheet.createCursorByRange(cell)
+    cursor.collapseToCurrentRegion()
+    if cursor:
+        return cursor
+    else:
+        return sheet.getCellRangeByName(cursor.AbsoluteName)

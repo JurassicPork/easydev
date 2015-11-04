@@ -2,11 +2,15 @@
 
 import logging
 
+import uno
 import unohelper
 from com.sun.star.awt import XItemListener
 from com.sun.star.awt import XMouseListener
 from com.sun.star.awt import XFocusListener
 from com.sun.star.awt import XActionListener
+
+from com.sun.star.table import TableSortField
+from com.sun.star.table.TableSortFieldType import AUTOMATIC
 
 from org.universolibre.EasyDev import XLODialog
 from org.universolibre.EasyDev import Macro
@@ -95,6 +99,34 @@ class GridMouseEvents(MouseEvents):
         return
 
 
+class GridDataFormMouseEvents(GridMouseEvents):
+
+    def __init__(self, cell):
+        self.cell = cell
+
+    def mouseReleased(self, event):
+        grid = event.Source
+        col = grid.getColumnAtPoint(event.X, event.Y)
+        row = grid.getRowAtPoint(event.X, event.Y)
+        log.info('Col: {} Row: {}'.format(col, row))
+        if col > -1 and row == -1:
+            rango = comun.get_current_region(self.cell)
+            field = TableSortField()
+            field.Field = col
+            field.IsAscending = True
+            field.IsCaseSensitive = False
+            field.FieldType = AUTOMATIC
+
+            sort_des = rango.createSortDescriptor()
+            sort_des[1].Name = "ContainsHeader"
+            sort_des[1].Value = True
+            sort_des[3].Name = "SortFields"
+            sort_des[3].Value = uno.Any('[]com.sun.star.table.TableSortField', (field,))
+            rango.sort(sort_des)
+            log.info(rango.AbsoluteName)
+        pass
+
+
 class FocusEvents(unohelper.Base, XFocusListener):
 
     def disposing(self, event):
@@ -139,6 +171,19 @@ class ButtonEvents(unohelper.Base, XActionListener):
         if not self.macro.Name:
             self.macro.Name = control_name
         call_macro(self.factory, self.macro, (event,))
+        return
+
+
+class CloseButtonEvents(unohelper.Base, XActionListener):
+
+    def __init__(self, dialog):
+        self.dialog = dialog
+
+    def disposing(self, event):
+        pass
+
+    def actionPerformed(self, event):
+        self.dialog.endDialog(0)
         return
 
 
@@ -331,7 +376,10 @@ class LODialog(XLODialog, LODefault):
         elif type_control == 'FixedHyperlink':
             obj.addMouseListener(LinkMouseEvents())
         elif type_control == 'Grid':
-            obj.addMouseListener(GridMouseEvents())
+            if properties.get('DataForm', False):
+                obj.addMouseListener(GridDataFormMouseEvents(properties['Cell']))
+            else:
+                obj.addMouseListener(GridMouseEvents())
         elif type_control == 'Edit':
             obj.addFocusListener(ControlFocusEvents(self.colorOnFocus))
         elif type_control == 'Button':
@@ -453,12 +501,20 @@ class LODialog(XLODialog, LODefault):
         try:
             dlg = self._get_dlg()
             data = comun.get_data_range(cell)
-            grid = self._create_grid(dlg)
-            self._set_grid_data(grid, data)
+            grid = self._create_grid_data_form(dlg, cell)
+            self._set_grid_data_form(grid, data)
+            self._data_form_listeners(dlg)
             dlg.execute()
             dlg.dispose()
         except:
             log.error('Data form', exc_info=True)
+        return
+
+    def _data_form_listeners(self, dlg):
+        cmd_close = dlg.getControl('cmd_close')
+        cmd_close.addActionListener(CloseButtonEvents(dlg))
+        txt_search = dlg.getControl('txt_search')
+        txt_search.addFocusListener(ControlFocusEvents(self.colorOnFocus))
         return
 
     def _get_dlg(self):
@@ -467,7 +523,7 @@ class LODialog(XLODialog, LODefault):
         comun.set_icons(dlg.Model)
         return dlg
 
-    def _create_grid(self, dialog):
+    def _create_grid_data_form(self, dialog, cell):
         dm = dialog.Model
         properties = {
             'Name': 'grid',
@@ -478,17 +534,19 @@ class LODialog(XLODialog, LODefault):
             'Step': 0,
             'TabIndex': 1,
             'Columns': (),
+            'DataForm': True,
+            'Cell': cell,
         }
         grid = self.createControl(dialog, 'Grid', properties)
         return grid
 
-    def _set_grid_data(self, grid, data):
+    def _set_grid_data_form(self, grid, data):
         headers = data[0]
         row = data[1:2]
         rows = data[1:]
         self._make_columns(grid, headers, row)
-        #~ col_fmt = ('',) * len(headers)
-        self.setGridData(grid, rows, False)
+        col_fmt = ('{}',) * len(headers)
+        self.setGridData(grid, rows, col_fmt)
         return
         #~ for control in self.dialog.Controls:
             #~ if control.ImplementationName in EXCLUDE_CONTROLS:
