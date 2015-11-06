@@ -497,6 +497,10 @@ and import
     data = util.importCSV(path, options)
     range.setDataArray(data)
 
+.. image:: images/img017.png
+    :width: 400px
+    :align: center
+
 
 .. _XPathSettings: http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html
 .. _here: https://pyformat.info/
