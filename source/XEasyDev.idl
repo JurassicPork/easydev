@@ -65,6 +65,7 @@ module org { module universolibre { module EasyDev {
         void timer([in] string name, [in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
         void stopTimer([in] string name);
         void exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< any > options);
+        any importCSV([in] string path, [in] sequence< any > options);
     };
 
     interface XArrays : com::sun::star::uno::XInterface

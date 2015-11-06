@@ -422,6 +422,23 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="import-csv">
+<h2>Import CSV<a class="headerlink" href="#import-csv" title="Permalink to this headline">¶</a></h2>
+<p>Selected range must be with number exactly of columns and rows to import, only
+for this example.</p>
+<p>More options see: <a class="reference external" href="https://docs.python.org/3.3/library/csv.html#csv.reader">https://docs.python.org/3.3/library/csv.html#csv.reader</a></p>
+<a class="reference internal image-reference" href="_images/img016.png"><img alt="_images/img016.png" class="align-center" src="_images/img016.png" style="width: 400px;" /></a>
+<p>and import</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">range</span> <span class="o">=</span> <span class="n">ThisComponent</span><span class="p">.</span><span class="n">CurrentSelection</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/test.csv&quot;</span>
+<span class="n">options</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">importCSV</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+<span class="n">range</span><span class="p">.</span><span class="n">setDataArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -445,6 +462,7 @@
 <li><a class="reference internal" href="#call-macros">Call macros</a></li>
 <li><a class="reference internal" href="#timer">Timer</a></li>
 <li><a class="reference internal" href="#export-csv">Export CSV</a></li>
+<li><a class="reference internal" href="#import-csv">Import CSV</a></li>
 </ul>
 </li>
 </ul>

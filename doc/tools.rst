@@ -473,7 +473,29 @@ Change options for export, look: `<https://docs.python.org/3.3/library/csv.html#
     util.exportCSV(path, data, options)
 
 
+Import CSV
+----------
 
+Selected range must be with number exactly of columns and rows to import, only
+for this example.
+
+More options see: `<https://docs.python.org/3.3/library/csv.html#csv.reader>`_
+
+.. image:: images/img016.png
+    :width: 400px
+    :align: center
+
+and import
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    range = ThisComponent.CurrentSelection
+    path = "/home/USER/test.csv"
+    options = Array()
+    data = util.importCSV(path, options)
+    range.setDataArray(data)
 
 
 .. _XPathSettings: http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html

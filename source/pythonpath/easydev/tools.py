@@ -373,7 +373,7 @@ class Tools(XTools, LODefault):
         node = PropertyValue()
         node.Name = 'nodepath'
         node.Value = NODE
-        print (NODE)
+        #~ print (NODE)
         try:
             config_writer = cp.createInstanceWithArguments(
                 'com.sun.star.configuration.ConfigurationUpdateAccess', (node,))
@@ -443,10 +443,10 @@ class Tools(XTools, LODefault):
         """
             See https://docs.python.org/3.3/library/csv.html#csv.writer
         """
+        path = comun.path_to_os(path)
+        if options:
+            config = comun.to_dict(options)
         try:
-            path = comun.path_to_os(path)
-            if options:
-                config = comun.to_dict(options)
             with open(path, 'w') as f:
                 if options:
                     writer = csv.writer(f, **config)
@@ -457,6 +457,25 @@ class Tools(XTools, LODefault):
         except:
             log.debug('CSV', exc_info=True)
             return False
+
+    def importCSV(self, path, options):
+        """
+            See https://docs.python.org/3.3/library/csv.html#csv.reader
+        """
+        path = comun.path_to_os(path)
+        if options:
+            config = comun.to_dict(options)
+        try:
+            with open(path) as f:
+                if options:
+                    data = tuple(csv.reader(f, **config))
+                else:
+                    data = tuple(csv.reader(f))
+            array = tuple(tuple(r) for r in data)
+            return array
+        except:
+            log.debug('CSV', exc_info=True)
+            return ()
 
 
 class Arrays(XArrays):
