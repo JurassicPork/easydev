@@ -167,6 +167,7 @@ module org { module universolibre { module EasyDev {
         long getNextID([in] any cell, [in] long col);
         any getValue([in] any cell);
         void setValue([in] any cell, [in] any value);
+        void setData([in] any cell, [in] any data);
     };
 
     interface XLOWriter : com::sun::star::uno::XInterface

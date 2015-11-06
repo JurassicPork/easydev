@@ -243,10 +243,11 @@ In range values. Get nex value in column A(0), or B(1), etc.
     :width: 400px
     :align: center
 
+
 Cell value
 ----------
 
-Automatic detect type: string, value or formula.
+Automatically detect type: string, value or formula.
 
 .. code-block:: vbnet
 
@@ -273,3 +274,32 @@ Automatic detect type: string, value or formula.
         util.msgbox(value)
 
     End Sub
+
+
+.. _setdata:
+
+Set data
+--------
+
+Automatically calculate width and height of data size.
+
+.. code-block:: vbnet
+
+    Sub SetData()
+        util = createUnoService("org.universolibre.EasyDev")
+        address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+        'Get active cell, always get one cell
+        address.Current = True
+        cell = util.getCell(address)
+
+        data = Array( _
+            Array(1, "Uno", "Tres"), _
+            Array(2, "Dos", "Cuatro"), _
+            Array(3, "Tres", "Cinco"), _
+        )
+        'Automatically calculate width and height of data size
+        util.setData(cell, data)
+
+    End Sub
+

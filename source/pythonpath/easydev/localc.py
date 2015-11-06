@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import logging
+from easydev import comun
 from easydev.loapp import LOApp
 from org.universolibre.EasyDev import XLOCalc
 from easydev.setting import LOG, NAME_EXT
@@ -96,4 +97,9 @@ class LOCalc(XLOCalc, LOApp):
                 cell.setString(value)
         elif isinstance(value, (int, float)):
             cell.setValue(value)
+        return
+
+    def setData(self, cell, data):
+        rango = comun.offset(cell, len(data), len(data[0]), True)
+        rango.setDataArray(data)
         return

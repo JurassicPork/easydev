@@ -155,3 +155,13 @@ def parse_data_type(resulset):
     return tuple(data)
 
 
+def offset(cell, cols, rows, expand=False):
+    sheet = cell.getSpreadsheet()
+    cursor = sheet.createCursorByRange(cell)
+    cursor.collapseToCurrentRegion()
+    if expand:
+        cursor.collapseToSize(
+            cursor.Columns.getCount() + cols - 1, cursor.Rows.getCount() + rows - 1)
+    else:
+        cursor.collapseToSize(cols, rows)
+    return sheet.getCellRangeByName(cursor.AbsoluteName)

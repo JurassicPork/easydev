@@ -1,6 +1,8 @@
-v 2.1.0 [31-Oct-2015]
+v 2.1.0 [06-Nov-2015]
     - [Feature] Make query to DB
     - [Feature] Query to grid
+    - [Feature] Import CSV
+    - [Feature] Set data range
 
 v 2.0.0 [30-Oct-2015]
 ---------------------
