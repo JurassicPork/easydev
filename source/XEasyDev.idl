@@ -142,6 +142,7 @@ module org { module universolibre { module EasyDev {
         any openDoc([in] string pathDoc, [in] sequence< any > data);
         void setFocus([in] any doc);
         any getStatusBar([in] any doc);
+        void setVisible([in] any doc, [in] boolean visible);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
     };
 

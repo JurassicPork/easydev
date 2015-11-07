@@ -164,6 +164,21 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="set-visible">
+<h2>Set visible<a class="headerlink" href="#set-visible" title="Permalink to this headline">¶</a></h2>
+<p>Hidden document.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+
+<span class="n">MsgBox</span> <span class="s">&quot;Document is hidden&quot;</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="export-pdf">
 <h2>Export PDF<a class="headerlink" href="#export-pdf" title="Permalink to this headline">¶</a></h2>
 <p>All options in <a class="reference external" href="http://wiki.services.openoffice.org/wiki/API/Tutorials/PDF_export">PDF Export</a> in wiki.</p>
@@ -213,6 +228,7 @@
 <li><a class="reference internal" href="#open">Open</a></li>
 <li><a class="reference internal" href="#active">Active</a></li>
 <li><a class="reference internal" href="#status-bar">Status bar</a></li>
+<li><a class="reference internal" href="#set-visible">Set visible</a></li>
 <li><a class="reference internal" href="#export-pdf">Export PDF</a></li>
 </ul>
 </li>

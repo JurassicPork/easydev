@@ -153,6 +153,24 @@ Set text and show progress bar
     sb.end()
 
 
+Set visible
+-----------
+
+Hidden document.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    doc = util.newDoc("")
+
+    util.setVisible(doc, False)
+
+    MsgBox "Document is hidden"
+
+    util.setVisible(doc, True)
+
+
 Export PDF
 ----------
 
