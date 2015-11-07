@@ -7,6 +7,7 @@ from unittest.mock import patch
 import tempfile
 import os
 import subprocess
+import datetime
 import time
 from io import StringIO
 
@@ -76,20 +77,19 @@ class TestTools(unittest.TestCase):
 
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()
-        print (os.is_file(self.test_dir))
         self.libo = LIBO()
         self.tools = self.libo.create_instance('org.universolibre.EasyDev')
 
     def tearDown(self):
         del self.libo
 
-    def test_debug(self):
-        expected = 'Test debug'
-        with patch('sys.stdout', new=StringIO()) as fake_out:
-            self.tools.debug(expected) # Wrong
-            print (expected) # OK
-            result = fake_out.getvalue().strip()
-            self.assertEqual(result, expected)
+    #~ def test_debug(self):
+        #~ expected = 'Test debug'
+        #~ with patch('sys.stdout', new=StringIO()) as fake_out:
+            #~ self.tools.debug(expected) # Wrong
+            #~ print (expected) # OK
+            #~ result = fake_out.getvalue().strip()
+            #~ self.assertEqual(result, expected)
 
     def test_get_size_screen(self):
         expected = '1366x768'
@@ -186,24 +186,63 @@ class TestTools(unittest.TestCase):
         result = self.tools.getPath(data)
         self.assertEqual(result, expected)
 
-    #~ def test_file_open(self):
-        #~ expected = 'LibreOffice Python'
-        #~ test_path = os.path.join(self.test_dir, 'test.txt')
-        #~ with open(test_path, 'w') as f:
-            #~ f.write(expected)
-        #~ result = tools.file_open(test_path)
-        #~ self.assertEqual(result, expected)
-#~
-    #~ def test_file_open_binary(self):
-        #~ expected = b'LibreOffice Python'
-        #~ test_path = os.path.join(self.test_dir, 'test.txt')
-        #~ with open(test_path, 'wb') as f:
-            #~ f.write(expected)
-        #~ result = tools.file_open(test_path, 'rb')
-        #~ self.assertEqual(result, expected)
-#~
+    def test_get_path_info(self):
+        expected = ('/home/mau', 'test.txt', 'test', '.txt')
+        data = '/home/mau/test.txt'
+        result = self.tools.getPathInfo(data)
+        self.assertEqual(result, expected)
 
-#~
+    def test_get_folder(self):
+        expected = ''
+        data = self.tools.getPath('Work')
+        result = self.tools.getFolder(data)
+        self.assertEqual(result, expected)
+
+    def test_get_selected_files(self):
+        expected = ''
+        data = self.tools.getPath('Work')
+        result = self.tools.getSelectedFiles(data, False, ())
+        self.assertEqual(result, expected)
+
+    def test_get_files(self):
+        expected= ('/home/mau/test/file.txt', '/home/mau/test/file.py')
+        data = '/home/mau/test'
+        result = self.tools.getFiles(data, '')
+        self.assertEqual(result, expected)
+
+    def test_file_save_open(self):
+        expected = 'LibreOffice Python'
+        test_path = os.path.join(self.test_dir, 'test.txt')
+        self.tools.fileSave(test_path, 'w', expected)
+        result = self.tools.fileOpen(test_path, 'r', False)
+        self.assertEqual(result, expected)
+
+    def test_execute(self):
+        expected = 'c203202158107906c65fb70914fe8add  /home/mau/test/file.txt\n'
+        data = ('md5sum', '/home/mau/test/file.txt')
+        result = self.tools.execute(data, True)
+        self.assertEqual(result, expected)
+
+    def test_set_get_config(self):
+        expected = 'Python'
+        result = self.tools.setConfig('best', expected)
+        self.assertTrue(result)
+        result = self.tools.getConfig('best')
+        self.assertEqual(result, expected)
+
+    def test_clipboard(self):
+        expected = 'LibreOffice EasyDev'
+        self.tools.setClipboard(expected)
+        result = self.tools.getClipboard()
+        self.assertEqual(result, expected)
+
+    def test_get_epoch(self):
+        now = datetime.datetime.now()
+        expected = int(time.mktime(now.timetuple()))
+        result = self.tools.getEpoch()
+        self.assertEqual(result, expected)
+
+
     #~ def test_export_to_csv(self):
         #~ expected = """value a1,1,value c1
 #~ value a2,2,value c2
