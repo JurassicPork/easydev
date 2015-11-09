@@ -449,9 +449,11 @@ class Tools(XTools, LODefault):
         try:
             with open(path, 'w') as f:
                 if options:
+                    if not 'lineterminator' in config:
+                        config['lineterminator'] = '\n'
                     writer = csv.writer(f, **config)
                 else:
-                    writer = csv.writer(f)
+                    writer = csv.writer(f, lineterminator='\n')
                 writer.writerows(data)
             return True
         except:
