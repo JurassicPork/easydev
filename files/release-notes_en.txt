@@ -1,6 +1,11 @@
-v 2.1.0 [31-Oct-2015]
+v 2.1.0 [10-Nov-2015]
+---------------------
     - [Feature] Make query to DB
     - [Feature] Query to grid
+    - [Feature] Import CSV
+    - [Feature] Set data range
+    - [Feature] Set visible for documents
+    - [Fix] Double line break in export CSV, only Windows
 
 v 2.0.0 [30-Oct-2015]
 ---------------------
