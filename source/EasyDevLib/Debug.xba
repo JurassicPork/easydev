@@ -8,15 +8,18 @@ Sub Debug()
 	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
 	
 	&apos;Show info in shell
-	util.debug(&quot;Debug data&quot;)
+	util.debug(&quot;Test debug&quot;)
+	
+	path_log = util.pathJoin(Array(util.getPath(&quot;&quot;), &quot;log.txt&quot;))
 	
 	&apos;Save info in file
-	util.log(&quot;/home/mau/log.txt&quot;, util)
+	util.log(path_log, util)
 	
+	util.test(0)
 End Sub
 
 
-Sub MsgBox()	
+Sub MessageBox()	
 	util = createUnoService(&quot;org.universolibre.EasyDev&quot;)
 
 	&apos;Show info in message box
