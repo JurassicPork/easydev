@@ -40,8 +40,9 @@
             
   <div class="section" id="calc">
 <h1>Calc<a class="headerlink" href="#calc" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="get-sheets-names">
-<h2>Get sheets names<a class="headerlink" href="#get-sheets-names" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sheets">
+<h2>Sheets<a class="headerlink" href="#sheets" title="Permalink to this headline">¶</a></h2>
+<p>Get all sheets names.</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
 
 <span class="c">&#39;Get current doc</span>
@@ -50,14 +51,37 @@
 <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="get-active-sheet">
-<h2>Get active sheet<a class="headerlink" href="#get-active-sheet" title="Permalink to this headline">¶</a></h2>
+<p>Get active sheet.</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
 
 <span class="c">&#39;Get current doc</span>
 <span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getActiveSheet</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">sheet</span><span class="p">.</span><span class="n">getName</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Get sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get current doc</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="s">&quot;Sheet1&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">sheet</span><span class="p">.</span><span class="n">getName</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Get sheet by index. Index start in 0.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">sheet</span><span class="p">.</span><span class="n">getName</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Get last sheet by index.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">sheet</span><span class="p">.</span><span class="n">getName</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -343,8 +367,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Calc</a><ul>
-<li><a class="reference internal" href="#get-sheets-names">Get sheets names</a></li>
-<li><a class="reference internal" href="#get-active-sheet">Get active sheet</a></li>
+<li><a class="reference internal" href="#sheets">Sheets</a></li>
 <li><a class="reference internal" href="#cells">Cells</a></li>
 <li><a class="reference internal" href="#ranges">Ranges</a></li>
 <li><a class="reference internal" href="#select-range">Select range</a></li>

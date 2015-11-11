@@ -1,8 +1,10 @@
 Calc
 ===============
 
-Get sheets names
-----------------
+Sheets
+------
+
+Get all sheets names.
 
 .. code-block:: vbnet
 
@@ -13,9 +15,7 @@ Get sheets names
     names = util.getSheetsNames(doc)
     util.msgbox(names)
 
-
-Get active sheet
-----------------
+Get active sheet.
 
 .. code-block:: vbnet
 
@@ -23,7 +23,38 @@ Get active sheet
 
     'Get current doc
     doc = util.getDoc("")
-    sheet = util.getActiveSheet(doc)
+    sheet = util.getSheet(doc, "")
+    util.msgbox(sheet.getName())
+
+Get sheet by name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    'Get current doc
+    doc = util.getDoc("")
+    sheet = util.getSheet(doc, "Sheet1")
+    util.msgbox(sheet.getName())
+
+Get sheet by index. Index start in 0.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    doc = util.getDoc("")
+    sheet = util.getSheet(doc, 0)
+    util.msgbox(sheet.getName())
+
+Get last sheet by index.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    doc = util.getDoc("")
+    sheet = util.getSheet(doc, -1)
     util.msgbox(sheet.getName())
 
 

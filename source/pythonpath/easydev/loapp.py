@@ -115,6 +115,9 @@ class LOApp(XLOApp, LODefault):
         #~ return
 
     def setVisible(self, doc, visible):
+        if hasattr(doc, 'isVisible'):
+            doc.isVisible = visible
+            return
         window = doc.getCurrentController().getFrame().getContainerWindow()
         window.setVisible(visible)
         return

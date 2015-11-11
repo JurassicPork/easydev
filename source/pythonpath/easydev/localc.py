@@ -18,8 +18,29 @@ class LOCalc(XLOCalc, LOApp):
     def getSheetsNames(self, doc):
         return doc.getSheets().getElementNames()
 
-    def getActiveSheet(self, doc):
-        return doc.getCurrentController().getActiveSheet()
+    def getSheet(self, doc, name):
+        if not name:
+            return doc.getCurrentController().getActiveSheet()
+        if isinstance(name, str):
+            return doc.getSheets().getByName(name)
+        index = name
+        if name < 0:
+            index = doc.getSheets().getCount() + name
+        return doc.getSheets().getByIndex(index)
+
+    def sheetInsert(self, doc, name, pos):
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        doc.getSheets().insertNewByName(name, index)
+        return
+
+    def sheetRemove(self, doc, name):
+        if isinstance(name, str):
+            doc.getSheets().removeByName(name)
+        else:
+            doc.getSheets().removeByName(name.getName())
+        return
 
     def getCell(self, address):
         if not address.Doc or isinstance(address.Doc, str):
