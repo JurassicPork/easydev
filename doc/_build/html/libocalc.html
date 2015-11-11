@@ -213,6 +213,20 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="get-empty-cells">
+<h2>Get empty cells<a class="headerlink" href="#get-empty-cells" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get active cell, always get one cell</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Current</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">cell</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getCell</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+<span class="n">ranges</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getEmpty</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">ThisComponent</span><span class="p">,</span> <span class="n">ranges</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="last-row">
 <h2>Last row<a class="headerlink" href="#last-row" title="Permalink to this headline">¶</a></h2>
 <p>Get last row into current region.</p>
@@ -230,7 +244,7 @@
 </div>
 <div class="section" id="next-value">
 <h2>Next value<a class="headerlink" href="#next-value" title="Permalink to this headline">¶</a></h2>
-<p>In range values. Get nex value in column A(0), or B(1), etc.</p>
+<p>In range values. Get nex value in relative column (0), or (1), etc.</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">getNextID</span><span class="p">()</span>
     <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
     <span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
@@ -246,7 +260,7 @@
 </div>
 <div class="section" id="cell-value">
 <h2>Cell value<a class="headerlink" href="#cell-value" title="Permalink to this headline">¶</a></h2>
-<p>Automatic detect type: string, value or formula.</p>
+<p>Automatically detect type: string, value or formula.</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">CellValue</span><span class="p">()</span>
     <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
     <span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
@@ -273,6 +287,29 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="set-data">
+<span id="setdata"></span><h2>Set data<a class="headerlink" href="#set-data" title="Permalink to this headline">¶</a></h2>
+<p>Automatically calculate width and height of data size.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">SetData</span><span class="p">()</span>
+    <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+    <span class="c">&#39;Get active cell, always get one cell</span>
+    <span class="n">address</span><span class="p">.</span><span class="n">Current</span> <span class="o">=</span> <span class="k">True</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getCell</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&quot;Uno&quot;</span><span class="p">,</span> <span class="s">&quot;Tres&quot;</span><span class="p">),</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">&quot;Dos&quot;</span><span class="p">,</span> <span class="s">&quot;Cuatro&quot;</span><span class="p">),</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">&quot;Tres&quot;</span><span class="p">,</span> <span class="s">&quot;Cinco&quot;</span><span class="p">),</span> _
+    <span class="p">)</span>
+    <span class="c">&#39;Automatically calculate width and height of data size</span>
+    <span class="n">util</span><span class="p">.</span><span class="n">setData</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="k">End</span> <span class="k">Sub</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -288,9 +325,11 @@
 <li><a class="reference internal" href="#ranges">Ranges</a></li>
 <li><a class="reference internal" href="#select-range">Select range</a></li>
 <li><a class="reference internal" href="#current-region">Current region</a></li>
+<li><a class="reference internal" href="#get-empty-cells">Get empty cells</a></li>
 <li><a class="reference internal" href="#last-row">Last row</a></li>
 <li><a class="reference internal" href="#next-value">Next value</a></li>
 <li><a class="reference internal" href="#cell-value">Cell value</a></li>
+<li><a class="reference internal" href="#set-data">Set data</a></li>
 </ul>
 </li>
 </ul>

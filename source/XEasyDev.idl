@@ -21,6 +21,7 @@ module org { module universolibre { module EasyDev {
     {
         string Library;
         string Module;
+        string Dialog;
         string Name;
         string Language;
         string Location;
@@ -64,6 +65,7 @@ module org { module universolibre { module EasyDev {
         void timer([in] string name, [in] unsigned short wait, [in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
         void stopTimer([in] string name);
         void exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< any > options);
+        any importCSV([in] string path, [in] sequence< any > options);
     };
 
     interface XArrays : com::sun::star::uno::XInterface
@@ -140,6 +142,7 @@ module org { module universolibre { module EasyDev {
         any openDoc([in] string pathDoc, [in] sequence< any > data);
         void setFocus([in] any doc);
         any getStatusBar([in] any doc);
+        void setVisible([in] any doc, [in] boolean visible);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
     };
 
@@ -165,6 +168,8 @@ module org { module universolibre { module EasyDev {
         long getNextID([in] any cell, [in] long col);
         any getValue([in] any cell);
         void setValue([in] any cell, [in] any value);
+        void setData([in] any cell, [in] any data);
+        any getEmpty([in] any cell);
     };
 
     interface XLOWriter : com::sun::star::uno::XInterface
@@ -176,16 +181,21 @@ module org { module universolibre { module EasyDev {
     {
         [attribute, readonly] byte decimals;
         [attribute] string numfmt;
+        [attribute] long colorOnFocus;
 
-        any createDialog([in] any path);
+        any createDialog([in] any data);
         any createControl([in] any dialog, [in] string typeControl, [in] sequence< any > options);
-        any setGridData([in] any grid, [in] sequence< any > data, [in] sequence< string > colFormat);
+        void setGridData([in] any grid, [in] sequence< any > data, [in] sequence< string > colFormat);
+        void setGridColumns([in] any grid, [in] sequence< any > columns);
+        void gridDataForm([in] org::universolibre::EasyDev::CellRangeAddress cell);
+        void setQuery([in] any grid, [in] any data, [in] boolean colid);
         any getGridData([in] any grid, [in] sequence< unsigned short > exclude);
     };
 
     interface XLODataBase : com::sun::star::uno::XInterface
     {
         any conODBC([in] string name, [in] string user, [in] string password);
+        any query([in] any con, [in] string sql, [in] boolean array);
     };
 
     service EasyDev {

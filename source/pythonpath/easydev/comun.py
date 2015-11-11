@@ -9,7 +9,9 @@ from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.util import Time, Date, DateTime
 
 from easydev.setting import (
+    DATA_TYPES,
     NAME_EXT,
+    OBJECTS,
 )
 
 
@@ -132,3 +134,38 @@ def to_dict(data, test_date=False):
             dic = {r.Name: r.Value for r in data}
     return dic
 
+
+def parse_data_type(resulset):
+    if not resulset:
+        return ()
+    info = resulset.getMetaData()
+    cols = range(1, info.getColumnCount() + 1)
+
+    #~ for c in cols:
+        #~ dt = info.getColumnTypeName(c).lower()
+        #~ print ('DATA TYPE', dt)
+        #~ if not DATA_TYPES.get(dt, False):
+            #~ log.info(dt)
+
+    cols_type = ('',) + tuple(DATA_TYPES[info.getColumnTypeName(c).lower()] for c in cols)
+    headers = tuple(info.getColumnName(c) for c in cols)
+    data = [headers]
+    while resulset.next():
+        row = tuple(getattr(resulset, cols_type[c])(c) for c in cols)
+        data.append(row)
+    return tuple(data)
+
+
+def offset(cell, cols, rows, expand=False):
+    sheet = cell.getSpreadsheet()
+    cursor = sheet.createCursorByRange(cell)
+    cursor.collapseToCurrentRegion()
+    if expand:
+        cursor.collapseToSize(
+            cursor.Columns.getCount() + cols - 1, cursor.Rows.getCount() + rows - 1)
+    else:
+        cursor.collapseToSize(cols, rows)
+    return sheet.getCellRangeByName(cursor.AbsoluteName)
+
+def is_cell(cell):
+    return cell.getImplementationName() == OBJECTS['CELL']

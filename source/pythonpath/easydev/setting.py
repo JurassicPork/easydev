@@ -34,6 +34,12 @@ PYTHON = 'Python'
 LOCATION_USER = 'user'
 FILE_NAME_DEBUG = 'debug.odt'
 TITLE_DEBUG = 'Debug'
+OBJECTS = {
+    'CELL': 'ScCellObj',
+    'RANGE': 'ScCellRangeObj',
+    'RANGES': 'ScCellRangesObj',
+}
+#~ com.sun.star.drawing.SvxShapeCollection
 COLORS = {
     'YELLOW': 16777164,
     'WHITE': 16777215,
@@ -42,3 +48,47 @@ COLORS = {
     'GREEN': 12255176,
     'RED': 16764108,
 }
+DATA_TYPES = {
+    #~ MySQL
+    'bit': 'getByte',
+    'tinyint': 'getLong',
+    'bigint': 'getLong',
+    'smallint': 'getLong',
+    'integer': 'getLong',
+    'decimal': 'getFloat',
+    'float': 'getFloat',
+    'double': 'getDouble',
+    'char': 'getString',
+    'varchar': 'getString',
+    'text': 'getString',
+    'date': 'getDate',
+    'time': 'getTime',
+    'timestamp': 'getTimestamp',
+    'datetime': 'getTimestamp',
+    #~ PostgreSQL
+    '': 'getString',
+    'int8': 'getLong',
+    'int8': 'getLong',
+    'unknown': 'getString',
+    'bool': 'getBoolean',
+    'bytea': 'getBytes',
+    'cidr': 'getString',
+    'float8': 'getDouble',
+    'inet': 'getString',
+    'int4': 'getLong',
+    'macaddr': 'getString',
+    'money': 'getDouble',
+    'numeric': 'getDouble',
+    'float4': 'getDouble',
+    'int2': 'getLong',
+    'int4': 'getLong',
+    'timestamp without time zone': 'getTimestamp',
+    'timestamp with time zone': 'getTimestamp',
+    'uuid': 'getString',
+    'xml': 'getString',
+    #~ SQLite
+    'real': 'getDouble',
+    'blob': '',
+    #~ MSSQL
+}
+

@@ -21,6 +21,23 @@ Create dialog from path.
         dlg.dispose()
     End Sub
 
+Create dialog from Library, default library is **Standard**
+
+.. code-block:: vbnet
+
+    macro = createUnoStruct("org.universolibre.EasyDev.Macro")
+    macro.Dialog = "Dialog1"
+
+    dlg = util.createDialog(macro)
+
+    'Use other library
+    macro.Library = "MyLibrary"
+    macro.Dialog = "MyDialog"
+
+    dlg = util.createDialog(macro)
+
+.. NOTE::
+    If dialog is into document, use standard method createUnoDialog
 
 
 Label hyperlink
@@ -48,6 +65,7 @@ Automatic add event mouse over
     dlg.execute()
     dlg.dispose()
 
+
 Roadmap
 -------
 
@@ -72,6 +90,8 @@ Add menu options, automatic add event item change for update property Step in di
     util.createControl(dlg, "Roadmap", properties)
     dlg.execute()
     dlg.dispose()
+
+.. _grid:
 
 Grid
 ----
@@ -123,6 +143,27 @@ Add data from range cells.
     col_format = Array()
     util.setGridData(grid, data, col_format)
 
+Set data from query, see :ref:`base-query`.
+
+.. code-block:: vbnet
+
+    odbc = "TESTODBCSQLITE"
+    user = ""
+    passw = ""
+
+    con = util.conODBC(odbc, user, passw)
+
+    sql = "SELECT id, name FROM contactos"
+    data = util.query(con, sql, False)
+    properties = Array( _
+        Array("Name", "grid"), _
+        Array("PositionX", 10), _
+        Array("PositionY", 10), _
+        Array("Columns", Array()) _
+    )
+    grid = util.createControl(dlg, "Grid", properties)
+    util.setQuery(grid, data, True)
+
 Change default format for columns with values.
 
 .. code-block:: vbnet
@@ -149,3 +190,65 @@ And get data grid in array.
 
     data = util.getGridData(grid, Array())
     util.msgbox(data)
+
+
+
+
+
+
+TextBox
+-------
+
+Create text box, automatic change background color in focus events.
+
+.. image:: images/img014.png
+    :width: 300px
+    :align: center
+
+.. code-block:: vbnet
+
+    properties = Array( _
+        Array("Name", "txt_name"), _
+        Array("PositionX", 10), _
+        Array("PositionY", 10), _
+    )
+    util.createControl(dlg, "Edit", properties)
+    dlg.execute()
+    dlg.dispose()
+
+You can change default background color. Change color before create control.
+
+.. image:: images/img015.png
+    :width: 300px
+    :align: center
+
+.. code-block:: vbnet
+
+    util.colorOnFocus = RGB(229, 255, 204)
+
+
+CommandButton
+-------------
+
+Create command button and assigned macro to execute. Default library is **Standard**.
+For default, the macro name execute is: **CONTROL_NAME + _action**, in this example:
+
+.. code-block:: vbnet
+
+    Sub cmd_test_action(event):
+        MsgBox event.Source.Model.Name
+    End Sub
+
+Argument **event** is important.
+
+.. code-block:: vbnet
+
+    macro.Language = "Basic"
+    macro.Module = "LODialog"
+    properties = Array( _
+        Array("Name", "cmd_test"), _
+        Array("PositionX", 10), _
+        Array("PositionY", 60), _
+        Array("Macro", macro), _
+    )
+    util.createControl(dlg, "Button", properties)

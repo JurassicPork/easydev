@@ -5,9 +5,13 @@ import logging
 import unohelper
 from com.sun.star.awt import XItemListener
 from com.sun.star.awt import XMouseListener
+from com.sun.star.awt import XFocusListener
+from com.sun.star.awt import XActionListener
 
 from org.universolibre.EasyDev import XLODialog
+from org.universolibre.EasyDev import Macro
 from easydev import comun
+from easydev.tools import call_macro
 from easydev.comun import LODefault
 from easydev.setting import LOG, NAME_EXT, COLORS, DECIMALS, FORMAT
 
@@ -84,23 +88,87 @@ class GridMouseEvents(MouseEvents):
         return
 
 
+class FocusEvents(unohelper.Base, XFocusListener):
+
+    def disposing(self, event):
+        pass
+
+    def focusGained(self, event):
+        pass
+
+    def focusLost(self, event):
+        pass
+
+
+class ControlFocusEvents(unohelper.Base, XFocusListener):
+
+    def __init__(self, color):
+        self.color = color
+
+    def focusGained(self, event):
+        obj = event.Source.Model
+        obj.Border = 0
+        obj.BackgroundColor = self.color
+        return
+
+    def focusLost(self, event):
+        obj = event.Source.Model
+        obj.Border = 1
+        obj.BackgroundColor = COLORS['WHITE']
+        return
+
+
+class ButtonEvents(unohelper.Base, XActionListener):
+
+    def __init__(self, factory, macro):
+        self.factory = factory
+        self.macro = macro
+
+    def disposing(self, event):
+        pass
+
+    def actionPerformed(self, event):
+        control_name = '{}_action'.format(event.Source.Model.Name)
+        if not self.macro.Name:
+            self.macro.Name = control_name
+        call_macro(self.factory, self.macro, (event,))
+        return
+
+
 class LODialog(XLODialog, LODefault):
     decimals = DECIMALS
     numfmt = FORMAT.format(decimals)
+    colorOnFocus = COLORS['YELLOW']
 
     def __init__(self, ctx, sm, desktop, toolkit):
         LODefault.__init__(self, ctx, sm, desktop, toolkit)
+        self.factory = self._create_instance(
+            'com.sun.star.script.provider.MasterScriptProviderFactory', False)
 
-    def createDialog(self, path):
-        """Create dialog from URL."""
+    def createDialog(self, data):
+        """
+            Create dialog from URL.
+            path in OS or URI Specification vnd.sun.star.script
+        """
         dp = self._create_instance('com.sun.star.awt.DialogProvider', True)
-        return dp.createDialog(comun.path_to_url(path))
+        if isinstance(data, Macro):
+            if not data.Library:
+                data.Library = 'Standard'
+            data.Location = 'application'
+            path = 'vnd.sun.star.script:{}.{}?location={}'.format(
+                data.Library, data.Dialog, data.Location)
+        elif comun.exists(data):
+            path = comun.path_to_url(data)
+        return dp.createDialog(path)
+        #~ path_current = __file__.split('/')
+        #~ path_dialog = "vnd.sun.star.tdoc:/{}/Dialogs/{}/{}.xml".format(
+            #~ path_current[1], module, name)
 
     def createControl(self, dialog, type_control, options):
         properties = comun.to_dict(options)
         base_properties = {
             'Width': 100,
-            'Height': 10,
+            'Height': 12,
             'PositionX': 0,
             'PositionY': 0,
             'Step': 0,
@@ -137,10 +205,14 @@ class LODialog(XLODialog, LODefault):
             'FixedHyperlink': base_properties.copy(),
             'Roadmap': base_properties.copy(),
             'Grid': base_properties.copy(),
+            'Edit': base_properties.copy(),
+            'Button': base_properties.copy(),
+            'DateField': base_properties.copy(),
         }
         controls_properties['Roadmap'].update({
             'Height': 100,
-            'Text': 'Menu'})
+            'Text': 'Menu'}
+        )
         controls_properties['Grid'].update({
             'Height': 100,
             'BackgroundColor': COLORS['WHITE'],
@@ -148,70 +220,69 @@ class LODialog(XLODialog, LODefault):
             'ShowColumnHeader': True,
             'ShowRowHeader': True,
             'SelectionModel': 2,
-            'UseGridLines': True})
-
-        controls_properties['Button'] = base_properties.update({
+            'UseGridLines': True}
+        )
+        controls_properties['Button'].update({
             'Label': 'CommandButton',
-            'DefaultButton': False,
-            'PushButtonType': 0})
-        controls_properties['CheckBox'] = base_properties.update({
-            'Label': 'CheckBox'})
-        controls_properties['ComboBox'] = base_properties.update({
-            'Dropdown': True})
-        controls_properties['CurrencyField'] = base_properties.update({
-            'Spin': True})
-        controls_properties['DateField'] = base_properties.update({
-            'Dropdown':True})
-        controls_properties['Edit'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['FileControl'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['FixedLine'] = base_properties.update({
-            'Width':60,
-            'Height':5})
-        controls_properties['FixedText'] = base_properties.update({
-            'Label':'Label'})
-        controls_properties['FormattedField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['GroupBox'] = base_properties.update({
-            'Width':100,
-            'Height':30})
-        controls_properties['ImageControl'] = base_properties.update({
-            'Width':30,
-            'Height':30})
-        controls_properties['ListBox'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['NumericField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['PatternField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['ProgressBar'] = base_properties.update({
-            'Width':100,
-            'Height':13})
-        controls_properties['RadioButton'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['ScrollBar'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['SimpleAnimation'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['SpinButton'] = base_properties.update({
-            'Width':60,
-            'Height':13})
-        controls_properties['Throbber'] = base_properties.update({
-            'Width':60,
-            'Height':30})
-        controls_properties['TimeField'] = base_properties.update({
-            'Width':60,
-            'Height':13})
+            'DefaultButton': False}
+        )
+        controls_properties['DateField'].update({
+            'Dropdown': True}
+        )
+
+        #~ controls_properties['CheckBox'] = base_properties.update({
+            #~ 'Label': 'CheckBox'})
+        #~ controls_properties['ComboBox'] = base_properties.update({
+            #~ 'Dropdown': True})
+        #~ controls_properties['CurrencyField'] = base_properties.update({
+            #~ 'Spin': True})
+        #~ controls_properties['FileControl'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['FixedLine'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':5})
+        #~ controls_properties['FixedText'] = base_properties.update({
+            #~ 'Label':'Label'})
+        #~ controls_properties['FormattedField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['GroupBox'] = base_properties.update({
+            #~ 'Width':100,
+            #~ 'Height':30})
+        #~ controls_properties['ImageControl'] = base_properties.update({
+            #~ 'Width':30,
+            #~ 'Height':30})
+        #~ controls_properties['ListBox'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['NumericField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['PatternField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['ProgressBar'] = base_properties.update({
+            #~ 'Width':100,
+            #~ 'Height':13})
+        #~ controls_properties['RadioButton'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['ScrollBar'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['SimpleAnimation'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['SpinButton'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
+        #~ controls_properties['Throbber'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':30})
+        #~ controls_properties['TimeField'] = base_properties.update({
+            #~ 'Width':60,
+            #~ 'Height':13})
 
         """Create controls"""
         if not 'Name' in properties:
@@ -255,6 +326,11 @@ class LODialog(XLODialog, LODefault):
             obj.addMouseListener(LinkMouseEvents())
         elif type_control == 'Grid':
             obj.addMouseListener(GridMouseEvents())
+        elif type_control == 'Edit':
+            obj.addFocusListener(ControlFocusEvents(self.colorOnFocus))
+        elif type_control == 'Button':
+            macro = properties.get('Macro', False)
+            obj.addActionListener(ButtonEvents(self.factory, macro))
         return obj
 
     def _add_options_roadmap(self, roadmap, options):
@@ -282,7 +358,9 @@ class LODialog(XLODialog, LODefault):
         grid_dm.removeAllRows()
         heading = tuple(range(1, len(data) + 1))
         if colFormat:
-            rows = tuple(tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data)
+            rows = tuple(
+                tuple(self._format(r, colFormat[i]) for i, r in enumerate(row)) for row in data
+            )
         else:
             rows = tuple(tuple(self._format(r) for r in row) for row in data)
         grid_dm.addRows(heading, rows)
@@ -301,6 +379,47 @@ class LODialog(XLODialog, LODefault):
             else:
                 new_value = value
         return new_value
+
+    def setQuery(self, grid, query, colid):
+        data = comun.parse_data_type(query)
+        headers = data[0]
+        row = data[1:2]
+        rows = data[1:]
+        col_fmt = False
+        if colid:
+            col_fmt = ('{}',) + ('',) * (len(headers) - 1)
+        self._make_columns(grid, headers, row)
+        self.setGridData(grid, rows, col_fmt)
+        return
+
+    def _make_columns(self, grid, headers, row):
+        if row:
+            align = tuple(self._get_align(r) for r in row[0])
+        else:
+            align = (0,) * len(headers)
+        columns = []
+        for i, v in enumerate(headers):
+            col = {}
+            col['Title'] = v
+            col['HorizontalAlign'] = align[i]
+            columns.append(col)
+        self.setGridColumns(grid, columns)
+        return
+
+    def _get_align(self, value):
+        align = 0
+        if isinstance(value, (int, float)):
+            align = 2
+        return align
+
+    def setGridColumns(self, grid, columns):
+        columns_model = grid.Model.ColumnModel
+        columns_model.setDefaultColumns(len(columns))
+        for i, col in enumerate(columns):
+            column = columns_model.getColumn(i)
+            for k, v in col.items():
+                setattr(column, k, v)
+        return
 
     def getGridData(self, grid, exclude):
         gdm = grid.Model.GridDataModel

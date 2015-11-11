@@ -110,6 +110,15 @@ class LOApp(XLOApp, LODefault):
         statusbar = doc.getCurrentController().getStatusIndicator()
         return statusbar
 
+    #~ def setZoom(self, doc, zoom):
+        #~ doc.getCurrentController().getFrame().getComponentWindow().setZoom(zoom, zoom)
+        #~ return
+
+    def setVisible(self, doc, visible):
+        window = doc.getCurrentController().getFrame().getContainerWindow()
+        window.setVisible(visible)
+        return
+
     def exportPDF(self, doc, path_save, options):
         """
             Export to PDF

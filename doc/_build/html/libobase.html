@@ -42,6 +42,7 @@
 <h1>Data Base<a class="headerlink" href="#data-base" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="odbc">
 <h2>ODBC<a class="headerlink" href="#odbc" title="Permalink to this headline">¶</a></h2>
+<p>I test connection with: MySQL, PostgreSQL, SQLite and MSSQL.</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">ConexionODBC</span><span class="p">()</span>
 
     <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
@@ -58,6 +59,27 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="query">
+<span id="base-query"></span><h2>Query<a class="headerlink" href="#query" title="Permalink to this headline">¶</a></h2>
+<p>Make query, get data like array</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">odbc</span> <span class="o">=</span> <span class="s">&quot;ODBCSQLITE&quot;</span>
+<span class="n">user</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">passw</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">conODBC</span><span class="p">(</span><span class="n">odbc</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">passw</span><span class="p">)</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM contactos&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Make query, get data like resulset</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;SELECT * FROM contactos&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can set resulset to grid, see <a class="reference internal" href="dialogs.html#grid"><span>Grid</span></a>.</p>
+</div>
 </div>
 
 
@@ -70,6 +92,7 @@
   <ul>
 <li><a class="reference internal" href="#">Data Base</a><ul>
 <li><a class="reference internal" href="#odbc">ODBC</a></li>
+<li><a class="reference internal" href="#query">Query</a></li>
 </ul>
 </li>
 </ul>

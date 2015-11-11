@@ -47,6 +47,8 @@ stop_thread = {}
 
 def call_macro(factory, macro, args):
     #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Scripting/Scripting_Framework_URI_Specification
+    if not macro.Library:
+        macro.Library = 'Standard'
     if not macro.Language:
         macro.Language = PYTHON
     if macro.Language == 'Basic':
@@ -67,10 +69,10 @@ def call_macro(factory, macro, args):
     elif macro.Language == 'Java':
         main = 'vnd.sun.star.script:{}.{}?language=Java&location={}'.format(
             macro.Library, macro.Name, macro.Location)
-    elif macro.Language == 'BeanShell':
+    elif macro.Language == 'JavaScript':
         main = 'vnd.sun.star.script:{}.{}.js?language=JavaScript&location={}'.format(
             macro.Library, macro.Name, macro.Location)
-
+    #~ log.info(main)
     script = factory.createScriptProvider('').getScript(main)
     return script.invoke(args, None, None)[0]
 
@@ -371,7 +373,7 @@ class Tools(XTools, LODefault):
         node = PropertyValue()
         node.Name = 'nodepath'
         node.Value = NODE
-        print (NODE)
+        #~ print (NODE)
         try:
             config_writer = cp.createInstanceWithArguments(
                 'com.sun.star.configuration.ConfigurationUpdateAccess', (node,))
@@ -441,20 +443,41 @@ class Tools(XTools, LODefault):
         """
             See https://docs.python.org/3.3/library/csv.html#csv.writer
         """
+        path = comun.path_to_os(path)
+        if options:
+            config = comun.to_dict(options)
         try:
-            path = comun.path_to_os(path)
-            if options:
-                config = comun.to_dict(options)
             with open(path, 'w') as f:
                 if options:
+                    if not 'lineterminator' in config:
+                        config['lineterminator'] = '\n'
                     writer = csv.writer(f, **config)
                 else:
-                    writer = csv.writer(f)
+                    writer = csv.writer(f, lineterminator='\n')
                 writer.writerows(data)
             return True
         except:
             log.debug('CSV', exc_info=True)
             return False
+
+    def importCSV(self, path, options):
+        """
+            See https://docs.python.org/3.3/library/csv.html#csv.reader
+        """
+        path = comun.path_to_os(path)
+        if options:
+            config = comun.to_dict(options)
+        try:
+            with open(path) as f:
+                if options:
+                    data = tuple(csv.reader(f, **config))
+                else:
+                    data = tuple(csv.reader(f))
+            array = tuple(tuple(r) for r in data)
+            return array
+        except:
+            log.debug('CSV', exc_info=True)
+            return ()
 
 
 class Arrays(XArrays):
