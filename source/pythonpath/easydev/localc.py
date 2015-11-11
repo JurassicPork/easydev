@@ -103,3 +103,10 @@ class LOCalc(XLOCalc, LOApp):
         rango = comun.offset(cell, len(data), len(data[0]), True)
         rango.setDataArray(data)
         return
+
+    def getEmpty(self, cell):
+        rango = cell
+        if comun.is_cell(cell):
+            rango = self.getCurrentRegion(cell, False)
+        return rango.queryEmptyCells()
+

@@ -34,6 +34,12 @@ PYTHON = 'Python'
 LOCATION_USER = 'user'
 FILE_NAME_DEBUG = 'debug.odt'
 TITLE_DEBUG = 'Debug'
+OBJECTS = {
+    'CELL': 'ScCellObj',
+    'RANGE': 'ScCellRangeObj',
+    'RANGES': 'ScCellRangesObj',
+}
+#~ com.sun.star.drawing.SvxShapeCollection
 COLORS = {
     'YELLOW': 16777164,
     'WHITE': 16777215,

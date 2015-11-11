@@ -11,6 +11,7 @@ from com.sun.star.util import Time, Date, DateTime
 from easydev.setting import (
     DATA_TYPES,
     NAME_EXT,
+    OBJECTS,
 )
 
 
@@ -165,3 +166,6 @@ def offset(cell, cols, rows, expand=False):
     else:
         cursor.collapseToSize(cols, rows)
     return sheet.getCellRangeByName(cursor.AbsoluteName)
+
+def is_cell(cell):
+    return cell.getImplementationName() == OBJECTS['CELL']

@@ -205,6 +205,23 @@ Only one cell into current region is necesary, get range
     msg = util.format("{} {}", Array(range.ImplementationName, range.AbsoluteName))
     util.msgbox(msg)
 
+
+Get empty cells
+---------------
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    'Get active cell, always get one cell
+    address.Current = True
+    cell = util.getCell(address)
+
+    ranges = util.getEmpty(cell)
+    util.selectRange(ThisComponent, ranges)
+
+
 Last row
 --------
 
@@ -225,7 +242,7 @@ Get last row into current region.
 Next value
 ----------
 
-In range values. Get nex value in column A(0), or B(1), etc.
+In range values. Get nex value in relative column (0), or (1), etc.
 
 .. code-block:: vbnet
 
