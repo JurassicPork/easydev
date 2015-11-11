@@ -15,6 +15,9 @@ class LOCalc(XLOCalc, LOApp):
     def __init__(self, ctx, sm, desktop, toolkit):
         LOApp.__init__(self, ctx, sm, desktop, toolkit)
 
+    def getSheetsNames(self, doc):
+        return doc.getSheets().getElementNames()
+
     def getCell(self, address):
         if not address.Doc or isinstance(address.Doc, str):
             doc = self.getDoc(address.Doc)

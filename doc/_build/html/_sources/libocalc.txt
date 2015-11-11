@@ -1,6 +1,19 @@
 Calc
 ===============
 
+Get sheets names
+----------------
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    'Get current doc
+    doc = util.getDoc("")
+    names = util.getSheetsNames(doc)
+    util.msgbox(names)
+
+
 Cells
 -----
 
