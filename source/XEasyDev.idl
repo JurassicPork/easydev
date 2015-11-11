@@ -161,6 +161,7 @@ module org { module universolibre { module EasyDev {
     interface XLOCalc : com::sun::star::uno::XInterface
     {
         sequence< string > getSheetsNames([in] any doc);
+        any getActiveSheet([in] any doc);
         any getCell([in] org::universolibre::EasyDev::CellRangeAddress address);
         any getRange([in] org::universolibre::EasyDev::CellRangeAddress address);
         void selectRange([in] any doc, [in] any rango);

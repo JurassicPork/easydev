@@ -14,6 +14,19 @@ Get sheets names
     util.msgbox(names)
 
 
+Get active sheet
+----------------
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    'Get current doc
+    doc = util.getDoc("")
+    sheet = util.getActiveSheet(doc)
+    util.msgbox(sheet.getName())
+
+
 Cells
 -----
 

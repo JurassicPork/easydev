@@ -51,6 +51,17 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="get-active-sheet">
+<h2>Get active sheet<a class="headerlink" href="#get-active-sheet" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get current doc</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getActiveSheet</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">sheet</span><span class="p">.</span><span class="n">getName</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="cells">
 <h2>Cells<a class="headerlink" href="#cells" title="Permalink to this headline">¶</a></h2>
 <p>Get active cell, always back only one cell</p>
@@ -333,6 +344,7 @@
   <ul>
 <li><a class="reference internal" href="#">Calc</a><ul>
 <li><a class="reference internal" href="#get-sheets-names">Get sheets names</a></li>
+<li><a class="reference internal" href="#get-active-sheet">Get active sheet</a></li>
 <li><a class="reference internal" href="#cells">Cells</a></li>
 <li><a class="reference internal" href="#ranges">Ranges</a></li>
 <li><a class="reference internal" href="#select-range">Select range</a></li>

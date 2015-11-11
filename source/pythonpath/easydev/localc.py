@@ -18,6 +18,9 @@ class LOCalc(XLOCalc, LOApp):
     def getSheetsNames(self, doc):
         return doc.getSheets().getElementNames()
 
+    def getActiveSheet(self, doc):
+        return doc.getCurrentController().getActiveSheet()
+
     def getCell(self, address):
         if not address.Doc or isinstance(address.Doc, str):
             doc = self.getDoc(address.Doc)

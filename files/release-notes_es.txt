@@ -1,6 +1,7 @@
 v 2.2.0 [15-Nov-2015]
 ---------------------
     - [Feature] Obtener nombres de las hojas
+    - [Feature] Obtener la hoja activa
 
 v 2.1.0 [10-Nov-2015]
 ---------------------
