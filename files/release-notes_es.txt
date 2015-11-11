@@ -5,6 +5,7 @@ v 2.1.0 [10-Nov-2015]
     - [Feature] Importar CSV
     - [Feature] Establecer datos en rango
     - [Feature] Establecer visibilidad de documentos
+    - [Feature] Obtener celdas vacías
     - [Fix] Doble salto de línea al exportar CSV, solo en Windows
 
 v 2.0.0 [30-Oct-2015]

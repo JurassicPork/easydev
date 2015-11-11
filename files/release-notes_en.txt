@@ -5,6 +5,7 @@ v 2.1.0 [10-Nov-2015]
     - [Feature] Import CSV
     - [Feature] Set data range
     - [Feature] Set visible for documents
+    - [Feature] Get empty cells
     - [Fix] Double line break in export CSV, only Windows
 
 v 2.0.0 [30-Oct-2015]
