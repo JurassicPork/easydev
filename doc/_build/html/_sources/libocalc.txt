@@ -1,8 +1,8 @@
 Calc
 ===============
 
-Sheets
-------
+Get sheet
+---------
 
 Get all sheets names.
 
@@ -56,6 +56,112 @@ Get last sheet by index.
     doc = util.getDoc("")
     sheet = util.getSheet(doc, -1)
     util.msgbox(sheet.getName())
+
+
+Insert sheets
+-------------
+
+Insert sheet in pos.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    doc = ThisComponent
+    new_name = "New Sheet"
+    util.sheetInsert(doc, new_name, 1)
+
+Insert in last pos.
+
+.. code-block:: vbnet
+
+    new_name = "New Sheet 2"
+    util.sheetInsert(doc, new_name, -1)
+
+
+Remove sheet
+------------
+
+Remove sheet by name
+
+.. code-block:: vbnet
+
+    sheet_name = "Sheet1"
+    util.sheetRemove(doc, sheet_name)
+
+Remove by object
+
+.. code-block:: vbnet
+
+    'Get active sheet
+    obj_sheet = util.getSheet(doc, "")
+    util.sheetRemove(doc, obj_sheet)
+
+
+Move sheet
+----------
+
+Move sheet by name to pos.
+
+.. code-block:: vbnet
+
+    sheet_name = "Sheet3"
+    util.sheetMove(doc, sheet_name, 0)
+
+Move sheet by object to last pos.
+
+.. code-block:: vbnet
+
+    'Get active sheet
+    sheet = util.getSheet(doc, "")
+    util.sheetMove(doc, sheet, -1)
+
+
+Sort sheets
+-----------
+
+Sort sheets by name.
+
+.. code-block:: vbnet
+
+    util.sheetSort(ThisComponent, True)
+
+Sort in reverse.
+
+.. code-block:: vbnet
+
+    util.sheetSort(ThisComponent, False)
+
+
+Copy sheet
+----------
+
+Copy sheet by name. Get error if new name exists.
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    sheet_name = "Sheet1"
+    new_name = "New Sheet"
+    util.sheetCopy(doc, sheet_name, new_name, 0, False)
+
+Copy sheet by name, force rename if new sheet name exists.
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    sheet_name = "Sheet1"
+    new_name = "New Sheet"
+    util.sheetCopy(doc, sheet_name, new_name, 0, True)
+
+Copy sheet by object in last pos and force rename.
+
+.. code-block:: vbnet
+
+    'Get active sheet
+    sheet = util.getSheet(doc, "")
+    new_name = "New Sheet"
+    util.sheetCopy(doc, sheet, new_name, -1, True)
 
 
 Cells
@@ -278,6 +384,21 @@ Get empty cells
     ranges = util.getEmpty(cell)
     util.selectRange(ThisComponent, ranges)
 
+Get visible cells
+-----------------
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    'Get active cell, always get one cell
+    address.Current = True
+    cell = util.getCell(address)
+
+    ranges = util.getVisible(cell)
+    util.selectRange(ThisComponent, ranges)
+
 
 Last row
 --------
@@ -376,4 +497,29 @@ Automatically calculate width and height of data size.
         util.setData(cell, data)
 
     End Sub
+
+
+Get data
+--------
+
+Get data array from cell, automatically get current region. Get hidden cells inclusive.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    'Get active cell, always get one cell
+    address.Current = True
+    cell = util.getCell(address)
+
+    data = util.getData(cell, False)
+    util.msgbox(data)
+
+Get data array, only visible cells.
+
+.. code-block:: vbnet
+
+    data = util.getData(cell, True)
+    util.msgbox(data)
 

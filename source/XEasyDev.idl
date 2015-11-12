@@ -164,6 +164,10 @@ module org { module universolibre { module EasyDev {
         any getSheet([in] any doc, [in] any name);
         void sheetInsert([in] any doc, [in] string name, [in] short pos);
         void sheetRemove([in] any doc, [in] any name);
+        void sheetMove([in] any doc, [in] any name, [in] short pos);
+        void sheetSort([in] any doc, [in] boolean asc);
+        void sheetCopy([in] any doc, [in] any name, [in] any newname, [in] short pos, [in] boolean rename);
+        void sheetCopyToDoc([in] any sheet, [in] any doc, [in] short pos, [in] boolean rename);
 
         any getCell([in] org::universolibre::EasyDev::CellRangeAddress address);
         any getRange([in] org::universolibre::EasyDev::CellRangeAddress address);
@@ -174,7 +178,9 @@ module org { module universolibre { module EasyDev {
         any getValue([in] any cell);
         void setValue([in] any cell, [in] any value);
         void setData([in] any cell, [in] any data);
+        any getData([in] any cell, [in] boolean visible);
         any getEmpty([in] any cell);
+        any getVisible([in] any cell);
     };
 
     interface XLOWriter : com::sun::star::uno::XInterface

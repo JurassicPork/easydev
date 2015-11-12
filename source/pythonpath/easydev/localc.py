@@ -42,6 +42,38 @@ class LOCalc(XLOCalc, LOApp):
             doc.getSheets().removeByName(name.getName())
         return
 
+    def sheetMove(self, doc, name, pos):
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        if isinstance(name, str):
+            doc.getSheets().moveByName(name, index)
+        else:
+            doc.getSheets().moveByName(name.getName(), index)
+        return
+
+    def sheetSort(self, doc, asc):
+        names = sorted(self.getSheetsNames(doc), reverse=not asc)
+        for i, v in enumerate(names):
+            self.sheetMove(doc, v, i)
+        return
+
+    def sheetCopy(self, doc, name, newname, pos, rename):
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        i = 1
+        new_name = newname
+        if rename:
+            while doc.getSheets().hasByName(new_name):
+                new_name = '{}_{}'.format(newname, i)
+                i += 1
+        if isinstance(name, str):
+            doc.getSheets().copyByName(name, new_name, index)
+        else:
+            doc.getSheets().copyByName(name.getName(), new_name, index)
+        return
+
     def getCell(self, address):
         if not address.Doc or isinstance(address.Doc, str):
             doc = self.getDoc(address.Doc)
@@ -131,9 +163,28 @@ class LOCalc(XLOCalc, LOApp):
         rango.setDataArray(data)
         return
 
+    def getData(self, cell, visible=False):
+        rango = cell
+        if comun.is_cell(cell):
+            rango = self.getCurrentRegion(cell, False)
+        if visible:
+            data = ()
+            ranges = self.getVisible(rango)
+            for i in range(ranges.getCount()):
+                data += ranges.getByIndex(i).getDataArray()
+        else:
+            data = rango.getDataArray()
+        return data
+
     def getEmpty(self, cell):
         rango = cell
         if comun.is_cell(cell):
             rango = self.getCurrentRegion(cell, False)
         return rango.queryEmptyCells()
+
+    def getVisible(self, cell):
+        rango = cell
+        if comun.is_cell(cell):
+            rango = self.getCurrentRegion(cell, False)
+        return rango.queryVisibleCells()
 
