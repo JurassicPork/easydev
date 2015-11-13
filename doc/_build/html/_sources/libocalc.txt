@@ -17,85 +17,168 @@ Get all sheets names.
 
 Get active sheet.
 
+.. IMPORTANT::
+   Current doc can be IDE, and IDE not have sheets
+
 .. code-block:: vbnet
 
     util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
 
-    'Get current doc
-    doc = util.getDoc("")
-    sheet = util.getSheet(doc, "")
-    util.msgbox(sheet.getName())
+    'Get active sheet from active doc
+    sheet = util.getSheet(address)
+    msgbox sheet.Name
+
+Is better use explicit doc
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    address.Doc = doc
+    sheet = util.getSheet(address)
+    MsgBox sheet.Name
+
+Get active sheet from other doc
+
+.. code-block:: vbnet
+
+    address.Doc = util.getDoc("Untitled 3.ods")
+    sheet = util.getSheet(address)
+    MsgBox sheet.Name
 
 Get sheet by name.
 
 .. code-block:: vbnet
 
-    util = createUnoService("org.universolibre.EasyDev")
-
-    'Get current doc
-    doc = util.getDoc("")
-    sheet = util.getSheet(doc, "Sheet1")
-    util.msgbox(sheet.getName())
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    sheet = util.getSheet(address)
+    MsgBox sheet.Name
 
 Get sheet by index. Index start in 0.
 
 .. code-block:: vbnet
 
-    util = createUnoService("org.universolibre.EasyDev")
-
-    doc = util.getDoc("")
-    sheet = util.getSheet(doc, 0)
-    util.msgbox(sheet.getName())
+    address.Doc = ThisComponent
+    address.Sheet = 1
+    sheet = util.getSheet(address)
+    MsgBox sheet.Name
 
 Get last sheet by index.
 
 .. code-block:: vbnet
 
-    util = createUnoService("org.universolibre.EasyDev")
-
-    doc = util.getDoc("")
-    sheet = util.getSheet(doc, -1)
-    util.msgbox(sheet.getName())
+    address.Doc = ThisComponent
+    address.Sheet = -1
+    sheet = util.getSheet(address)
+    MsgBox sheet.Name
 
 
 Insert sheets
 -------------
 
-Insert sheet in pos.
+Insert sheet in pos. Get error if sheet exists
 
 .. code-block:: vbnet
 
     util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
 
-    doc = ThisComponent
-    new_name = "New Sheet"
-    util.sheetInsert(doc, new_name, 1)
+    address.Doc = ThisComponent
+    address.Sheet = "New Sheet"
+    util.sheetInsert(address, 0, False)
+
+Rename sheet if exists. Get name "New Sheet_1", "New Sheet_2", etc...
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = "New Sheet"
+    util.sheetInsert(address, 0, True)
 
 Insert in last pos.
 
 .. code-block:: vbnet
 
-    new_name = "New Sheet 2"
-    util.sheetInsert(doc, new_name, -1)
+    address.Doc = ThisComponent
+    address.Sheet = "New Sheet"
+    util.sheetInsert(address, -1, True)
+
+Insert more one sheet.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = Array("One", "Two", "Other")
+    util.sheetInsert(address, 0, True)
 
 
 Remove sheet
 ------------
 
+.. IMPORTANT::
+   The index of sheets change if remove some sheet.
+
 Remove sheet by name
 
 .. code-block:: vbnet
 
-    sheet_name = "Sheet1"
-    util.sheetRemove(doc, sheet_name)
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
 
-Remove by object
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    util.sheetRemove(address, False)
+
+Remove sheet by index
 
 .. code-block:: vbnet
 
-    'Get active sheet
-    obj_sheet = util.getSheet(doc, "")
-    util.sheetRemove(doc, obj_sheet)
+    address.Doc = ThisComponent
+    address.Sheet = 1
+    util.sheetRemove(address, False)
+
+Remove sheet by index, last sheet
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = -1
+    util.sheetRemove(address, False)
+
+First get sheet and remove by object
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet6"
+    sheet = util.getSheet(address)
+    address.Sheet = sheet
+    util.sheetRemove(address, False)
+
+Remove more one sheet, by index, name or object
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = Array(0, "Sheet4", "Sheet2", sheet, -1)
+    util.sheetRemove(address, False)
+
+Remove all sheet, except name
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet3"
+    util.sheetRemove(address, True)
+
+Remove all sheet, except more one
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = Array("Sheet2", "Sheet6")
+    util.sheetRemove(address, True)
 
 
 Move sheet
@@ -105,16 +188,38 @@ Move sheet by name to pos.
 
 .. code-block:: vbnet
 
-    sheet_name = "Sheet3"
-    util.sheetMove(doc, sheet_name, 0)
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
 
-Move sheet by object to last pos.
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    util.sheetMove(address, 0)
+
+Move first sheet to last pos
 
 .. code-block:: vbnet
 
-    'Get active sheet
-    sheet = util.getSheet(doc, "")
-    util.sheetMove(doc, sheet, -1)
+    address.Doc = ThisComponent
+    address.Sheet = 0
+    util.sheetMove(address, -1)
+
+Move sheet by object
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = 1
+    sheet = util.getSheet(address)
+    address.Sheet = sheet
+    util.sheetMove(address, -1)
+
+Move more one sheet
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = Array ("Sheet2", "Sheet4")
+    util.sheetMove(address, -1)
 
 
 Sort sheets
@@ -136,32 +241,180 @@ Sort in reverse.
 Copy sheet
 ----------
 
-Copy sheet by name. Get error if new name exists.
+.. IMPORTANT::
+   if you not use rename argument, you first valid if new name sheet not exists
+   with method: hasByName
+
+Copy sheet by name to last pos.
 
 .. code-block:: vbnet
 
-    doc = ThisComponent
-    sheet_name = "Sheet1"
-    new_name = "New Sheet"
-    util.sheetCopy(doc, sheet_name, new_name, 0, False)
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
 
-Copy sheet by name, force rename if new sheet name exists.
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    util.sheetCopy(address, "NewName", -1, False)
 
-.. code-block:: vbnet
-
-    doc = ThisComponent
-    sheet_name = "Sheet1"
-    new_name = "New Sheet"
-    util.sheetCopy(doc, sheet_name, new_name, 0, True)
-
-Copy sheet by object in last pos and force rename.
+Copy sheet by index to pos.
 
 .. code-block:: vbnet
 
-    'Get active sheet
-    sheet = util.getSheet(doc, "")
-    new_name = "New Sheet"
-    util.sheetCopy(doc, sheet, new_name, -1, True)
+    address.Doc = ThisComponent
+    address.Sheet = 0
+    util.sheetCopy(address, "OtherName", -1, False)
+
+Copy sheet by index to pos and rename if exists
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = 0
+    util.sheetCopy(address, "NameX", -1, True)
+
+Copy more one sheet, rename is ommited, always is true
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = Array("Sheet1", "Sheet2")
+    util.sheetCopy(address, "NameY", -1, True)
+
+Copy all sheets, rename is ommited, always is true
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = ""
+    util.sheetCopy(address, "NameNext", -1, False)
+
+
+Rename sheet
+------------
+
+Rename sheet by name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    util.sheetName(address, "Two")
+
+Rename sheet by index.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = 0
+    util.sheetName(address, "First")
+
+Rename more one sheet.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = Array(0, "Sheet3")
+    util.sheetName(address, "NewName")
+
+
+Show or hidden sheet
+--------------------
+
+.. IMPORTANT::
+   If you try hide all sheets, not get error, but always at least one sheet will be visible
+
+Hidden sheet by name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    util.sheetVisible(address, False)
+
+Hidden first sheet.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = 0
+    util.sheetVisible(address, False)
+
+Hidden last sheet.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = -1
+    util.sheetVisible(address, False)
+
+Hidden all sheets, except one
+
+.. code-block:: vbnet
+
+    sheets = util.getSheetsNames(ThisComponent)
+    'First show sheet
+    address.Doc = ThisComponent
+    address.Sheet = sheets(0)
+    util.sheetVisible(address, True)
+    'Remove sheet from array
+    sheets = util.delete(sheets, 0)
+    'And hide the rest of sheets
+    address.Sheet = sheets
+    util.sheetVisible(address, False)
+
+Show al sheets
+
+.. code-block:: vbnet
+
+    sheets = util.getSheetsNames(ThisComponent)
+    address.Doc = ThisComponent
+    address.Sheet = sheets
+    util.sheetVisible(address, True)
+
+
+Sheet password
+--------------
+
+Set password by name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet2"
+    util.sheetPassword(address, "letmein", False)
+
+Set password by index.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = -1
+    util.sheetPassword(address, "letmein", False)
+
+Set password all sheet.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = ""
+    util.sheetPassword(address, "letmein", False)
+
+Remove password all sheet.
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = ""
+    util.sheetPassword(address, "letmein", True)
 
 
 Cells
