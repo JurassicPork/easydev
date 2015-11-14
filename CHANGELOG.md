@@ -2,6 +2,7 @@ v 2.2.0 [15-Nov-2015]
 ---------------------
     - [Feature] Get sheets names
     - [Feature] Get sheet by name or index
+    - [Feature] Operations sheet: insert, remove, copy, move, rename
 
 v 2.1.0 [10-Nov-2015]
     - [Feature] Make query to DB

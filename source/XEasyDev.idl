@@ -146,6 +146,29 @@ module org { module universolibre { module EasyDev {
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
     };
 
+    published struct ChartSerie
+    {
+        string X;
+        string Y;
+        string Title;
+        long Color;
+    };
+
+    published struct ChartData
+    {
+        any Doc;
+        any Sheet;
+        string Name;
+        string Type;
+        any PosSize;
+        sequence< org::universolibre::EasyDev::ChartSerie > Series;
+    };
+
+    interface XLOChart : com::sun::star::uno::XInterface
+    {
+        any chartAdd([in] org::universolibre::EasyDev::ChartData data);
+    };
+
     published struct CellRangeAddress
     {
         any Doc;
