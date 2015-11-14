@@ -2,6 +2,8 @@ v 2.2.0 [15-Nov-2015]
 ---------------------
     - [Feature] Obtener nombres de las hojas
     - [Feature] Obtener hoja por nombre o índice
+    - [Feature] Operaciones con hojas: insertar, borrar, copiar, mover, renombrar
+    - [Feature] Crear gráfico XY
 
 v 2.1.0 [10-Nov-2015]
 ---------------------
