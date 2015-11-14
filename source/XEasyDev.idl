@@ -193,7 +193,7 @@ module org { module universolibre { module EasyDev {
         void sheetPassword([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string password, [in] boolean remove);
         void sheetSort([in] any doc, [in] boolean asc);
         void sheetCopy([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string newname, [in] short pos, [in] boolean rename);
-        void sheetCopyToDoc([in] any sheet, [in] any doc, [in] short pos, [in] boolean rename);
+        void sheetCopyToDoc([in] org::universolibre::EasyDev::CellRangeAddress source, [in] org::universolibre::EasyDev::CellRangeAddress target, [in] short pos, [in] boolean rename, [in] boolean values);
 
         any getCell([in] org::universolibre::EasyDev::CellRangeAddress address);
         any getRange([in] org::universolibre::EasyDev::CellRangeAddress address);

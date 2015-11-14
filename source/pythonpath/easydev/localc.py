@@ -149,6 +149,30 @@ class LOCalc(XLOCalc, LOApp):
             doc.getSheets().copyByName(n, new_name, index)
         return
 
+    def sheetCopyToDoc(self, source, target, pos, rename, values):
+        src_doc = self._get_doc(source.Doc)
+        doc = target.Doc
+        mode = 1
+        if values:
+            mode = 2
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        if source.Sheet:
+            names = self._get_sheets_names(source.Sheet, src_doc, False)
+        else:
+            names = self.getSheetsNames(src_doc)
+        for name in names:
+            new_name = name
+            if rename:
+                new_name = self._get_new_name(doc, name)
+            doc.getSheets().insertNewByName(new_name, index)
+            sheet = doc.getSheets().getByName(new_name)
+            sheet.link(src_doc.URL, name, '', '', mode)
+            sheet.setLinkMode(0)
+        print ('ok')
+        return
+
     def getCell(self, address):
         doc = self._get_doc(address.Doc)
         if address.Current:

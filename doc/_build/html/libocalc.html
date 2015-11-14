@@ -267,6 +267,78 @@ with method: hasByName</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="copy-sheet-to-document">
+<h2>Copy sheet to document<a class="headerlink" href="#copy-sheet-to-document" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The origin document must be saved before copy sheet</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">SOURCE</span><span class="p">,</span> <span class="n">TARGET</span><span class="p">,</span> <span class="n">POSITION</span><span class="p">,</span> <span class="n">RENAME</span><span class="p">,</span> <span class="n">BY_VALUE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Source and targe are struct <code class="docutils literal"><span class="pre">org.universolibre.EasyDev.CellRangeAddress</span></code></p>
+<ul class="simple">
+<li><strong>SOURCE</strong>: Document and sheet origin</li>
+<li><strong>TARGET</strong>: Target document</li>
+<li><strong>POSITION</strong>: Target position for example first position (0) or last position (-1)</li>
+<li><strong>RENAME</strong>: If exists sheet name in target, rename sheet origin</li>
+<li><strong>BY_VALUE</strong>: False, copy by formula, True, copy by values.</li>
+</ul>
+<p>Copy all sheets from source to target document.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Source&quot;</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by index</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy more one sheet</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Source&quot;</span><span class="p">)</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by value</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Source&quot;</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="rename-sheet">
 <h2>Rename sheet<a class="headerlink" href="#rename-sheet" title="Permalink to this headline">¶</a></h2>
 <p>Rename sheet by name.</p>
@@ -690,6 +762,7 @@ with method: hasByName</p>
 <li><a class="reference internal" href="#move-sheet">Move sheet</a></li>
 <li><a class="reference internal" href="#sort-sheets">Sort sheets</a></li>
 <li><a class="reference internal" href="#copy-sheet">Copy sheet</a></li>
+<li><a class="reference internal" href="#copy-sheet-to-document">Copy sheet to document</a></li>
 <li><a class="reference internal" href="#rename-sheet">Rename sheet</a></li>
 <li><a class="reference internal" href="#show-or-hidden-sheet">Show or hidden sheet</a></li>
 <li><a class="reference internal" href="#sheet-password">Sheet password</a></li>

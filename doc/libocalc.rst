@@ -289,6 +289,89 @@ Copy all sheets, rename is ommited, always is true
     util.sheetCopy(address, "NameNext", -1, False)
 
 
+Copy sheet to document
+----------------------
+
+.. IMPORTANT::
+   The origin document must be saved before copy sheet
+
+::
+
+    sheetCopyToDoc(SOURCE, TARGET, POSITION, RENAME, BY_VALUE)
+
+Source and targe are struct ``org.universolibre.EasyDev.CellRangeAddress``
+
+* **SOURCE**: Document and sheet origin
+* **TARGET**: Target document
+* **POSITION**: Target position for example first position (0) or last position (-1)
+* **RENAME**: If exists sheet name in target, rename sheet origin
+* **BY_VALUE**: False, copy by formula, True, copy by values.
+
+Copy all sheets from source to target document.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    source = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+    target = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    doc = ThisComponent
+    source.Doc = doc
+
+    new_doc = util.newDoc("")
+    target.Doc = new_doc
+
+    util.sheetCopyToDoc(source, target, -1, True, False)
+
+Copy sheet by name.
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    source.Doc = doc
+    source.Sheet = "Source"
+    new_doc = util.newDoc("")
+    target.Doc = new_doc
+
+    util.sheetCopyToDoc(source, target, -1, True, False)
+
+Copy sheet by index
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    source.Doc = doc
+    source.Sheet = 1
+    new_doc = util.newDoc("")
+    target.Doc = new_doc
+
+    util.sheetCopyToDoc(source, target, -1, True, False)
+
+Copy more one sheet
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    source.Doc = doc
+    source.Sheet = Array(0, "Source")
+    new_doc = util.newDoc("")
+    target.Doc = new_doc
+
+    util.sheetCopyToDoc(source, target, -1, True, False)
+
+Copy sheet by value
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    source.Doc = doc
+    source.Sheet = "Source"
+    new_doc = util.newDoc("")
+    target.Doc = new_doc
+
+    util.sheetCopyToDoc(source, target, -1, True, True)
+
+
 Rename sheet
 ------------
 
