@@ -15,11 +15,166 @@ class LOCalc(XLOCalc, LOApp):
     def __init__(self, ctx, sm, desktop, toolkit):
         LOApp.__init__(self, ctx, sm, desktop, toolkit)
 
-    def getCell(self, address):
-        if not address.Doc or isinstance(address.Doc, str):
-            doc = self.getDoc(address.Doc)
+    def _get_doc(self, document):
+        if not document or isinstance(document, str):
+            document = self.getDoc(document)
+        return document
+
+    def _get_new_name(self, doc, name):
+        new_name = name
+        i = 1
+        while doc.getSheets().hasByName(new_name):
+            new_name = '{}_{}'.format(name, i)
+            i += 1
+        return new_name
+
+    def getSheetsNames(self, doc):
+        return doc.getSheets().getElementNames()
+
+    def getSheet(self, address):
+        doc = self._get_doc(address.Doc)
+        if not address.Sheet:
+            return doc.getCurrentController().getActiveSheet()
+        if isinstance(address.Sheet, str):
+            return doc.getSheets().getByName(address.Sheet)
+        index = address.Sheet
+        if index < 0:
+            index = doc.getSheets().getCount() + index
+        return doc.getSheets().getByIndex(index)
+
+    def sheetInsert(self, address, pos, rename):
+        doc = self._get_doc(address.Doc)
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        names = address.Sheet
+        if isinstance(names, str):
+            if rename:
+                names = self._get_new_name(doc, names)
+            doc.getSheets().insertNewByName(names, index)
+        elif isinstance(names, tuple):
+            for name in names:
+                if rename:
+                    name = self._get_new_name(doc, name)
+                doc.getSheets().insertNewByName(name, index)
+        return
+
+    def _get_sheet_name(self, name, doc):
+        if isinstance(name, int):
+            index = name
+            if index < 0:
+                index = doc.getSheets().getCount() + index
+            name = doc.getSheets().getByIndex(index).getName()
+        elif not isinstance(name, str):
+            name = name.getName()
+        return name
+
+    def _get_sheets_names(self, name, doc, allSheets):
+        if isinstance(name, tuple):
+            names = tuple(self._get_sheet_name(n, doc) for n in name)
         else:
-            doc = address.Doc
+            names = (self._get_sheet_name(name, doc),)
+        if allSheets:
+            all_names = self.getSheetsNames(doc)
+            names = set(names).symmetric_difference(all_names)
+        return names
+
+    def sheetRemove(self, address, allSheets):
+        doc = self._get_doc(address.Doc)
+        names = self._get_sheets_names(address.Sheet, doc, allSheets)
+        for n in names:
+            doc.getSheets().removeByName(n)
+        return
+
+    def sheetMove(self, address, pos):
+        doc = self._get_doc(address.Doc)
+        names = self._get_sheets_names(address.Sheet, doc, False)
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        for n in names:
+            doc.getSheets().moveByName(n, index)
+        return
+
+    def sheetName(self, address, newname):
+        doc = self._get_doc(address.Doc)
+        names = self._get_sheets_names(address.Sheet, doc, False)
+        for n in names:
+            new_name = self._get_new_name(doc, newname)
+            doc.getSheets().getByName(n).setName(new_name)
+        return
+
+    def sheetVisible(self, address, visible):
+        doc = self._get_doc(address.Doc)
+        names = self._get_sheets_names(address.Sheet, doc, False)
+        for n in names:
+            doc.getSheets().getByName(n).IsVisible = visible
+        return
+
+    def sheetPassword(self, address, password, remove):
+        doc = self._get_doc(address.Doc)
+        if address.Sheet:
+            names = self._get_sheets_names(address.Sheet, doc, False)
+        else:
+            names = self.getSheetsNames(doc)
+        for n in names:
+            if remove:
+                doc.getSheets().getByName(n).unprotect(password)
+            else:
+                doc.getSheets().getByName(n).protect(password)
+        return
+
+    def sheetSort(self, doc, asc):
+        names = sorted(self.getSheetsNames(doc), reverse=not asc)
+        for i, v in enumerate(names):
+            doc.getSheets().moveByName(v, i)
+        return
+
+    def sheetCopy(self, address, newname, pos, rename):
+        doc = self._get_doc(address.Doc)
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        if address.Sheet:
+            if isinstance(address.Sheet, tuple):
+                rename = True
+            names = self._get_sheets_names(address.Sheet, doc, False)
+        else:
+            rename = True
+            names = self.getSheetsNames(doc)
+        for n in names:
+            new_name = newname
+            if rename:
+                new_name = self._get_new_name(doc, newname)
+            doc.getSheets().copyByName(n, new_name, index)
+        return
+
+    def sheetCopyToDoc(self, source, target, pos, rename, values):
+        src_doc = self._get_doc(source.Doc)
+        doc = target.Doc
+        mode = 1
+        if values:
+            mode = 2
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        if source.Sheet:
+            names = self._get_sheets_names(source.Sheet, src_doc, False)
+        else:
+            names = self.getSheetsNames(src_doc)
+        for name in names:
+            new_name = name
+            if rename:
+                new_name = self._get_new_name(doc, name)
+            doc.getSheets().insertNewByName(new_name, index)
+            sheet = doc.getSheets().getByName(new_name)
+            sheet.link(src_doc.URL, name, '', '', mode)
+            sheet.setLinkMode(0)
+        print ('ok')
+        return
+
+    def getCell(self, address):
+        doc = self._get_doc(address.Doc)
         if address.Current:
             return doc.getCurrentSelection().getCellByPosition(0, 0)
         if not address.Sheet:
@@ -35,10 +190,7 @@ class LOCalc(XLOCalc, LOApp):
         return cell
 
     def getRange(self, address):
-        if not address.Doc or isinstance(address.Doc, str):
-            doc = self.getDoc(address.Doc)
-        else:
-            doc = address.Doc
+        doc = self._get_doc(address.Doc)
         if address.Current:
             return doc.getCurrentSelection()
         if not address.Sheet:
@@ -104,9 +256,28 @@ class LOCalc(XLOCalc, LOApp):
         rango.setDataArray(data)
         return
 
+    def getData(self, cell, visible=False):
+        rango = cell
+        if comun.is_cell(cell):
+            rango = self.getCurrentRegion(cell, False)
+        if visible:
+            data = ()
+            ranges = self.getVisible(rango)
+            for i in range(ranges.getCount()):
+                data += ranges.getByIndex(i).getDataArray()
+        else:
+            data = rango.getDataArray()
+        return data
+
     def getEmpty(self, cell):
         rango = cell
         if comun.is_cell(cell):
             rango = self.getCurrentRegion(cell, False)
         return rango.queryEmptyCells()
+
+    def getVisible(self, cell):
+        rango = cell
+        if comun.is_cell(cell):
+            rango = self.getCurrentRegion(cell, False)
+        return rango.queryVisibleCells()
 

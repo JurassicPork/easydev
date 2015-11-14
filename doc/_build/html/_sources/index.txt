@@ -20,6 +20,7 @@ Contents:
    libocalc
    libowriter
    libobase
+   libochart
    dialogs
 
 

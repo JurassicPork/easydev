@@ -3,6 +3,7 @@
 import logging
 import datetime
 import os
+import tempfile
 
 import uno
 from com.sun.star.beans import PropertyValue, NamedValue
@@ -58,6 +59,28 @@ def get_path_info(path):
     path, filename = os.path.split(path)
     name, extension = os.path.splitext(filename)
     return (path, filename, name, extension)
+
+
+def get_path_temp(name='', url=False):
+    if name:
+        temp = join(tempfile.gettempdir(), name)
+    else:
+        temp = tempfile.mkstemp()[1]
+    if url:
+        temp = path_to_url(temp)
+    return temp
+
+
+def kill(path):
+    try:
+        os.remove(path)
+    except:
+        pass
+    return
+
+
+def join(*paths):
+    return os.path.join(*paths)
 
 
 def basename(path):
@@ -166,6 +189,7 @@ def offset(cell, cols, rows, expand=False):
     else:
         cursor.collapseToSize(cols, rows)
     return sheet.getCellRangeByName(cursor.AbsoluteName)
+
 
 def is_cell(cell):
     return cell.getImplementationName() == OBJECTS['CELL']

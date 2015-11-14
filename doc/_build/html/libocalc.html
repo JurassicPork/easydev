@@ -40,6 +40,407 @@
             
   <div class="section" id="calc">
 <h1>Calc<a class="headerlink" href="#calc" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="get-sheet">
+<h2>Get sheet<a class="headerlink" href="#get-sheet" title="Permalink to this headline">¶</a></h2>
+<p>Get all sheets names.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get current doc</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">names</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheetsNames</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get active sheet.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Current doc can be IDE, and IDE not have sheets</p>
+</div>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get active sheet from active doc</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">msgbox</span> <span class="n">sheet</span><span class="p">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+<p>Is better use explicit doc</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">sheet</span><span class="p">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+<p>Get active sheet from other doc</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getDoc</span><span class="p">(</span><span class="s">&quot;Untitled 3.ods&quot;</span><span class="p">)</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">sheet</span><span class="p">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+<p>Get sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">sheet</span><span class="p">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+<p>Get sheet by index. Index start in 0.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">sheet</span><span class="p">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+<p>Get last sheet by index.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">MsgBox</span> <span class="n">sheet</span><span class="p">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="insert-sheets">
+<h2>Insert sheets<a class="headerlink" href="#insert-sheets" title="Permalink to this headline">¶</a></h2>
+<p>Insert sheet in pos. Get error if sheet exists</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;New Sheet&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetInsert</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Rename sheet if exists. Get name &#8220;New Sheet_1&#8221;, &#8220;New Sheet_2&#8221;, etc...</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;New Sheet&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetInsert</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Insert in last pos.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;New Sheet&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetInsert</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Insert more one sheet.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Other&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetInsert</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="remove-sheet">
+<h2>Remove sheet<a class="headerlink" href="#remove-sheet" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The index of sheets change if remove some sheet.</p>
+</div>
+<p>Remove sheet by name</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remove sheet by index</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remove sheet by index, last sheet</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First get sheet and remove by object</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet6&quot;</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">sheet</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remove more one sheet, by index, name or object</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Sheet4&quot;</span><span class="p">,</span> <span class="s">&quot;Sheet2&quot;</span><span class="p">,</span> <span class="n">sheet</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remove all sheet, except name</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet3&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remove all sheet, except more one</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Sheet2&quot;</span><span class="p">,</span> <span class="s">&quot;Sheet6&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetRemove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="move-sheet">
+<h2>Move sheet<a class="headerlink" href="#move-sheet" title="Permalink to this headline">¶</a></h2>
+<p>Move sheet by name to pos.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetMove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Move first sheet to last pos</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetMove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Move sheet by object</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">sheet</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetMove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Move more one sheet</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span> <span class="p">(</span><span class="s">&quot;Sheet2&quot;</span><span class="p">,</span> <span class="s">&quot;Sheet4&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetMove</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sort-sheets">
+<h2>Sort sheets<a class="headerlink" href="#sort-sheets" title="Permalink to this headline">¶</a></h2>
+<p>Sort sheets by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">sheetSort</span><span class="p">(</span><span class="n">ThisComponent</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Sort in reverse.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span><span class="p">.</span><span class="n">sheetSort</span><span class="p">(</span><span class="n">ThisComponent</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy-sheet">
+<h2>Copy sheet<a class="headerlink" href="#copy-sheet" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">if you not use rename argument, you first valid if new name sheet not exists
+with method: hasByName</p>
+</div>
+<p>Copy sheet by name to last pos.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;NewName&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by index to pos.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;OtherName&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by index to pos and rename if exists</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;NameX&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy more one sheet, rename is ommited, always is true</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Sheet1&quot;</span><span class="p">,</span> <span class="s">&quot;Sheet2&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;NameY&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy all sheets, rename is ommited, always is true</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopy</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;NameNext&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy-sheet-to-document">
+<h2>Copy sheet to document<a class="headerlink" href="#copy-sheet-to-document" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The origin document must be saved before copy sheet</p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">SOURCE</span><span class="p">,</span> <span class="n">TARGET</span><span class="p">,</span> <span class="n">POSITION</span><span class="p">,</span> <span class="n">RENAME</span><span class="p">,</span> <span class="n">BY_VALUE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Source and targe are struct <code class="docutils literal"><span class="pre">org.universolibre.EasyDev.CellRangeAddress</span></code></p>
+<ul class="simple">
+<li><strong>SOURCE</strong>: Document and sheet origin</li>
+<li><strong>TARGET</strong>: Target document</li>
+<li><strong>POSITION</strong>: Target position for example first position (0) or last position (-1)</li>
+<li><strong>RENAME</strong>: If exists sheet name in target, rename sheet origin</li>
+<li><strong>BY_VALUE</strong>: False, copy by formula, True, copy by values.</li>
+</ul>
+<p>Copy all sheets from source to target document.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Source&quot;</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by index</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy more one sheet</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Source&quot;</span><span class="p">)</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Copy sheet by value</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Source&quot;</span>
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetCopyToDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rename-sheet">
+<h2>Rename sheet<a class="headerlink" href="#rename-sheet" title="Permalink to this headline">¶</a></h2>
+<p>Rename sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetName</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Rename sheet by index.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetName</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;First&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Rename more one sheet.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Sheet3&quot;</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetName</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;NewName&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="show-or-hidden-sheet">
+<h2>Show or hidden sheet<a class="headerlink" href="#show-or-hidden-sheet" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">If you try hide all sheets, not get error, but always at least one sheet will be visible</p>
+</div>
+<p>Hidden sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetVisible</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hidden first sheet.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetVisible</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hidden last sheet.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetVisible</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hidden all sheets, except one</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">sheets</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheetsNames</span><span class="p">(</span><span class="n">ThisComponent</span><span class="p">)</span>
+<span class="c">&#39;First show sheet</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">sheets</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetVisible</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+<span class="c">&#39;Remove sheet from array</span>
+<span class="n">sheets</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="n">sheets</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c">&#39;And hide the rest of sheets</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">sheets</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetVisible</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Show al sheets</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">sheets</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheetsNames</span><span class="p">(</span><span class="n">ThisComponent</span><span class="p">)</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">sheets</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetVisible</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sheet-password">
+<h2>Sheet password<a class="headerlink" href="#sheet-password" title="Permalink to this headline">¶</a></h2>
+<p>Set password by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetPassword</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;letmein&quot;</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Set password by index.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetPassword</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;letmein&quot;</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Set password all sheet.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetPassword</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;letmein&quot;</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remove password all sheet.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">sheetPassword</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="s">&quot;letmein&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="cells">
 <h2>Cells<a class="headerlink" href="#cells" title="Permalink to this headline">¶</a></h2>
 <p>Get active cell, always back only one cell</p>
@@ -227,6 +628,20 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="get-visible-cells">
+<h2>Get visible cells<a class="headerlink" href="#get-visible-cells" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get active cell, always get one cell</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Current</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">cell</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getCell</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+<span class="n">ranges</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getVisible</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">ThisComponent</span><span class="p">,</span> <span class="n">ranges</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="last-row">
 <h2>Last row<a class="headerlink" href="#last-row" title="Permalink to this headline">¶</a></h2>
 <p>Get last row into current region.</p>
@@ -310,6 +725,26 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="get-data">
+<h2>Get data<a class="headerlink" href="#get-data" title="Permalink to this headline">¶</a></h2>
+<p>Get data array from cell, automatically get current region. Get hidden cells inclusive.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="c">&#39;Get active cell, always get one cell</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Current</span> <span class="o">=</span> <span class="k">True</span>
+<span class="n">cell</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getCell</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getData</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Get data array, only visible cells.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getData</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -321,15 +756,27 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Calc</a><ul>
+<li><a class="reference internal" href="#get-sheet">Get sheet</a></li>
+<li><a class="reference internal" href="#insert-sheets">Insert sheets</a></li>
+<li><a class="reference internal" href="#remove-sheet">Remove sheet</a></li>
+<li><a class="reference internal" href="#move-sheet">Move sheet</a></li>
+<li><a class="reference internal" href="#sort-sheets">Sort sheets</a></li>
+<li><a class="reference internal" href="#copy-sheet">Copy sheet</a></li>
+<li><a class="reference internal" href="#copy-sheet-to-document">Copy sheet to document</a></li>
+<li><a class="reference internal" href="#rename-sheet">Rename sheet</a></li>
+<li><a class="reference internal" href="#show-or-hidden-sheet">Show or hidden sheet</a></li>
+<li><a class="reference internal" href="#sheet-password">Sheet password</a></li>
 <li><a class="reference internal" href="#cells">Cells</a></li>
 <li><a class="reference internal" href="#ranges">Ranges</a></li>
 <li><a class="reference internal" href="#select-range">Select range</a></li>
 <li><a class="reference internal" href="#current-region">Current region</a></li>
 <li><a class="reference internal" href="#get-empty-cells">Get empty cells</a></li>
+<li><a class="reference internal" href="#get-visible-cells">Get visible cells</a></li>
 <li><a class="reference internal" href="#last-row">Last row</a></li>
 <li><a class="reference internal" href="#next-value">Next value</a></li>
 <li><a class="reference internal" href="#cell-value">Cell value</a></li>
 <li><a class="reference internal" href="#set-data">Set data</a></li>
+<li><a class="reference internal" href="#get-data">Get data</a></li>
 </ul>
 </li>
 </ul>

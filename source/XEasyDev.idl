@@ -146,6 +146,29 @@ module org { module universolibre { module EasyDev {
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
     };
 
+    published struct ChartSerie
+    {
+        string X;
+        string Y;
+        string Title;
+        long Color;
+    };
+
+    published struct ChartData
+    {
+        any Doc;
+        any Sheet;
+        string Name;
+        string Type;
+        any PosSize;
+        sequence< org::universolibre::EasyDev::ChartSerie > Series;
+    };
+
+    interface XLOChart : com::sun::star::uno::XInterface
+    {
+        any chartAdd([in] org::universolibre::EasyDev::ChartData data);
+    };
+
     published struct CellRangeAddress
     {
         any Doc;
@@ -160,6 +183,18 @@ module org { module universolibre { module EasyDev {
 
     interface XLOCalc : com::sun::star::uno::XInterface
     {
+        sequence< string > getSheetsNames([in] any doc);
+        any getSheet([in] org::universolibre::EasyDev::CellRangeAddress address);
+        void sheetInsert([in] org::universolibre::EasyDev::CellRangeAddress address, [in] short pos, [in] boolean rename);
+        void sheetRemove([in] org::universolibre::EasyDev::CellRangeAddress address, [in] boolean allSheets);
+        void sheetMove([in] org::universolibre::EasyDev::CellRangeAddress address, [in] short pos);
+        void sheetName([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string newname);
+        void sheetVisible([in] org::universolibre::EasyDev::CellRangeAddress address, [in] boolean visible);
+        void sheetPassword([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string password, [in] boolean remove);
+        void sheetSort([in] any doc, [in] boolean asc);
+        void sheetCopy([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string newname, [in] short pos, [in] boolean rename);
+        void sheetCopyToDoc([in] org::universolibre::EasyDev::CellRangeAddress source, [in] org::universolibre::EasyDev::CellRangeAddress target, [in] short pos, [in] boolean rename, [in] boolean values);
+
         any getCell([in] org::universolibre::EasyDev::CellRangeAddress address);
         any getRange([in] org::universolibre::EasyDev::CellRangeAddress address);
         void selectRange([in] any doc, [in] any rango);
@@ -169,7 +204,9 @@ module org { module universolibre { module EasyDev {
         any getValue([in] any cell);
         void setValue([in] any cell, [in] any value);
         void setData([in] any cell, [in] any data);
+        any getData([in] any cell, [in] boolean visible);
         any getEmpty([in] any cell);
+        any getVisible([in] any cell);
     };
 
     interface XLOWriter : com::sun::star::uno::XInterface
