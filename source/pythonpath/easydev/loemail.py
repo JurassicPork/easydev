@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email import encoders
 import mailbox
 
-from org.universolibre.EasyDev import XEMail
+from org.universolibre.EasyDev import XLOEMail
 from easydev import comun
 from easydev.setting import LOG, NAME_EXT, TIMEOUT
 
@@ -70,11 +70,12 @@ def send_mail(server, message):
         log.info('Close...')
         return True
     except SMTPAuthenticationError as e:
-        if e[0] == 534 and 'gmail' in server.Server:
+        err = str(e)
+        if '534' in err and 'gmail' in server.Server:
             msg = 'Need activate cant access other app in your account GMail'
             log.debug(msg)
             return False
-        elif e[0] == 535:
+        elif '535' in err:
             msg = 'User or password are invalid'
             log.debug(msg)
             return False
@@ -86,7 +87,7 @@ def send_mail(server, message):
         return False
 
 
-class EMail(XEMail):
+class LOEMail(XLOEMail):
 
     def __init__(self):
         pass

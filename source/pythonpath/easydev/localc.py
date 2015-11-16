@@ -206,6 +206,44 @@ class LOCalc(XLOCalc, LOApp):
                 address.Col, address.Row, address.EndCol, address.EndRow)
         return rango
 
+    def addRanges(self, container, ranges):
+        if container.ImplementationName != 'ScCellRangesObj':
+            container = container.createInstance('com.sun.star.sheet.SheetCellRanges')
+        if not isinstance(ranges, tuple):
+            ranges = (ranges,)
+        for r in ranges:
+            if not container.hasByName(r.AbsoluteName):
+                container.addRangeAddress(r.getRangeAddress(), False)
+        return container
+
+    def removeRanges(self, container, ranges):
+        if not isinstance(ranges, tuple):
+            ranges = (ranges,)
+        for r in ranges:
+            if container.hasByName(r.AbsoluteName):
+                container.removeRangeAddress(r.getRangeAddress())
+        return container
+
+    def getColumns(self, doc, ranges):
+        container = doc.createInstance('com.sun.star.sheet.SheetCellRanges')
+        if not isinstance(ranges, tuple):
+            ranges = (ranges,)
+        for r in ranges:
+            for c in range(r.getColumns().getCount()):
+                col = r.getColumns().getByIndex(c)
+                container.addRangeAddress(col.getRangeAddress(), False)
+        return container
+
+    def getRows(self, doc, ranges):
+        container = doc.createInstance('com.sun.star.sheet.SheetCellRanges')
+        if not isinstance(ranges, tuple):
+            ranges = (ranges,)
+        for r in ranges:
+            for r2 in range(r.getRows().getCount()):
+                row = r.getRows().getByIndex(r2)
+                container.addRangeAddress(row.getRangeAddress(), False)
+        return container
+
     def selectRange(self, doc, rango):
         doc.getCurrentController().select(rango)
         return
