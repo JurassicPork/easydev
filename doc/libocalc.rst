@@ -640,7 +640,7 @@ Get range from object doc, sheet by name, range by position
     msg = util.format("{} {}", Array(range.ImplementationName, range.AbsoluteName))
     util.msgbox(msg)
 
-Get range from object sheet, object doc is ommited
+Get range from object sheet, object doc is ommited.
 
 .. code-block:: vbnet
 
@@ -650,6 +650,84 @@ Get range from object sheet, object doc is ommited
     range = util.getRange(address)
     msg = util.format("{} {}", Array(range.ImplementationName, range.AbsoluteName))
     util.msgbox(msg)
+
+Add ranges into container.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet1"
+    address.Name = "A1:B2"
+    range = util.getRange(address)
+    'Create container, first argument is a document
+    container = util.addRanges(ThisComponent, range)
+    MsgBox container.getRangeAddressesAsString()
+
+    'Add range to container
+    address.Name = "A4:B5"
+    range = util.getRange(address)
+    'First argument is a container, previously created
+    container = util.addRanges(container, range)
+    MsgBox container.getRangeAddressesAsString()
+
+Initial container from more one cell range
+
+.. code-block:: vbnet
+
+    address.Doc = ThisComponent
+    address.Sheet = "Sheet1"
+    address.Name = "B1:C2"
+    r1 = util.getRange(address)
+    address.Name = "B4:C4"
+    r2 = util.getRange(address)
+    address.Name = "D6:E6"
+    r3 = util.getRange(address)
+    ranges = Array(r1, r2, r3)
+
+    'Create container, first argument is a document
+    container = util.addRanges(ThisComponent, ranges)
+    MsgBox container.getRangeAddressesAsString()
+
+Remove ranges from container.
+
+.. code-block:: vbnet
+
+    r = util.removeRanges(container, r2)
+    MsgBox container.getRangeAddressesAsString()
+
+Get all columns from cell range, get a container.
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+
+    address.Doc = doc
+    address.Sheet = "Sheet1"
+    address.Name = "B1:E1"
+    range = util.getRange(address)
+
+    columns = util.getColumns(ThisComponent, range)
+
+    util.selectRange(doc, columns)
+
+Get all rows from cell range, get a container.
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+
+    address.Doc = doc
+    address.Sheet = "Sheet1"
+    address.Name = "A5:A10"
+    range = util.getRange(address)
+
+    rows = util.getRows(ThisComponent, range)
+
+    util.selectRange(doc, rows)
+
 
 Select range
 ------------

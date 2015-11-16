@@ -212,6 +212,8 @@ class LOCalc(XLOCalc, LOApp):
         if not isinstance(ranges, tuple):
             ranges = (ranges,)
         for r in ranges:
+            if not r:
+                continue
             if not container.hasByName(r.AbsoluteName):
                 container.addRangeAddress(r.getRangeAddress(), False)
         return container

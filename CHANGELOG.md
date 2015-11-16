@@ -1,3 +1,8 @@
+v 2.3.0 [00-Nov-2015]
+---------------------
+    - [Feature] Create containers ranges, add and remove ranges.
+    - [Feature] Get columns or rows from cell range.
+
 v 2.2.0 [15-Nov-2015]
 ---------------------
     - [Feature] Get sheets names
