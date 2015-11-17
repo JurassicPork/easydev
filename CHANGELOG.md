@@ -2,6 +2,8 @@ v 2.3.0 [00-Nov-2015]
 ---------------------
     - [Feature] Create containers ranges, add and remove ranges.
     - [Feature] Get columns or rows from cell range.
+    - [Feature] Add copy, paste functions.
+    - [Feature] Insert sheets from documents, only LibreOffice.
 
 v 2.2.0 [15-Nov-2015]
 ---------------------

@@ -26,9 +26,13 @@ DESKTOP = 'com.sun.star.frame.Desktop'
 TOOLKIT = 'com.sun.star.awt.Toolkit'
 SRV_JOB = ('com.sun.star.task.Job',)
 SRV_GOS = 'com.sun.star.drawing.GraphicObjectShape'
+SRV_GP = 'com.sun.star.graphic.GraphicProvider'
+SRV_DCS = 'com.sun.star.drawing.CustomShape'
 SHAPES = {
     'Rectangle': 'com.sun.star.drawing.RectangleShape',
     'Ellipse': 'com.sun.star.drawing.EllipseShape',
+    'Text': 'com.sun.star.drawing.TextShape',
+    'Line': 'com.sun.star.drawing.LineShape',
 }
 LIST_SHAPES = list(SHAPES.values())
 CALC = 'scalc'

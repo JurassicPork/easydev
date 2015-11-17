@@ -76,11 +76,8 @@ class Debug(XDebug, LODefault):
 
     def mri(self, obj):
         m = comun.mri(obj)
-        #~ m = self._create_instance('mytools.Mri')
         if m is None:
             self.msgbox('La extensión MRI no esta instalada', ERRORBOX)
-            #~ return
-        #~ m.inspect(obj)
         return
 
     def test(self, args):

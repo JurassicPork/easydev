@@ -304,6 +304,37 @@
 <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Copy and paste. Currently, only Calc. Copy current selection.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">util</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">paste</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img021.png"><img alt="_images/img021.png" class="align-center" src="_images/img021.png" style="width: 300px;" /></a>
+<p>Copy and paste range cells, is very important, select ranges correctly. See <a class="reference internal" href="libocalc.html#getranges"><span>Ranges</span></a>.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet1&quot;</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;A1:B2&quot;</span>
+<span class="n">range</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getRange</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet1&quot;</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;A8&quot;</span>
+<span class="n">range</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getRange</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">paste</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img022.png"><img alt="_images/img022.png" class="align-center" src="_images/img022.png" style="width: 200px;" /></a>
 </div>
 <div class="section" id="unix-time">
 <h2>Unix time<a class="headerlink" href="#unix-time" title="Permalink to this headline">¶</a></h2>

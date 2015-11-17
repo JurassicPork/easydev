@@ -319,6 +319,47 @@ Send text to clipboard
     value = util.getClipboard()
     util.msgbox(value)
 
+Copy and paste. Currently, only Calc. Copy current selection.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    doc = ThisComponent
+    util.copy(doc)
+    util.paste(doc)
+
+.. image:: images/img021.png
+    :width: 300px
+    :align: center
+
+Copy and paste range cells, is very important, select ranges correctly. See :ref:`getranges`.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    source = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+    target = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    doc = ThisComponent
+    source.Doc = doc
+    source.Sheet = "Sheet1"
+    source.Name = "A1:B2"
+    range = util.getRange(source)
+    util.selectRange(doc, range)
+    util.copy(doc)
+
+    target.Doc = doc
+    target.Sheet = "Sheet1"
+    target.Name = "A8"
+    range = util.getRange(target)
+    util.selectRange(doc, range)
+    util.paste(doc)
+
+.. image:: images/img022.png
+    :width: 200px
+    :align: center
+
 
 Unix time
 ---------

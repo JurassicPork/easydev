@@ -74,6 +74,33 @@ Get last sheet by index.
     MsgBox sheet.Name
 
 
+Set active sheet
+----------------
+
+Active sheet by name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    address = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    doc = ThisComponent
+    address.Doc = doc
+    address.Sheet = "Sheet2"
+
+    util.sheetActivate(address)
+
+Active sheet by index. Last sheet index == -1
+
+.. code-block:: vbnet
+
+    doc = ThisComponent
+    address.Doc = doc
+    address.Sheet = -1
+
+    util.sheetActivate(address)
+
+
 Insert sheets
 -------------
 
@@ -111,6 +138,27 @@ Insert more one sheet.
     address.Doc = ThisComponent
     address.Sheet = Array("One", "Two", "Other")
     util.sheetInsert(address, 0, True)
+
+
+Insert sheet from document
+--------------------------
+
+Only LibreOffice, for OpenOffice use: :ref:`copysheet`.
+Insert all sheets from source document to target document.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    source = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+    target = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    doc = ThisComponent
+    source.Doc = doc
+
+    new_doc = util.newDoc("")
+    target.Doc = new_doc
+
+    util.sheetInsertFromDoc(source, target, -1, False)
 
 
 Remove sheet
@@ -288,6 +336,8 @@ Copy all sheets, rename is ommited, always is true
     address.Sheet = ""
     util.sheetCopy(address, "NameNext", -1, False)
 
+
+.. _copysheet:
 
 Copy sheet to document
 ----------------------
@@ -575,6 +625,9 @@ Get cell from object sheet, object doc is ommited
     cell = util.getCell(address)
     msg = util.format("{} {}", Array(cell.ImplementationName, cell.AbsoluteName))
     util.msgbox(msg)
+
+
+.. _getranges:
 
 Ranges
 ------

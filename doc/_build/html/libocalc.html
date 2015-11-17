@@ -99,6 +99,28 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="set-active-sheet">
+<h2>Set active sheet<a class="headerlink" href="#set-active-sheet" title="Permalink to this headline">¶</a></h2>
+<p>Active sheet by name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet2&quot;</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetActivate</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Active sheet by index. Last sheet index == -1</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetActivate</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="insert-sheets">
 <h2>Insert sheets<a class="headerlink" href="#insert-sheets" title="Permalink to this headline">¶</a></h2>
 <p>Insert sheet in pos. Get error if sheet exists</p>
@@ -126,6 +148,24 @@
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
 <span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="s">&quot;Other&quot;</span><span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">sheetInsert</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="insert-sheet-from-document">
+<h2>Insert sheet from document<a class="headerlink" href="#insert-sheet-from-document" title="Permalink to this headline">¶</a></h2>
+<p>Only LibreOffice, for OpenOffice use: <a class="reference internal" href="#copysheet"><span>Copy sheet to document</span></a>.
+Insert all sheets from source document to target document.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+
+<span class="n">new_doc</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">newDoc</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">new_doc</span>
+
+<span class="n">util</span><span class="p">.</span><span class="n">sheetInsertFromDoc</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -268,7 +308,7 @@ with method: hasByName</p>
 </div>
 </div>
 <div class="section" id="copy-sheet-to-document">
-<h2>Copy sheet to document<a class="headerlink" href="#copy-sheet-to-document" title="Permalink to this headline">¶</a></h2>
+<span id="copysheet"></span><h2>Copy sheet to document<a class="headerlink" href="#copy-sheet-to-document" title="Permalink to this headline">¶</a></h2>
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p class="last">The origin document must be saved before copy sheet</p>
@@ -505,7 +545,7 @@ with method: hasByName</p>
 </div>
 </div>
 <div class="section" id="ranges">
-<h2>Ranges<a class="headerlink" href="#ranges" title="Permalink to this headline">¶</a></h2>
+<span id="getranges"></span><h2>Ranges<a class="headerlink" href="#ranges" title="Permalink to this headline">¶</a></h2>
 <p>Get active range</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Sub</span> <span class="nf">getRangeDoc</span><span class="p">()</span>
     <span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
@@ -824,7 +864,9 @@ with method: hasByName</p>
   <ul>
 <li><a class="reference internal" href="#">Calc</a><ul>
 <li><a class="reference internal" href="#get-sheet">Get sheet</a></li>
+<li><a class="reference internal" href="#set-active-sheet">Set active sheet</a></li>
 <li><a class="reference internal" href="#insert-sheets">Insert sheets</a></li>
+<li><a class="reference internal" href="#insert-sheet-from-document">Insert sheet from document</a></li>
 <li><a class="reference internal" href="#remove-sheet">Remove sheet</a></li>
 <li><a class="reference internal" href="#move-sheet">Move sheet</a></li>
 <li><a class="reference internal" href="#sort-sheets">Sort sheets</a></li>

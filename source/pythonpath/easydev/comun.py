@@ -8,6 +8,7 @@ import tempfile
 import uno
 from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.util import Time, Date, DateTime
+from com.sun.star.awt import Size, Point
 
 from easydev.setting import (
     DATA_TYPES,
@@ -226,7 +227,37 @@ def mri(obj):
     m.inspect(obj)
     return True
 
+def get_sheet(doc, data):
+    if not data:
+        return doc.getCurrentController().getActiveSheet()
+    if isinstance(data, str):
+        return doc.getSheets().getByName(data)
+    if isinstance(data, int):
+        index = data
+        if index < 0:
+            index = doc.getSheets().getCount() + index
+        return doc.getSheets().getByIndex(index)
+    return data
 
+def get_pos_size(data):
+    default = 500
+    size = Size()
+    pos = Point()
+    if not data:
+        size.Width = default
+        size.Height = default
+        return pos, size
+    if data.Width:
+        size.Width = data.Width
+    else:
+        size.Width = default
+    if data.Height:
+        size.Height = data.Height
+    else:
+        size.Height = default
+    pos.X = data.X
+    pos.Y = data.Y
+    return pos, size
     #~ new_shape = doc.createInstance(SRV_GOS)
     #~ dp.add(new_shape)
     #~ new_shape.Graphic = src_img.Graphic

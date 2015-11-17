@@ -171,6 +171,22 @@ module org { module universolibre { module EasyDev {
         any chartAdd([in] org::universolibre::EasyDev::ChartData data);
     };
 
+    published struct ImageData
+    {
+        any Doc;
+        any Sheet;
+        string Path;
+        string Name;
+        string Type;
+        boolean Link;
+        any PosSize;
+    };
+
+    interface XLOImage : com::sun::star::uno::XInterface
+    {
+        any imageAdd([in] org::universolibre::EasyDev::ImageData data);
+    };
+
     published struct CellRangeAddress
     {
         any Doc;
@@ -220,6 +236,8 @@ module org { module universolibre { module EasyDev {
     interface XLOWriter : com::sun::star::uno::XInterface
     {
         any getParagraphs([in] any doc, [in] boolean empty);
+        any goStart([in] any doc);
+        any goEnd([in] any doc);
     };
 
     interface XLODialog : com::sun::star::uno::XInterface
@@ -248,6 +266,7 @@ module org { module universolibre { module EasyDev {
         interface XTools;
         interface XArrays;
         interface XLOApp;
+        interface XLOImage;
         interface XLOChart;
         interface XLOCalc;
         interface XLOWriter;

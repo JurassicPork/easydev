@@ -27,3 +27,14 @@ class LOWriter(XLOWriter, LOApp):
                     if t.String:
                         paragraphs.append(t)
         return tuple(paragraphs)
+
+    def goStart(self, doc):
+        cursor = doc.getCurrentController().getViewCursor()
+        cursor.gotoStart(False)
+        return cursor
+
+    def goEnd(self, doc):
+        cursor = doc.getCurrentController().getViewCursor()
+        cursor.gotoEnd(False)
+        return cursor
+
