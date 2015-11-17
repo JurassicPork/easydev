@@ -59,6 +59,8 @@ module org { module universolibre { module EasyDev {
         boolean setConfig([in] string key, [in] any value);
         string getClipboard();
         void setClipboard([in] string text);
+        void copy([in] any doc);
+        void paste([in] any doc);
 
         long getEpoch();
         any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
@@ -185,7 +187,9 @@ module org { module universolibre { module EasyDev {
     {
         sequence< string > getSheetsNames([in] any doc);
         any getSheet([in] org::universolibre::EasyDev::CellRangeAddress address);
+        any sheetActivate([in] org::universolibre::EasyDev::CellRangeAddress address);
         void sheetInsert([in] org::universolibre::EasyDev::CellRangeAddress address, [in] short pos, [in] boolean rename);
+        any sheetInsertFromDoc([in] org::universolibre::EasyDev::CellRangeAddress source, [in] org::universolibre::EasyDev::CellRangeAddress target, [in] short pos, [in] boolean values);
         void sheetRemove([in] org::universolibre::EasyDev::CellRangeAddress address, [in] boolean allSheets);
         void sheetMove([in] org::universolibre::EasyDev::CellRangeAddress address, [in] short pos);
         void sheetName([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string newname);

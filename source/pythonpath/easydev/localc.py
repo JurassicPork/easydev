@@ -4,7 +4,7 @@ import logging
 from easydev import comun
 from easydev.loapp import LOApp
 from org.universolibre.EasyDev import XLOCalc
-from easydev.setting import LOG, NAME_EXT
+from easydev.setting import LOG, NAME_EXT, SRV_GOS
 
 
 log = logging.getLogger(NAME_EXT)
@@ -42,6 +42,13 @@ class LOCalc(XLOCalc, LOApp):
             index = doc.getSheets().getCount() + index
         return doc.getSheets().getByIndex(index)
 
+    def sheetActivate(self, address):
+        doc = self._get_doc(address.Doc)
+        address.Doc = doc
+        sheet = self.getSheet(address)
+        doc.getCurrentController().setActiveSheet(sheet)
+        return sheet
+
     def sheetInsert(self, address, pos, rename):
         doc = self._get_doc(address.Doc)
         index = pos
@@ -58,6 +65,28 @@ class LOCalc(XLOCalc, LOApp):
                     name = self._get_new_name(doc, name)
                 doc.getSheets().insertNewByName(name, index)
         return
+
+    def sheetInsertFromDoc(self, source, target, pos, values):
+        try:
+            src_doc = self._get_doc(source.Doc)
+            doc = target.Doc
+            index = pos
+            if pos < 0:
+                index = doc.getSheets().getCount() + pos + 1
+            if source.Sheet:
+                names = self._get_sheets_names(source.Sheet, src_doc, False)
+            else:
+                names = self.getSheetsNames(src_doc)
+            sheet = None
+            for name in names:
+                new_pos = doc.getSheets().importSheet(src_doc, name, index)
+                sheet = doc.getSheets().getByIndex(new_pos)
+                if values:
+                    pass
+            doc.getCurrentController().setActiveSheet(sheet)
+        except:
+            log.error('Insert from doc', exc_info=True)
+        return sheet
 
     def _get_sheet_name(self, name, doc):
         if isinstance(name, int):
@@ -170,7 +199,15 @@ class LOCalc(XLOCalc, LOApp):
             sheet = doc.getSheets().getByName(new_name)
             sheet.link(src_doc.URL, name, '', '', mode)
             sheet.setLinkMode(0)
-        print ('ok')
+            doc.getCurrentController().setActiveSheet(sheet)
+            dp = sheet.getDrawPage()
+            src_dp = src_doc.getSheets().getByName(name).getDrawPage()
+            for i in range(src_dp.getCount()):
+                src_img = src_dp.getByIndex(i)
+                src_doc.getCurrentController().select(src_img)
+                comun.copy(src_doc)
+                new = comun.paste(doc)
+                new.getByIndex(0).setPosition(src_img.getPosition())
         return
 
     def getCell(self, address):
@@ -320,4 +357,5 @@ class LOCalc(XLOCalc, LOApp):
         if comun.is_cell(cell):
             rango = self.getCurrentRegion(cell, False)
         return rango.queryVisibleCells()
+
 

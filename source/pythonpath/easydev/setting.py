@@ -14,7 +14,7 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '2.0.0'
+VERSION = '2.3.0'
 ID_EXT = 'org.universolibre.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
@@ -25,6 +25,12 @@ FORMAT = '{{0:,.{}f}}'
 DESKTOP = 'com.sun.star.frame.Desktop'
 TOOLKIT = 'com.sun.star.awt.Toolkit'
 SRV_JOB = ('com.sun.star.task.Job',)
+SRV_GOS = 'com.sun.star.drawing.GraphicObjectShape'
+SHAPES = {
+    'Rectangle': 'com.sun.star.drawing.RectangleShape',
+    'Ellipse': 'com.sun.star.drawing.EllipseShape',
+}
+LIST_SHAPES = list(SHAPES.values())
 CALC = 'scalc'
 WRITER = 'swriter'
 EXT_PDF = 'pdf'

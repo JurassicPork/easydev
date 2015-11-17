@@ -17,6 +17,16 @@ from easydev.setting import (
 
 
 log = logging.getLogger(NAME_EXT)
+CTX = uno.getComponentContext()
+SM = CTX.getServiceManager()
+
+
+def _create_instance(name, with_context=True):
+    if with_context:
+        instance = SM.createInstanceWithContext(name, CTX)
+    else:
+        instance = SM.createInstance(name)
+    return instance
 
 
 class LODefault(object):
@@ -193,3 +203,32 @@ def offset(cell, cols, rows, expand=False):
 
 def is_cell(cell):
     return cell.getImplementationName() == OBJECTS['CELL']
+
+
+def copy(doc):
+    dispatch = _create_instance('com.sun.star.frame.DispatchHelper')
+    frame = doc.getCurrentController().getFrame()
+    dispatch.executeDispatch(frame, '.uno:Copy', '', 0, ())
+    return
+
+
+def paste(doc):
+    sc = _create_instance('com.sun.star.datatransfer.clipboard.SystemClipboard')
+    transferable = sc.getContents()
+    doc.getCurrentController().insertTransferable(transferable)
+    return doc.getCurrentSelection()
+
+
+def mri(obj):
+    m = _create_instance('mytools.Mri')
+    if m is None:
+        return None
+    m.inspect(obj)
+    return True
+
+
+    #~ new_shape = doc.createInstance(SRV_GOS)
+    #~ dp.add(new_shape)
+    #~ new_shape.Graphic = src_img.Graphic
+    #~ new_shape.setPosition(src_img.getPosition())
+    #~ new_shape.setSize(src_img.getSize())

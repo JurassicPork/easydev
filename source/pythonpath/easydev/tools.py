@@ -410,6 +410,13 @@ class Tools(XTools, LODefault):
         sc.setContents(ts, None)
         return
 
+    def copy(self, doc):
+        comun.copy(doc)
+        return
+
+    def paste(self, doc):
+        return comun.paste(doc)
+
     def getEpoch(self):
         now = datetime.datetime.now()
         return int(time.mktime(now.timetuple()))
