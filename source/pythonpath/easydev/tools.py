@@ -33,6 +33,7 @@ from easydev.setting import (
     NODE,
     NODE_CONFIG,
     OS,
+    PY2,
     PYTHON,
     QUERYBOX,
     VERSION,
@@ -40,6 +41,9 @@ from easydev.setting import (
     YES,
 )
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 stop_thread = {}

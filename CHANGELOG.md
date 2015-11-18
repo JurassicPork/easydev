@@ -5,6 +5,7 @@ v 2.3.0 [00-Nov-2015]
     - [Feature] Add copy, paste functions.
     - [Feature] Insert sheets from documents, only LibreOffice.
     - [Feature] Add properties for series
+    - [Fix] Unicode in OpenOffice PY2
 
 v 2.2.0 [15-Nov-2015]
 ---------------------

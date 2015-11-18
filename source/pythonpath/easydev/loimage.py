@@ -4,8 +4,10 @@ import logging
 from org.universolibre.EasyDev import XLOImage
 from easydev import comun
 from easydev.comun import LODefault
-from easydev.setting import LOG, NAME_EXT, SRV_GOS, SRV_GP, SHAPES, SRV_DCS
+from easydev.setting import LOG, NAME_EXT, PY2, SRV_GOS, SRV_GP, SHAPES, SRV_DCS
 
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 

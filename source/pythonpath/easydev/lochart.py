@@ -3,9 +3,12 @@
 import logging
 from easydev.loapp import LOApp
 from org.universolibre.EasyDev import XLOChart
-from easydev.setting import LOG, NAME_EXT
+from easydev.setting import LOG, NAME_EXT, PY2
 from easydev import comun
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 

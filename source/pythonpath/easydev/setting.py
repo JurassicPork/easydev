@@ -7,6 +7,7 @@ from com.sun.star.awt.MessageBoxResults import OK, YES, NO
 from com.sun.star.awt.MessageBoxType import INFOBOX, ERRORBOX, QUERYBOX
 
 OS = sys.platform
+PY2 = sys.version_info[0] == 2
 NAME_EXT = 'EasyDev'
 
 FORMAT = '%(asctime)s - %(levelname)s - %(message)s'

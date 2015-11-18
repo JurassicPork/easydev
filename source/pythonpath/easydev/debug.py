@@ -15,11 +15,15 @@ from easydev.setting import (
     INFOBOX,
     NAME_EXT,
     OS,
+    PY2,
     TITLE_DEBUG,
     WIN,
     WRITER,
 )
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 

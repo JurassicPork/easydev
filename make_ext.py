@@ -69,11 +69,16 @@ def compress_zip():
     return
 
 
-def install():
-    LOG.info('Install extension...')
+def install(in_aoo):
     path_oxt = join(DIR_FILES, FILE_OXT)
-    call(['unopkg', 'add', '-v', '-f', '-s', path_oxt])
-    call(['soffice', '--calc'])
+    if in_aoo:
+        LOG.info('Install extension in OpenOffice...')
+        call(['/opt/openoffice4/program/unopkg', 'add', '-v', '-f', '-s', path_oxt])
+        call(['openoffice4', '-calc'])
+    else:
+        LOG.info('Install extension in LibreOffice...')
+        call(['unopkg', 'add', '-v', '-f', '-s', path_oxt])
+        call(['soffice', '--calc'])
     LOG.info('Install extension sucesfully...')
     return
 
@@ -107,6 +112,8 @@ def process_command_line_arguments():
         default=False, required=False)
     parser.add_argument('-o', '--only_compress', dest='only_compress',
         action='store_true', default=False, required=False)
+    parser.add_argument('-a', '--install_aoo', dest='install_aoo',
+        action='store_true', default=False, required=False)
     return parser.parse_args()
 
 
@@ -127,6 +134,6 @@ if __name__ == '__main__':
     make_xml()
     compress_zip()
     if args.install:
-        install()
+        install(args.install_aoo)
     LOG.info('Extension make sucesfully...')
 

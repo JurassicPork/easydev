@@ -14,8 +14,12 @@ from easydev.setting import (
     DATA_TYPES,
     NAME_EXT,
     OBJECTS,
+    PY2
 )
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 CTX = uno.getComponentContext()

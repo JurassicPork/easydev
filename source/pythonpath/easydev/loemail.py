@@ -12,8 +12,10 @@ import mailbox
 
 from org.universolibre.EasyDev import XLOEMail
 from easydev import comun
-from easydev.setting import LOG, NAME_EXT, TIMEOUT
+from easydev.setting import LOG, NAME_EXT, PY2, TIMEOUT
 
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 
