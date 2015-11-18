@@ -4,6 +4,7 @@ v 2.3.0 [00-Nov-2015]
     - [Feature] Get columns or rows from cell range.
     - [Feature] Add copy, paste functions.
     - [Feature] Insert sheets from documents, only LibreOffice.
+    - [Feature] Add properties for series
 
 v 2.2.0 [15-Nov-2015]
 ---------------------

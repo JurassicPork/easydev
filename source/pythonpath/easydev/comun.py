@@ -156,6 +156,8 @@ def to_date(value):
 
 
 def to_dict(data, test_date=False):
+    if not data:
+        return {}
     if isinstance(data[0], tuple):
         if test_date:
             dic = {r[0]: to_date(r[1]) for r in data}

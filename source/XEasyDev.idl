@@ -150,10 +150,10 @@ module org { module universolibre { module EasyDev {
 
     published struct ChartSerie
     {
-        string X;
-        string Y;
-        string Title;
-        long Color;
+        any X;
+        any Y;
+        any Title;
+        sequence< any > Properties;
     };
 
     published struct ChartData
