@@ -490,6 +490,17 @@ class Tools(XTools, LODefault):
             log.debug('CSV', exc_info=True)
             return ()
 
+    def zip(self, source, target):
+        if comun.isdir(source):
+            comun.zip_dir(source, target)
+        else:
+            comun.zip_file(source, target)
+        return
+
+    def unzip(self, source, target, name):
+        comun.unzip(source, target, name)
+        return
+
 
 class Arrays(XArrays):
 

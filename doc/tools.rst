@@ -545,6 +545,82 @@ and import
 It's possible calculate automatically the size of data range. see :ref:`setdata`.
 
 
+Zip files and folders
+---------------------
+
+Zip file, write zip in same directory and same name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    source = "/home/mau/Documents/debug.log"
+    'Target = "/home/mau/Documents/debug.zip"
+    target = ""
+    util.zip(source, target)
+
+Zip file in other directory, same name.
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Documents/debug.log"
+    'Target = "/home/mau/debug.zip"
+    target = "/home/mau"
+    util.zip(source, target)
+
+Zip file in other directory, other name.
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Documents/debug.log"
+    target = "/home/mau/test.zip"
+    util.zip(source, target)
+
+Zip folder
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Pictures"
+    'Target = "/home/mau/Pictures.zip"
+    target = ""
+    util.zip(source, target)
+
+    'Target = "/home/mau/Documents/Pictures.zip"
+    target = "/home/mau/Documents"
+    util.zip(source, target)
+
+    target = "/home/mau/Documents/pic.zip"
+    util.zip(source, target)
+
+Unzip
+-----
+
+Unzip file, extract all content.
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Documents/Pictures.zip"
+    target = ""
+    file_name = ""
+    util.unzip(source, target, file_name)
+
+Extract in other folder.
+
+.. code-block:: vbnet
+
+    target = "/home/mau"
+    file_name = ""
+    util.unzip(source, target, file_name)
+
+Extract only one file.
+
+.. code-block:: vbnet
+
+    target = "/home/mau"
+    file_name = "mylove.png"
+    util.unzip(source, target, file_name)
+
+
 .. _XPathSettings: http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html
 .. _here: https://pyformat.info/
 .. _Download: http://extensions.openoffice.org/en/project/MRI

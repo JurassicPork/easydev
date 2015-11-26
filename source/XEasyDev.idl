@@ -68,6 +68,9 @@ module org { module universolibre { module EasyDev {
         void stopTimer([in] string name);
         void exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< any > options);
         any importCSV([in] string path, [in] sequence< any > options);
+
+        void zip([in] string source, [in] string target);
+        void unzip([in] string source, [in] string target, [in] string name);
     };
 
     interface XArrays : com::sun::star::uno::XInterface
@@ -180,6 +183,7 @@ module org { module universolibre { module EasyDev {
         string Type;
         boolean Link;
         any PosSize;
+        sequence< any > Properties;
     };
 
     interface XLOImage : com::sun::star::uno::XInterface

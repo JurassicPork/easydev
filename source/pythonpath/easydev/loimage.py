@@ -20,18 +20,23 @@ class LOImage(XLOImage, LODefault):
     def imageAdd(self, data):
         doc = data.Doc
         sheet = comun.get_sheet(doc, data.Sheet)
-        path = comun.path_to_url(data.Path)
+        properties = comun.to_dict(data.Properties)
+        position, size = comun.get_pos_size(data.PosSize)
         draw_page = sheet.getDrawPage()
+
         if data.Type:
             type_shape = SHAPES.get(data.Type, SRV_DCS)
             image = doc.createInstance(type_shape)
             if type_shape == SRV_DCS:
                 pv = comun.set_properties((('Type', data.Type),))
-                image.setPropertyValue('CustomShapeGeometry', pv)
+                comun.set_property(image, ('CustomShapeGeometry', pv))
         else:
+            path = comun.path_to_url(data.Path)
             image = doc.createInstance(SRV_GOS)
             if data.Link:
+                log.info(data.Link)
                 image.GraphicURL = path
+                log.info(path)
             else:
                 gp = self._create_instance(SRV_GP)
                 pv = comun.set_properties((('URL', path),))
@@ -41,8 +46,10 @@ class LOImage(XLOImage, LODefault):
         if data.Name:
             image.Name = data.Name
 
-        position, size = comun.get_pos_size(data.PosSize)
         image.setPosition(position)
         image.setSize(size)
+        for k, v in properties.items():
+            if hasattr(image, k):
+                setattr(image, k, v)
         return image
 
