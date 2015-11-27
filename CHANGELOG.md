@@ -8,6 +8,7 @@ v 2.3.0 [27-Nov-2015]
     - [Feature] Add images and shapes
     - [Feature] Zip, unzip files and folders
     - [Fix] Unicode in OpenOffice PY2
+    - [Fix] Method getSizeScreen, only Windows
 
 v 2.2.0 [15-Nov-2015]
 ---------------------

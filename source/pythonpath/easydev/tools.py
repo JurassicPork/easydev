@@ -195,7 +195,7 @@ class Tools(XTools, LODefault):
         else:
             args = 'xrandr | grep "\*" | cut -d" " -f4'
             res = subprocess.check_output(args, shell=True).decode()
-            return res.strip()
+        return res.strip()
 
     def getInfoPC(self):
         """
