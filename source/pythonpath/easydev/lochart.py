@@ -3,9 +3,12 @@
 import logging
 from easydev.loapp import LOApp
 from org.universolibre.EasyDev import XLOChart
-from easydev.setting import LOG, NAME_EXT
+from easydev.setting import LOG, NAME_EXT, PY2
 from easydev import comun
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 
@@ -38,20 +41,33 @@ class LOChart(XLOChart, LOApp):
 
     def _create_serie(self, dp, data):
         serie = self._create_instance('com.sun.star.chart2.DataSeries', False)
+        properties = comun.to_dict(data.Properties)
+        range_y = data.Y
+        if not isinstance(range_y, str):
+            range_y = range_y.AbsoluteName
+        range_x = data.X
+        if not isinstance(range_x, str):
+            range_x = range_x.AbsoluteName
+        range_title = data.Title
+        if not isinstance(range_title, str):
+            range_title = range_title.AbsoluteName
 
         data_y = self._create_instance('com.sun.star.chart2.data.LabeledDataSequence')
-        values_y = self._create_data(dp, data.Y, 'values-y')
+        values_y = self._create_data(dp, range_y, 'values-y')
         data_y.setValues(values_y)
         if data.Title:
-            label = self._create_data(dp, data.Title, '')
+            label = self._create_data(dp, range_title, '')
             data_y.setLabel(label)
 
         data_x = self._create_instance('com.sun.star.chart2.data.LabeledDataSequence')
-        values_x = self._create_data(dp, data.X, 'values-x')
+        values_x = self._create_data(dp, range_x, 'values-x')
         data_x.setValues(values_x)
 
         serie.setData((data_y, data_x))
-        serie.Color = data.Color
+        #~ serie.Color = data.Color
+        for k, v in properties.items():
+            if hasattr(serie, k):
+                setattr(serie, k, v)
         return serie
 
     def _create_data(self, dp, rango, role):

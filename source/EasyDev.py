@@ -5,7 +5,8 @@ from com.sun.star.lang import XServiceName
 from com.sun.star.lang import XServiceInfo
 from easydev.debug import Debug
 from easydev.tools import Tools, Arrays
-from easydev.email import EMail
+from easydev.loemail import LOEMail
+from easydev.loimage import LOImage
 from easydev.lochart import LOChart
 from easydev.localc import LOCalc
 from easydev.lowriter import LOWriter
@@ -15,7 +16,8 @@ from easydev.setting import ID_EXT, SRV_JOB, DESKTOP, TOOLKIT
 
 
 class EasyDev(unohelper.Base, XServiceName, XServiceInfo,
-    Debug, Tools, Arrays, EMail, LOChart, LOCalc, LOWriter, LODialog, LODataBase):
+    Debug, Tools, Arrays, LOEMail, LOImage, LOChart, LOCalc, LOWriter, LODialog,
+    LODataBase):
 
     service_name = implementation_name = ID_EXT
 
@@ -27,7 +29,8 @@ class EasyDev(unohelper.Base, XServiceName, XServiceInfo,
         Debug.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
         Tools.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
         Arrays.__init__(self)
-        EMail.__init__(self)
+        LOEMail.__init__(self)
+        LOImage.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
         LOChart.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
         LOCalc.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)
         LODialog.__init__(self, self.ctx, self.sm, self.desktop, self.toolkit)

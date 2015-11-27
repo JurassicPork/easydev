@@ -13,8 +13,11 @@ from org.universolibre.EasyDev import Macro
 from easydev import comun
 from easydev.tools import call_macro
 from easydev.comun import LODefault
-from easydev.setting import LOG, NAME_EXT, COLORS, DECIMALS, FORMAT
+from easydev.setting import LOG, NAME_EXT, PY2, COLORS, DECIMALS, FORMAT
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 

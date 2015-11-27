@@ -3,9 +3,11 @@
 import logging
 from easydev.loapp import LOApp
 from org.universolibre.EasyDev import XLOWriter
-from easydev.setting import LOG, NAME_EXT
+from easydev.setting import LOG, NAME_EXT, PY2
 from easydev import comun
 
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 
@@ -27,3 +29,14 @@ class LOWriter(XLOWriter, LOApp):
                     if t.String:
                         paragraphs.append(t)
         return tuple(paragraphs)
+
+    def goStart(self, doc):
+        cursor = doc.getCurrentController().getViewCursor()
+        cursor.gotoStart(False)
+        return cursor
+
+    def goEnd(self, doc):
+        cursor = doc.getCurrentController().getViewCursor()
+        cursor.gotoEnd(False)
+        return cursor
+

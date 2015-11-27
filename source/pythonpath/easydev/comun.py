@@ -4,19 +4,46 @@ import logging
 import datetime
 import os
 import tempfile
+import zipfile
+from functools import wraps
 
 import uno
 from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.util import Time, Date, DateTime
+from com.sun.star.awt import Size, Point
 
 from easydev.setting import (
     DATA_TYPES,
     NAME_EXT,
     OBJECTS,
+    PY2
 )
 
 
+if PY2:
+    str = unicode
+
 log = logging.getLogger(NAME_EXT)
+CTX = uno.getComponentContext()
+SM = CTX.getServiceManager()
+
+
+def catch_exception(f):
+    @wraps(f)
+    def func(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except Exception as e:
+            log.error(f.__name__, exc_info=True)
+    return func
+
+
+def _create_instance(name, with_context=True):
+    if with_context:
+        instance = SM.createInstanceWithContext(name, CTX)
+    else:
+        instance = SM.createInstance(name)
+    return instance
 
 
 class LODefault(object):
@@ -51,7 +78,7 @@ def replace_filename(path, filename):
 
 def replace_name_ext(path_target, path_source, ext):
     _, _, name, _ = get_path_info(path_source)
-    return os.path.join(path_target, '{}.{}'.format(path, name, ext))
+    return os.path.join(path_target, '{}.{}'.format(name, ext))
 
 
 def get_path_info(path):
@@ -145,6 +172,8 @@ def to_date(value):
 
 
 def to_dict(data, test_date=False):
+    if not data:
+        return {}
     if isinstance(data[0], tuple):
         if test_date:
             dic = {r[0]: to_date(r[1]) for r in data}
@@ -193,3 +222,114 @@ def offset(cell, cols, rows, expand=False):
 
 def is_cell(cell):
     return cell.getImplementationName() == OBJECTS['CELL']
+
+
+def copy(doc):
+    dispatch = _create_instance('com.sun.star.frame.DispatchHelper')
+    frame = doc.getCurrentController().getFrame()
+    dispatch.executeDispatch(frame, '.uno:Copy', '', 0, ())
+    return
+
+
+def paste(doc):
+    sc = _create_instance('com.sun.star.datatransfer.clipboard.SystemClipboard')
+    transferable = sc.getContents()
+    doc.getCurrentController().insertTransferable(transferable)
+    return doc.getCurrentSelection()
+
+
+def mri(obj):
+    m = _create_instance('mytools.Mri')
+    if m is None:
+        return None
+    m.inspect(obj)
+    return True
+
+def get_sheet(doc, data):
+    if not data:
+        return doc.getCurrentController().getActiveSheet()
+    if isinstance(data, str):
+        return doc.getSheets().getByName(data)
+    if isinstance(data, int):
+        index = data
+        if index < 0:
+            index = doc.getSheets().getCount() + index
+        return doc.getSheets().getByIndex(index)
+    return data
+
+def get_pos_size(data):
+    default = 500
+    size = Size()
+    pos = Point()
+    if not data:
+        size.Width = default
+        size.Height = default
+        return pos, size
+    if data.Width:
+        size.Width = data.Width
+    else:
+        size.Width = default
+    if data.Height:
+        size.Height = data.Height
+    else:
+        size.Height = default
+    pos.X = data.X
+    pos.Y = data.Y
+    return pos, size
+
+
+def set_property(control, properties):
+    uno.invoke(control, 'setPropertyValue', properties)
+    return
+
+
+def zip_file(source, target):
+    if not target:
+        target = replace_ext(source, 'zip')
+    elif isdir(target):
+        target = replace_name_ext(target, source, 'zip')
+    z = zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED)
+    if exists(source):
+        _, name, _, _ = get_path_info(source)
+        z.write(source, name)
+    z.close()
+    return
+
+
+def zip_dir(source, target):
+    if not target:
+        target = path_to_url(source).split('/')
+        target[-1] = '{}.zip'.format(target[-1])
+        target = path_to_os('/'.join(target))
+    elif isdir(target):
+        path = path_to_url(source).split('/')
+        target = join(target, '{}.zip'.format(path[-1]))
+    z = zipfile.ZipFile(target, 'w', compression=zipfile.ZIP_DEFLATED)
+    root_len = len(os.path.abspath(source))
+    for root, dirs, files in os.walk(source):
+        relative = os.path.abspath(root)[root_len:]
+        for f in files:
+            fullpath = join(root, f)
+            file_name = join(relative, f)
+            z.write(fullpath, file_name)
+    z.close()
+    return
+
+
+def unzip(source, target, name):
+    z = zipfile.ZipFile(source)
+    if name:
+        z.extract(name, target)
+    else:
+        if not target:
+            path, _, name, _ = get_path_info(source)
+            target = join(path, name)
+        z.extractall(target)
+    z.close()
+    return
+
+    #~ new_shape = doc.createInstance(SRV_GOS)
+    #~ dp.add(new_shape)
+    #~ new_shape.Graphic = src_img.Graphic
+    #~ new_shape.setPosition(src_img.getPosition())
+    #~ new_shape.setSize(src_img.getSize())

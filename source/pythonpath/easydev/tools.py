@@ -33,6 +33,7 @@ from easydev.setting import (
     NODE,
     NODE_CONFIG,
     OS,
+    PY2,
     PYTHON,
     QUERYBOX,
     VERSION,
@@ -40,6 +41,9 @@ from easydev.setting import (
     YES,
 )
 
+
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 stop_thread = {}
@@ -191,7 +195,7 @@ class Tools(XTools, LODefault):
         else:
             args = 'xrandr | grep "\*" | cut -d" " -f4'
             res = subprocess.check_output(args, shell=True).decode()
-            return res.strip()
+        return res.strip()
 
     def getInfoPC(self):
         """
@@ -410,6 +414,13 @@ class Tools(XTools, LODefault):
         sc.setContents(ts, None)
         return
 
+    def copy(self, doc):
+        comun.copy(doc)
+        return
+
+    def paste(self, doc):
+        return comun.paste(doc)
+
     def getEpoch(self):
         now = datetime.datetime.now()
         return int(time.mktime(now.timetuple()))
@@ -478,6 +489,17 @@ class Tools(XTools, LODefault):
         except:
             log.debug('CSV', exc_info=True)
             return ()
+
+    def zip(self, source, target):
+        if comun.isdir(source):
+            comun.zip_dir(source, target)
+        else:
+            comun.zip_file(source, target)
+        return
+
+    def unzip(self, source, target, name):
+        comun.unzip(source, target, name)
+        return
 
 
 class Arrays(XArrays):

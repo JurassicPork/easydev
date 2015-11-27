@@ -304,6 +304,37 @@
 <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Copy and paste. Currently, only Calc. Copy current selection.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">util</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">paste</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img021.png"><img alt="_images/img021.png" class="align-center" src="_images/img021.png" style="width: 300px;" /></a>
+<p>Copy and paste range cells, is very important, select ranges correctly. See <a class="reference internal" href="libocalc.html#getranges"><span>Ranges</span></a>.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">source</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet1&quot;</span>
+<span class="n">source</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;A1:B2&quot;</span>
+<span class="n">range</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getRange</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">copy</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+<span class="n">target</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Sheet1&quot;</span>
+<span class="n">target</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;A8&quot;</span>
+<span class="n">range</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getRange</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">range</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">paste</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/img022.png"><img alt="_images/img022.png" class="align-center" src="_images/img022.png" style="width: 200px;" /></a>
 </div>
 <div class="section" id="unix-time">
 <h2>Unix time<a class="headerlink" href="#unix-time" title="Permalink to this headline">¶</a></h2>
@@ -440,6 +471,67 @@ for this example.</p>
 </div>
 <a class="reference internal image-reference" href="_images/img017.png"><img alt="_images/img017.png" class="align-center" src="_images/img017.png" style="width: 400px;" /></a>
 <p>It&#8217;s possible calculate automatically the size of data range. see <a class="reference internal" href="libocalc.html#setdata"><span>Set data</span></a>.</p>
+</div>
+<div class="section" id="zip-files-and-folders">
+<h2>Zip files and folders<a class="headerlink" href="#zip-files-and-folders" title="Permalink to this headline">¶</a></h2>
+<p>Zip file, write zip in same directory and same name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">source</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Documents/debug.log&quot;</span>
+<span class="c">&#39;Target = &quot;/home/mau/Documents/debug.zip&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Zip file in other directory, same name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">source</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Documents/debug.log&quot;</span>
+<span class="c">&#39;Target = &quot;/home/mau/debug.zip&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;/home/mau&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Zip file in other directory, other name.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">source</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Documents/debug.log&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;/home/mau/test.zip&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Zip folder</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">source</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Pictures&quot;</span>
+<span class="c">&#39;Target = &quot;/home/mau/Pictures.zip&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+<span class="c">&#39;Target = &quot;/home/mau/Documents/Pictures.zip&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Documents&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Documents/pic.zip&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="unzip">
+<h2>Unzip<a class="headerlink" href="#unzip" title="Permalink to this headline">¶</a></h2>
+<p>Unzip file, extract all content.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">source</span> <span class="o">=</span> <span class="s">&quot;/home/mau/Documents/Pictures.zip&quot;</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">unzip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Extract in other folder.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">target</span> <span class="o">=</span> <span class="s">&quot;/home/mau&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">unzip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Extract only one file.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">target</span> <span class="o">=</span> <span class="s">&quot;/home/mau&quot;</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s">&quot;mylove.png&quot;</span>
+<span class="n">util</span><span class="p">.</span><span class="n">unzip</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+</div>
 <span class="target" id="set-data"></span></div>
 </div>
 
@@ -465,6 +557,8 @@ for this example.</p>
 <li><a class="reference internal" href="#timer">Timer</a></li>
 <li><a class="reference internal" href="#export-csv">Export CSV</a></li>
 <li><a class="reference internal" href="#import-csv">Import CSV</a></li>
+<li><a class="reference internal" href="#zip-files-and-folders">Zip files and folders</a></li>
+<li><a class="reference internal" href="#unzip">Unzip</a></li>
 </ul>
 </li>
 </ul>

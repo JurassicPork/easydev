@@ -7,6 +7,7 @@ from com.sun.star.awt.MessageBoxResults import OK, YES, NO
 from com.sun.star.awt.MessageBoxType import INFOBOX, ERRORBOX, QUERYBOX
 
 OS = sys.platform
+PY2 = sys.version_info[0] == 2
 NAME_EXT = 'EasyDev'
 
 FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
@@ -14,7 +15,7 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '2.0.0'
+VERSION = '2.3.0'
 ID_EXT = 'org.universolibre.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
@@ -25,6 +26,16 @@ FORMAT = '{{0:,.{}f}}'
 DESKTOP = 'com.sun.star.frame.Desktop'
 TOOLKIT = 'com.sun.star.awt.Toolkit'
 SRV_JOB = ('com.sun.star.task.Job',)
+SRV_GOS = 'com.sun.star.drawing.GraphicObjectShape'
+SRV_GP = 'com.sun.star.graphic.GraphicProvider'
+SRV_DCS = 'com.sun.star.drawing.CustomShape'
+SHAPES = {
+    'Rectangle': 'com.sun.star.drawing.RectangleShape',
+    'Ellipse': 'com.sun.star.drawing.EllipseShape',
+    'Text': 'com.sun.star.drawing.TextShape',
+    'Line': 'com.sun.star.drawing.LineShape',
+}
+LIST_SHAPES = list(SHAPES.values())
 CALC = 'scalc'
 WRITER = 'swriter'
 EXT_PDF = 'pdf'

@@ -319,6 +319,47 @@ Send text to clipboard
     value = util.getClipboard()
     util.msgbox(value)
 
+Copy and paste. Currently, only Calc. Copy current selection.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    doc = ThisComponent
+    util.copy(doc)
+    util.paste(doc)
+
+.. image:: images/img021.png
+    :width: 300px
+    :align: center
+
+Copy and paste range cells, is very important, select ranges correctly. See :ref:`getranges`.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    source = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+    target = createUnoStruct("org.universolibre.EasyDev.CellRangeAddress")
+
+    doc = ThisComponent
+    source.Doc = doc
+    source.Sheet = "Sheet1"
+    source.Name = "A1:B2"
+    range = util.getRange(source)
+    util.selectRange(doc, range)
+    util.copy(doc)
+
+    target.Doc = doc
+    target.Sheet = "Sheet1"
+    target.Name = "A8"
+    range = util.getRange(target)
+    util.selectRange(doc, range)
+    util.paste(doc)
+
+.. image:: images/img022.png
+    :width: 200px
+    :align: center
+
 
 Unix time
 ---------
@@ -502,6 +543,82 @@ and import
     :align: center
 
 It's possible calculate automatically the size of data range. see :ref:`setdata`.
+
+
+Zip files and folders
+---------------------
+
+Zip file, write zip in same directory and same name.
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+
+    source = "/home/mau/Documents/debug.log"
+    'Target = "/home/mau/Documents/debug.zip"
+    target = ""
+    util.zip(source, target)
+
+Zip file in other directory, same name.
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Documents/debug.log"
+    'Target = "/home/mau/debug.zip"
+    target = "/home/mau"
+    util.zip(source, target)
+
+Zip file in other directory, other name.
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Documents/debug.log"
+    target = "/home/mau/test.zip"
+    util.zip(source, target)
+
+Zip folder
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Pictures"
+    'Target = "/home/mau/Pictures.zip"
+    target = ""
+    util.zip(source, target)
+
+    'Target = "/home/mau/Documents/Pictures.zip"
+    target = "/home/mau/Documents"
+    util.zip(source, target)
+
+    target = "/home/mau/Documents/pic.zip"
+    util.zip(source, target)
+
+Unzip
+-----
+
+Unzip file, extract all content.
+
+.. code-block:: vbnet
+
+    source = "/home/mau/Documents/Pictures.zip"
+    target = ""
+    file_name = ""
+    util.unzip(source, target, file_name)
+
+Extract in other folder.
+
+.. code-block:: vbnet
+
+    target = "/home/mau"
+    file_name = ""
+    util.unzip(source, target, file_name)
+
+Extract only one file.
+
+.. code-block:: vbnet
+
+    target = "/home/mau"
+    file_name = "mylove.png"
+    util.unzip(source, target, file_name)
 
 
 .. _XPathSettings: http://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1util_1_1XPathSettings.html

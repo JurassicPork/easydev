@@ -21,6 +21,7 @@ Contents:
    libowriter
    libobase
    libochart
+   liboimage
    dialogs
 
 

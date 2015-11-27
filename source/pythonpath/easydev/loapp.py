@@ -5,8 +5,10 @@ import logging
 from org.universolibre.EasyDev import XLOApp
 from easydev import comun
 from easydev.comun import LODefault
-from easydev.setting import LOG, NAME_EXT, CALC, EXT_PDF
+from easydev.setting import LOG, NAME_EXT, PY2, CALC, EXT_PDF
 
+if PY2:
+    str = unicode
 
 log = logging.getLogger(NAME_EXT)
 

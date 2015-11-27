@@ -59,6 +59,8 @@ module org { module universolibre { module EasyDev {
         boolean setConfig([in] string key, [in] any value);
         string getClipboard();
         void setClipboard([in] string text);
+        void copy([in] any doc);
+        void paste([in] any doc);
 
         long getEpoch();
         any callMacro([in] org::universolibre::EasyDev::Macro macro, [in] sequence< any > args);
@@ -66,6 +68,9 @@ module org { module universolibre { module EasyDev {
         void stopTimer([in] string name);
         void exportCSV([in] string path, [in] sequence< sequence< any > > data, [in] sequence< any > options);
         any importCSV([in] string path, [in] sequence< any > options);
+
+        void zip([in] string source, [in] string target);
+        void unzip([in] string source, [in] string target, [in] string name);
     };
 
     interface XArrays : com::sun::star::uno::XInterface
@@ -120,7 +125,7 @@ module org { module universolibre { module EasyDev {
         boolean Save;
     };
 
-    interface XEMail : com::sun::star::uno::XInterface
+    interface XLOEMail : com::sun::star::uno::XInterface
     {
         boolean sendMail(
             [in] org::universolibre::EasyDev::SmtpServer server,
@@ -128,8 +133,8 @@ module org { module universolibre { module EasyDev {
         );
     };
 
-    service Email {
-        interface XEMail;
+    service LOEmail {
+        interface XLOEMail;
     };
 
     interface XLOApp : com::sun::star::uno::XInterface
@@ -148,10 +153,10 @@ module org { module universolibre { module EasyDev {
 
     published struct ChartSerie
     {
-        string X;
-        string Y;
-        string Title;
-        long Color;
+        any X;
+        any Y;
+        any Title;
+        sequence< any > Properties;
     };
 
     published struct ChartData
@@ -167,6 +172,23 @@ module org { module universolibre { module EasyDev {
     interface XLOChart : com::sun::star::uno::XInterface
     {
         any chartAdd([in] org::universolibre::EasyDev::ChartData data);
+    };
+
+    published struct ImageData
+    {
+        any Doc;
+        any Sheet;
+        string Path;
+        string Name;
+        string Type;
+        boolean Link;
+        any PosSize;
+        sequence< any > Properties;
+    };
+
+    interface XLOImage : com::sun::star::uno::XInterface
+    {
+        any imageAdd([in] org::universolibre::EasyDev::ImageData data);
     };
 
     published struct CellRangeAddress
@@ -185,7 +207,9 @@ module org { module universolibre { module EasyDev {
     {
         sequence< string > getSheetsNames([in] any doc);
         any getSheet([in] org::universolibre::EasyDev::CellRangeAddress address);
+        any sheetActivate([in] org::universolibre::EasyDev::CellRangeAddress address);
         void sheetInsert([in] org::universolibre::EasyDev::CellRangeAddress address, [in] short pos, [in] boolean rename);
+        any sheetInsertFromDoc([in] org::universolibre::EasyDev::CellRangeAddress source, [in] org::universolibre::EasyDev::CellRangeAddress target, [in] short pos, [in] boolean values);
         void sheetRemove([in] org::universolibre::EasyDev::CellRangeAddress address, [in] boolean allSheets);
         void sheetMove([in] org::universolibre::EasyDev::CellRangeAddress address, [in] short pos);
         void sheetName([in] org::universolibre::EasyDev::CellRangeAddress address, [in] string newname);
@@ -197,6 +221,10 @@ module org { module universolibre { module EasyDev {
 
         any getCell([in] org::universolibre::EasyDev::CellRangeAddress address);
         any getRange([in] org::universolibre::EasyDev::CellRangeAddress address);
+        any addRanges([in] any container, [in] any ranges);
+        any removeRanges([in] any container, [in] any ranges);
+        any getColumns([in] any doc, [in] any ranges);
+        any getRows([in] any doc, [in] any ranges);
         void selectRange([in] any doc, [in] any rango);
         any getCurrentRegion([in] any cell, [in] boolean getCursor);
         long getLastRow([in] any cell);
@@ -212,6 +240,8 @@ module org { module universolibre { module EasyDev {
     interface XLOWriter : com::sun::star::uno::XInterface
     {
         any getParagraphs([in] any doc, [in] boolean empty);
+        any goStart([in] any doc);
+        any goEnd([in] any doc);
     };
 
     interface XLODialog : com::sun::star::uno::XInterface
@@ -240,6 +270,8 @@ module org { module universolibre { module EasyDev {
         interface XTools;
         interface XArrays;
         interface XLOApp;
+        interface XLOImage;
+        interface XLOChart;
         interface XLOCalc;
         interface XLOWriter;
         interface XLODialog;

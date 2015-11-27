@@ -55,14 +55,23 @@
     <span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
     <span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
 
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span>   _
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> _
+    <span class="p">)</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="s">&quot;Hoja1.A2:A9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="s">&quot;Hoja1.B2:B9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Title</span> <span class="o">=</span> <span class="s">&quot;Hoja1.B1&quot;</span>
-    <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Color</span> <span class="o">=</span> <span class="mi">17798</span>
+    <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Properties</span> <span class="o">=</span> <span class="n">properties</span>
+
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span>   _
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> _
+    <span class="p">)</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="s">&quot;Hoja1.C2:C9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="s">&quot;Hoja1.D2:D9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Title</span> <span class="o">=</span> <span class="s">&quot;Hoja1.D1&quot;</span>
-    <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Color</span> <span class="o">=</span> <span class="mi">16728590</span>
+    <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Properties</span> <span class="o">=</span> <span class="n">properties</span>
 
     <span class="n">pos_size</span><span class="p">.</span><span class="n">X</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">pos_size</span><span class="p">.</span><span class="n">Y</span> <span class="o">=</span> <span class="mi">5000</span>
@@ -82,6 +91,64 @@
 </div>
 <p>Result.</p>
 <a class="reference internal image-reference" href="_images/img019.png"><img alt="_images/img019.png" class="align-center" src="_images/img019.png" style="width: 500px;" /></a>
+<p>You can use range objects</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="k">Dim</span> <span class="n">pos_size</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">com</span><span class="p">.</span><span class="n">sun</span><span class="p">.</span><span class="n">star</span><span class="p">.</span><span class="n">awt</span><span class="p">.</span><span class="n">Rectangle</span>
+<span class="k">Dim</span> <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="ow">As</span> <span class="k">New</span> <span class="n">org</span><span class="p">.</span><span class="n">universolibre</span><span class="p">.</span><span class="n">EasyDev</span><span class="p">.</span><span class="n">ChartSerie</span>
+<span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+
+<span class="n">address</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.CellRangeAddress&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.ChartData&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="s">&quot;Hoja1&quot;</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Col</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Row</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">address</span><span class="p">.</span><span class="n">EndCol</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">address</span><span class="p">.</span><span class="n">EndRow</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">rango_X</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getRange</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Col</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">address</span><span class="p">.</span><span class="n">EndCol</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">rango_Y</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getRange</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+<span class="n">address</span><span class="p">.</span><span class="n">Col</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">address</span><span class="p">.</span><span class="n">Row</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">title_1</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getCell</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> _
+<span class="p">)</span>
+
+<span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="n">rango_X</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="n">rango_Y</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Title</span> <span class="o">=</span> <span class="n">title_1</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Properties</span> <span class="o">=</span> <span class="n">properties</span>
+
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
+<span class="p">)</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="s">&quot;Hoja1.C2:C9&quot;</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="s">&quot;Hoja1.D2:D9&quot;</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Title</span> <span class="o">=</span> <span class="s">&quot;Hoja1.D1&quot;</span>
+<span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Properties</span> <span class="o">=</span> <span class="n">properties</span>
+
+<span class="n">pos_size</span><span class="p">.</span><span class="n">X</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">pos_size</span><span class="p">.</span><span class="n">Y</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">pos_size</span><span class="p">.</span><span class="n">Width</span> <span class="o">=</span> <span class="mi">12000</span>
+<span class="n">pos_size</span><span class="p">.</span><span class="n">Height</span> <span class="o">=</span> <span class="mi">7000</span>
+
+<span class="n">data</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">data</span><span class="p">.</span><span class="n">Sheet</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSheet</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Grafico01&quot;</span>
+<span class="n">data</span><span class="p">.</span><span class="n">Type</span> <span class="o">=</span> <span class="s">&quot;XYDiagram&quot;</span>
+<span class="n">data</span><span class="p">.</span><span class="n">PosSize</span> <span class="o">=</span> <span class="n">pos_size</span>
+<span class="n">data</span><span class="p">.</span><span class="n">Series</span> <span class="o">=</span> <span class="n">series</span>
+
+<span class="n">chart</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">chartAdd</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 
