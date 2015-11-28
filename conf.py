@@ -11,8 +11,14 @@ ADDIN_AUTHOR_WEB = "http://www.universolibre.org"
 ADDIN_AUTHOR_NAME = "Universo Libre Mexico, A.C."
 ADDIN_PLATFORM = 'all'
 ADDIN_DEPENDENCIES_MINIMAL = '4.0'
-ADDIN_UPDATE_XML = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/{}'.format(FILE_UPDATE)
-ADDIN_UPDATE_OXT = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/{}'.format(FILE_OXT)
+#~ ADDIN_UPDATE_XML = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/{}'.format(FILE_UPDATE)
+#~ ADDIN_UPDATE_OXT = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/{}'.format(FILE_OXT)
+#~ https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.0.0/files/EasyDev_v2.0.0.oxt
+#~ https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.0.0/files/easydev.update.xml
+GITHUB = 'https://github.com/UniversoLibreMexicoAC/easydev'
+ADDIN_UPDATE_XML = '{}/raw/v{}/files/{}'.format(GITHUB, VERSION, FILE_UPDATE)
+ADDIN_UPDATE_OXT = '{}/raw/v{}/files/{}'.format(GITHUB, VERSION, FILE_OXT)
+
 ADDIN_ICON = 'images/{}.png'.format(ADDIN_NAME.lower())
 ADDIN_LICENCE_ACCEPT_BY = 'user'  # or admin
 ADDIN_LICENCE_SUPPRESS_ON_UPDATE = True
