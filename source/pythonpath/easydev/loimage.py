@@ -53,3 +53,9 @@ class LOImage(XLOImage, LODefault):
                 setattr(image, k, v)
         return image
 
+    def imageFormat(self, image, data):
+        properties = comun.to_dict(data)
+        for k, v in properties.items():
+            if hasattr(image, k):
+                setattr(image, k, v)
+        return

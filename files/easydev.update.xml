@@ -5,11 +5,11 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <identifier value="org.universolibre.EasyDev" />
-    <version value="2.3.0" />
+    <version value="2.4.0" />
     
 
     <update-download>
-        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/EasyDev_v2.3.0.oxt"/>
+        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/EasyDev_v2.4.0.oxt"/>
     </update-download>
     <release-notes>
         
