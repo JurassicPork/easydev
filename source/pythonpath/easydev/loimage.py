@@ -55,9 +55,12 @@ class LOImage(XLOImage, LODefault):
 
     def imageFormat(self, image, data):
         properties = comun.to_dict(data)
+        title = None
         if image.supportsService('com.sun.star.chart2.Title'):
-            image = image.getText()[0]
+            title = image.getText()[0]
         for k, v in properties.items():
             if hasattr(image, k):
                 setattr(image, k, v)
+            if title and hasattr(title, k):
+                setattr(title, k, v)
         return
