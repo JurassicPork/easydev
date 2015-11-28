@@ -1,3 +1,8 @@
+v 2.4.0 [30-Nov-2015]
+---------------------
+    - [Feature] Add properties to chart
+    - [Feature] Add format images and shapes
+
 v 2.3.0 [27-Nov-2015]
 ---------------------
     - [Feature] Create containers ranges, add and remove ranges.
