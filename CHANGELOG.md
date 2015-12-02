@@ -1,7 +1,8 @@
-v 2.4.0 [30-Nov-2015]
+v 2.4.0 [04-Dec-2015]
 ---------------------
     - [Feature] Add properties to chart
     - [Feature] Add format images and shapes
+    - [Fix] Set title in secondary axis chart
 
 v 2.3.0 [27-Nov-2015]
 ---------------------

@@ -16,8 +16,8 @@ ADDIN_DEPENDENCIES_MINIMAL = '4.0'
 #~ https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.0.0/files/EasyDev_v2.0.0.oxt
 #~ https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.0.0/files/easydev.update.xml
 GITHUB = 'https://github.com/UniversoLibreMexicoAC/easydev'
-ADDIN_UPDATE_XML = '{}/raw/v{}/files/{}'.format(GITHUB, VERSION, FILE_UPDATE)
-ADDIN_UPDATE_OXT = '{}/raw/v{}/files/{}'.format(GITHUB, VERSION, FILE_OXT)
+ADDIN_UPDATE_XML = '{}/raw/v{}/files/{}'.format(GITHUB, ADDIN_VERSION, FILE_UPDATE)
+ADDIN_UPDATE_OXT = '{}/raw/v{}/files/{}'.format(GITHUB, ADDIN_VERSION, FILE_OXT)
 
 ADDIN_ICON = 'images/{}.png'.format(ADDIN_NAME.lower())
 ADDIN_LICENCE_ACCEPT_BY = 'user'  # or admin

@@ -58,6 +58,8 @@ class LOImage(XLOImage, LODefault):
         title = None
         if image.supportsService('com.sun.star.chart2.Title'):
             title = image.getText()[0]
+        elif image.supportsService('com.sun.star.chart.ChartAxis'):
+            title = image.getAxisTitle()
         for k, v in properties.items():
             if hasattr(image, k):
                 setattr(image, k, v)

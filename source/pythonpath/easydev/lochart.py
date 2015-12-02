@@ -21,7 +21,7 @@ class LOChart(XLOChart, LOApp):
     @comun.catch_exception
     def chartAdd(self, data):
         charts = data.Sheet.getCharts()
-        charts.addNewByName(data.Name, data.PosSize, (), False, False)
+        charts.addNewByName(data.Name, data.PosSize, (), True, True)
         chart = charts.getByName(data.Name).getEmbeddedObject()
         chart.setDiagram(chart.createInstance('com.sun.star.chart.{}'.format(data.Type)))
         self._add_series(chart, data.Doc, data.Series)
