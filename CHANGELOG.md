@@ -1,4 +1,4 @@
-v 2.4.0 [04-Dec-2015]
+v 2.4.0 [07-Dec-2015]
 ---------------------
     - [Feature] Add properties to chart
     - [Feature] Add format images and shapes
