@@ -167,6 +167,7 @@ module org { module universolibre { module EasyDev {
         string Type;
         any PosSize;
         sequence< org::universolibre::EasyDev::ChartSerie > Series;
+        sequence< any > Properties;
     };
 
     interface XLOChart : com::sun::star::uno::XInterface
@@ -189,6 +190,7 @@ module org { module universolibre { module EasyDev {
     interface XLOImage : com::sun::star::uno::XInterface
     {
         any imageAdd([in] org::universolibre::EasyDev::ImageData data);
+        void imageFormat([in] any image, [in] any data);
     };
 
     published struct CellRangeAddress

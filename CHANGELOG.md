@@ -1,3 +1,9 @@
+v 2.4.0 [07-Dec-2015]
+---------------------
+    - [Feature] Add properties to chart
+    - [Feature] Add format images and shapes
+    - [Fix] Set title in secondary axis chart
+
 v 2.3.0 [27-Nov-2015]
 ---------------------
     - [Feature] Create containers ranges, add and remove ranges.

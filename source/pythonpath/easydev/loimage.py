@@ -53,3 +53,16 @@ class LOImage(XLOImage, LODefault):
                 setattr(image, k, v)
         return image
 
+    def imageFormat(self, image, data):
+        properties = comun.to_dict(data)
+        title = None
+        if image.supportsService('com.sun.star.chart2.Title'):
+            title = image.getText()[0]
+        elif image.supportsService('com.sun.star.chart.ChartAxis'):
+            title = image.getAxisTitle()
+        for k, v in properties.items():
+            if hasattr(image, k):
+                setattr(image, k, v)
+            if title and hasattr(title, k):
+                setattr(title, k, v)
+        return

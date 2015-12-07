@@ -18,12 +18,22 @@ class LOChart(XLOChart, LOApp):
     def __init__(self, ctx, sm, desktop, toolkit):
         LOApp.__init__(self, ctx, sm, desktop, toolkit)
 
+    @comun.catch_exception
     def chartAdd(self, data):
         charts = data.Sheet.getCharts()
-        charts.addNewByName(data.Name, data.PosSize, (), False, False)
+        charts.addNewByName(data.Name, data.PosSize, (), True, True)
         chart = charts.getByName(data.Name).getEmbeddedObject()
         chart.setDiagram(chart.createInstance('com.sun.star.chart.{}'.format(data.Type)))
         self._add_series(chart, data.Doc, data.Series)
+
+        properties = comun.to_dict(data.Properties)
+        for k, v in properties.items():
+            if k == 'Title':
+                chart.getTitle().String = v
+                continue
+            if hasattr(chart, k):
+                setattr(chart, k, v)
+
         return chart
 
     def _add_series(self, chart, doc, series):
@@ -64,7 +74,6 @@ class LOChart(XLOChart, LOApp):
         data_x.setValues(values_x)
 
         serie.setData((data_y, data_x))
-        #~ serie.Color = data.Color
         for k, v in properties.items():
             if hasattr(serie, k):
                 setattr(serie, k, v)
