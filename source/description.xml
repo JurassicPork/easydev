@@ -4,7 +4,7 @@
     xmlns:d="http://openoffice.org/extensions/description/2006"
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <version value="2.4.1" />
+    <version value="2.4.2" />
     <identifier value="org.universolibre.EasyDev" />
     <platform value="all" />
     
@@ -17,7 +17,7 @@
     </dependencies>
     
     <update-information>
-        <src xlink:href="https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.4.1/files/easydev.update.xml" />
+        <src xlink:href="https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.4.2/files/easydev.update.xml" />
     </update-information>
     
     <registration>
