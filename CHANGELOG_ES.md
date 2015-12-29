@@ -1,16 +1,16 @@
 v 2.4.2 [28-Dec-2015]
 ---------------------
-    - [Fix] Get sheet by index in get cell
+    - [Fix] Devolver hoja por índice en el método getCell
 
 v 2.4.1 [13-Dec-2015]
 ---------------------
-    - [Fix] Get sheet by index in get range
+    - [Fix] Devolver hoja por índice en el método getRange
 
 v 2.4.0 [07-Dec-2015]
 ---------------------
-    - [Feature] Add properties to chart
-    - [Feature] Add format images and shapes
-    - [Fix] Set title in secondary axis chart
+    - [Feature] Agregar propiedades a los gráficos.
+    - [Feature] Formatear imagenes y formas.
+    - [Fix] Establecer título en eje secundario en un gráfico.
 
 v 2.3.0 [27-Nov-2015]
 ---------------------
