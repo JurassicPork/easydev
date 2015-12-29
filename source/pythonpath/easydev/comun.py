@@ -246,7 +246,7 @@ def mri(obj):
     return True
 
 def get_sheet(doc, data):
-    if not data:
+    if data is None:
         return doc.getCurrentController().getActiveSheet()
     if isinstance(data, str):
         return doc.getSheets().getByName(data)

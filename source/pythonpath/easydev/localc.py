@@ -217,12 +217,7 @@ class LOCalc(XLOCalc, LOApp):
         doc = self._get_doc(address.Doc)
         if address.Current:
             return doc.getCurrentSelection().getCellByPosition(0, 0)
-        if not address.Sheet:
-            sheet = doc.getCurrentController().getActiveSheet()
-        elif isinstance(address.Sheet, str):
-            sheet = doc.getSheets().getByName(address.Sheet)
-        else:
-            sheet = address.Sheet
+        sheet = comun.get_sheet(doc, address.Sheet)
         if address.Name:
             cell = sheet.getCellRangeByName(address.Name.upper()).getCellByPosition(0, 0)
         else:
@@ -233,14 +228,7 @@ class LOCalc(XLOCalc, LOApp):
         doc = self._get_doc(address.Doc)
         if address.Current:
             return doc.getCurrentSelection()
-        if address.Sheet is None:
-            sheet = doc.getCurrentController().getActiveSheet()
-        elif isinstance(address.Sheet, str):
-            sheet = doc.getSheets().getByName(address.Sheet)
-        elif isinstance(address.Sheet, int):
-            sheet = doc.getSheets().getByIndex(address.Sheet)
-        else:
-            sheet = address.Sheet
+        sheet = comun.get_sheet(doc, address.Sheet)
         if address.Name:
             rango = sheet.getCellRangeByName(address.Name.upper())
         else:
