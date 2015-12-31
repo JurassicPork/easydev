@@ -36,14 +36,7 @@ class LOCalc(XLOCalc, LOApp):
 
     def getSheet(self, address):
         doc = self._get_doc(address.Doc)
-        if not address.Sheet:
-            return doc.getCurrentController().getActiveSheet()
-        if isinstance(address.Sheet, str):
-            return doc.getSheets().getByName(address.Sheet)
-        index = address.Sheet
-        if index < 0:
-            index = doc.getSheets().getCount() + index
-        return doc.getSheets().getByIndex(index)
+        return comun.get_sheet(doc, address.Sheet)
 
     def sheetActivate(self, address):
         doc = self._get_doc(address.Doc)
