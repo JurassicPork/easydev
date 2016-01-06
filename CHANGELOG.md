@@ -1,3 +1,7 @@
+v 2.4.3 [31-Dec-2015]
+---------------------
+    - [Fix] Get sheet by index in get sheet
+
 v 2.4.2 [28-Dec-2015]
 ---------------------
     - [Fix] Get sheet by index in get cell

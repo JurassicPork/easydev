@@ -1,3 +1,7 @@
+v 2.4.3 [31-Dec-2015]
+---------------------
+    - [Fix] Devolver hoja por índice en el método getSheet
+
 v 2.4.2 [28-Dec-2015]
 ---------------------
     - [Fix] Devolver hoja por índice en el método getCell
