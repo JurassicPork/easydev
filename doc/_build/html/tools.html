@@ -119,9 +119,9 @@
 
     <span class="c">&#39;Used Arrays</span>
     <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Hello $data with $language, from Basic 3!!&quot;</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="s">&quot;World&quot;</span><span class="p">),</span> _
-        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;language&quot;</span><span class="p">,</span> <span class="s">&quot;Python&quot;</span><span class="p">)</span> _
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;data&quot;</span><span class="p">,</span> <span class="s">&quot;World&quot;</span><span class="p">),</span> <span class="n">_</span>
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;language&quot;</span><span class="p">,</span> <span class="s">&quot;Python&quot;</span><span class="p">)</span> <span class="n">_</span>
     <span class="p">)</span>
     <span class="n">message</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">render</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">data2</span><span class="p">)</span>
     <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
@@ -214,10 +214,10 @@
 </pre></div>
 </div>
 <p>Select multiple files with filter</p>
-<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">filters</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;TXT&quot;</span><span class="p">,</span> <span class="s">&quot;*.txt&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LOG&quot;</span><span class="p">,</span> <span class="s">&quot;*.log&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;CER | KEY&quot;</span><span class="p">,</span> <span class="s">&quot;*.cer;*.key&quot;</span><span class="p">)</span> _
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">filters</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;TXT&quot;</span><span class="p">,</span> <span class="s">&quot;*.txt&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LOG&quot;</span><span class="p">,</span> <span class="s">&quot;*.log&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;CER | KEY&quot;</span><span class="p">,</span> <span class="s">&quot;*.cer;*.key&quot;</span><span class="p">)</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">files</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getSelectedFiles</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>

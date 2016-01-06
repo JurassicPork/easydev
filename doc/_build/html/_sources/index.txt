@@ -16,6 +16,7 @@ Contents:
    tools
    email
    arrays
+   requests
    liboapp
    libocalc
    libowriter

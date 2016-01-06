@@ -137,6 +137,38 @@ module org { module universolibre { module EasyDev {
         interface XLOEMail;
     };
 
+    published struct Requests
+    {
+        string Method;
+        string Url;
+        any Params;
+        any Data;
+        any Json;
+        any Args;
+    };
+
+    published struct Response
+    {
+        long StatusCode;
+        string Url;
+        string Encoding;
+        any Headers;
+        any Cookies;
+        string Text;
+        any Json;
+        any Content;
+        string Error;
+    };
+
+    interface XLORequests : com::sun::star::uno::XInterface
+    {
+        org::universolibre::EasyDev::Response requests([in] org::universolibre::EasyDev::Requests data);
+    };
+
+    service LORequests {
+        interface XLORequests;
+    };
+
     interface XLOApp : com::sun::star::uno::XInterface
     {
         any newDoc([in] string typeDoc);

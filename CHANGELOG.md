@@ -1,3 +1,7 @@
+v 2.5.0 [08-Ene-2016]
+---------------------
+    - [Feature] Add requests
+
 v 2.4.3 [31-Dec-2015]
 ---------------------
     - [Fix] Get sheet by index in get sheet

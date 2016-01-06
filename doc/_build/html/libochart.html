@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
-    <link rel="next" title="Dialogs" href="dialogs.html" />
+    <link rel="next" title="Images and shapes" href="liboimage.html" />
     <link rel="prev" title="Data Base" href="libobase.html" />
    
   
@@ -55,18 +55,18 @@
     <span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
     <span class="n">address</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
 
-    <span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span>   _
-        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
-        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> _
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span>   <span class="n">_</span>
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="n">_</span>
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">_</span>
     <span class="p">)</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="s">&quot;Hoja1.A2:A9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="s">&quot;Hoja1.B2:B9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Title</span> <span class="o">=</span> <span class="s">&quot;Hoja1.B1&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Properties</span> <span class="o">=</span> <span class="n">properties</span>
 
-    <span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span>   _
-        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
-        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> _
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span>   <span class="n">_</span>
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="n">_</span>
+        <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">_</span>
     <span class="p">)</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="s">&quot;Hoja1.C2:C9&quot;</span>
     <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="s">&quot;Hoja1.D2:D9&quot;</span>
@@ -116,9 +116,9 @@
 <span class="n">address</span><span class="p">.</span><span class="n">Row</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">title_1</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">getCell</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
 
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;LineWidth&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 
 <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="n">rango_X</span>
@@ -126,8 +126,8 @@
 <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Title</span> <span class="o">=</span> <span class="n">title_1</span>
 <span class="n">series</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">Properties</span> <span class="o">=</span> <span class="n">properties</span>
 
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Color&quot;</span><span class="p">,</span> <span class="n">RGB</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span><span class="mi">255</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">X</span> <span class="o">=</span> <span class="s">&quot;Hoja1.C2:C9&quot;</span>
 <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">Y</span> <span class="o">=</span> <span class="s">&quot;Hoja1.D2:D9&quot;</span>
@@ -170,7 +170,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="libobase.html" title="previous chapter">Data Base</a></li>
-      <li>Next: <a href="dialogs.html" title="next chapter">Dialogs</a></li>
+      <li>Next: <a href="liboimage.html" title="next chapter">Images and shapes</a></li>
   </ul></li>
 </ul>
 </div>
