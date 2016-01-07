@@ -131,6 +131,9 @@ module org { module universolibre { module EasyDev {
             [in] org::universolibre::EasyDev::SmtpServer server,
             [in] org::universolibre::EasyDev::EmailMessage message
         );
+        any readMail(
+            [in] org::universolibre::EasyDev::SmtpServer server
+        );
     };
 
     service LOEmail {

@@ -1,4 +1,8 @@
-v 2.5.0 [08-Ene-2016]
+v 2.6.0 [15-Jan-2016]
+---------------------
+    - [Feature] Add support IMAP mail
+
+v 2.5.0 [11-Jan-2016]
 ---------------------
     - [Feature] Add requests
 

@@ -1,4 +1,8 @@
-v 2.5.0 [08-Ene-2016]
+v 2.6.0 [15-Ene-2016]
+---------------------
+    - [Feature] Soporte para IMAP
+
+v 2.5.0 [11-Ene-2016]
 ---------------------
     - [Feature] Soporte para la librería requests
 
