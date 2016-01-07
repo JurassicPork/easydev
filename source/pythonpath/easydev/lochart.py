@@ -18,7 +18,6 @@ class LOChart(XLOChart, LOApp):
     def __init__(self, ctx, sm, desktop, toolkit):
         LOApp.__init__(self, ctx, sm, desktop, toolkit)
 
-    @comun.catch_exception
     def chartAdd(self, data):
         charts = data.Sheet.getCharts()
         charts.addNewByName(data.Name, data.PosSize, (), True, True)
