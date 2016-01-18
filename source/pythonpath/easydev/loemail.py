@@ -100,6 +100,7 @@ class ImapMail(object):
     def __init__(self, server):
         self.error = ''
         self.con = self._connection(server)
+        self._gmail = 'gmail' in server.Name
 
     def _connection(self, server):
         try:
@@ -127,6 +128,8 @@ class ImapMail(object):
 
     def get_folders(self, subfolders=True):
         SEP = '"."'
+        if self._gmail:
+            SEP = '"/"'
         #~ EXCLUDE = ('INBOX', 'INBOX.Trash', 'INBOX.Drafts', 'INBOX.Junk', 'INBOX.Sent')
         folders = ()
         if subfolders:
@@ -204,11 +207,14 @@ class ImapMail(object):
         return {r[0]: self._decode_headers(r[1]) for r in data}
 
     def get_all_files(self):
+        if self.con is None:
+            return self.error
         info = []
         folders = self.get_folders()
         for folder in folders:
+            self.con.select(folder)
             info_msg = self.con.status(folder, '(MESSAGES UNSEEN)')
-            print (info_msg)
+            #~ print (info_msg)
             info.append(str(info_msg))
         return '\n'.join(info)
 
