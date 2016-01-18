@@ -11,12 +11,10 @@ ADDIN_AUTHOR_WEB = "http://www.universolibre.org"
 ADDIN_AUTHOR_NAME = "Universo Libre Mexico, A.C."
 ADDIN_PLATFORM = 'all'
 ADDIN_DEPENDENCIES_MINIMAL = '4.0'
-#~ ADDIN_UPDATE_XML = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/{}'.format(FILE_UPDATE)
-#~ ADDIN_UPDATE_OXT = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/{}'.format(FILE_OXT)
-#~ https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.0.0/files/EasyDev_v2.0.0.oxt
-#~ https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.0.0/files/easydev.update.xml
+
 GITHUB = 'https://github.com/UniversoLibreMexicoAC/easydev'
-ADDIN_UPDATE_XML = '{}/raw/v{}/files/{}'.format(GITHUB, ADDIN_VERSION, FILE_UPDATE)
+GITHUB_RAW = 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/'
+ADDIN_UPDATE_XML = '{}{}'.format(GITHUB_RAW, FILE_UPDATE)
 ADDIN_UPDATE_OXT = '{}/raw/v{}/files/{}'.format(GITHUB, ADDIN_VERSION, FILE_OXT)
 
 ADDIN_ICON = 'images/{}.png'.format(ADDIN_NAME.lower())
@@ -29,14 +27,14 @@ ADDIN_INFO = {
         'author': (ADDIN_AUTHOR_WEB, ADDIN_AUTHOR_NAME),
         'display_name': 'Herramientas para desarrollo simple en LibreOffice, con Python',
         'license_text': 'registration/license_es.txt',
-        'release_notes': 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_es.txt',
+        'release_notes': '{}release-notes_es.txt'.format(GITHUB_RAW),
         'extension_description': 'description/desc_es.txt',
     },
     'en': {
         'author': (ADDIN_AUTHOR_WEB, ADDIN_AUTHOR_NAME),
         'display_name': 'Tool for easy develop macros in LibreOffice, with Python',
         'license_text': 'registration/license_en.txt',
-        'release_notes': 'https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_en.txt',
+        'release_notes': '{}release-notes_en.txt'.format(GITHUB_RAW),
         'extension_description': 'description/desc_en.txt',
     },
 }
@@ -49,7 +47,7 @@ LOG = logging.getLogger(ADDIN_NAME)
 PATH_IDLC = '/usr/lib/libreoffice/sdk/bin/idlc'
 PATH_IDLC_INCLUDE = '/usr/share/idl/libreoffice'
 #~ PATH_REGMERGE = '/usr/lib/libreoffice/ure/bin/regmerge'  # Path LibO 4
-PATH_REGMERGE = '/usr/lib/libreoffice/program/regmerge'
+PATH_REGMERGE = '/usr/lib/libreoffice/program/regmerge'  # Libo 5
 
 FILE_PY = '{}.py'.format(ADDIN_NAME)
 FILE_IDL = 'X{}.idl'.format(ADDIN_NAME)
