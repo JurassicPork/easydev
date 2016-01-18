@@ -130,7 +130,6 @@ class ImapMail(object):
         SEP = '"."'
         if self._gmail:
             SEP = '"/"'
-        #~ EXCLUDE = ('INBOX', 'INBOX.Trash', 'INBOX.Drafts', 'INBOX.Junk', 'INBOX.Sent')
         folders = ()
         if subfolders:
             typ, subdir = self.con.list()
@@ -214,7 +213,6 @@ class ImapMail(object):
         for folder in folders:
             self.con.select(folder)
             info_msg = self.con.status(folder, '(MESSAGES UNSEEN)')
-            #~ print (info_msg)
             info.append(str(info_msg))
         return '\n'.join(info)
 
