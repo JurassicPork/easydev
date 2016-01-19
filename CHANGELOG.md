@@ -1,6 +1,7 @@
-v 2.5.0 [08-Ene-2016]
+v 2.5.0 [22-Ene-2016]
 ---------------------
     - [Feature] Add requests
+    - [Feature] Add support for custom number format
 
 v 2.4.3 [31-Dec-2015]
 ---------------------

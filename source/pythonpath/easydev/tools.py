@@ -152,6 +152,7 @@ class Tools(XTools, LODefault):
         node = 'org.openoffice.Setup/L10N/'
         data = self._get_config(key, node)
         if data:
+            print (data)
             data = data.split('-')[0]
         return data
 

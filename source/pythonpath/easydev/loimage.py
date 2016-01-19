@@ -62,7 +62,19 @@ class LOImage(XLOImage, LODefault):
             title = image.getAxisTitle()
         for k, v in properties.items():
             if hasattr(image, k):
+                if self._special_property(image, k, v):
+                    continue
                 setattr(image, k, v)
             if title and hasattr(title, k):
                 setattr(title, k, v)
         return
+
+    def _special_property(self, image, key, value):
+        properties = ('NumberFormat',)
+        if not key in properties:
+            return False
+        if key == properties[0] and isinstance(value, str):
+            index = comun.get_or_create_number_format(new_format=value)
+            setattr(image, key, index)
+            return True
+        return False
