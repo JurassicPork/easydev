@@ -1,7 +1,7 @@
-v 2.5.0 [22-Ene-2016]
+v 2.5.0 [23-Ene-2016]
 ---------------------
     - [Feature] Add requests
-    - [Feature] Add support for custom number format
+    - [Feature] Add support for custom number format in axis charts
 
 v 2.4.3 [31-Dec-2015]
 ---------------------
