@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="EasyDev 2.0.0 documentation" href="index.html" />
-    <link rel="prev" title="Charts" href="libochart.html" />
+    <link rel="prev" title="Images and shapes" href="liboimage.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -78,12 +78,12 @@
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;/home/USER/dlg_test.xdl&quot;</span>
 <span class="n">dlg</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createDialog</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;link_home&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;URL&quot;</span><span class="p">,</span> <span class="s">&quot;http://universolibre.org&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Label&quot;</span><span class="p">,</span> <span class="s">&quot;http://universolibre.org&quot;</span><span class="p">),</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;link_home&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;URL&quot;</span><span class="p">,</span> <span class="s">&quot;http://universolibre.org&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Label&quot;</span><span class="p">,</span> <span class="s">&quot;http://universolibre.org&quot;</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;FixedHyperlink&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 <span class="n">dlg</span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
@@ -99,11 +99,11 @@
 <span class="n">dlg</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createDialog</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
 <span class="n">options</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Init&quot;</span><span class="p">,</span> <span class="s">&quot;Values&quot;</span><span class="p">,</span> <span class="s">&quot;Config&quot;</span><span class="p">,</span> <span class="s">&quot;Other&quot;</span><span class="p">)</span>
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;roadmap&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Width&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Height&quot;</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Options&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">),</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;roadmap&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Width&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Height&quot;</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Options&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Roadmap&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 <span class="n">dlg</span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
@@ -115,30 +115,30 @@
 <span id="id1"></span><h2>Grid<a class="headerlink" href="#grid" title="Permalink to this headline">¶</a></h2>
 <p>Create grid and set data from array. Detect column values and format.</p>
 <a class="reference internal image-reference" href="_images/img013.png"><img alt="_images/img013.png" class="align-center" src="_images/img013.png" style="width: 300px;" /></a>
-<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">c1</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Title&quot;</span><span class="p">,</span> <span class="s">&quot;State&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;HorizontalAlign&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> _
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">c1</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Title&quot;</span><span class="p">,</span> <span class="s">&quot;State&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;HorizontalAlign&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
-<span class="n">c2</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Title&quot;</span><span class="p">,</span> <span class="s">&quot;People&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;HorizontalAlign&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Identifier&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">),</span> _
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Title&quot;</span><span class="p">,</span> <span class="s">&quot;People&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;HorizontalAlign&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Identifier&quot;</span><span class="p">,</span> <span class="k">True</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">columns</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span>
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;grid&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Step&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Columns&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="p">),</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;grid&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Step&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Columns&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">grid</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Grid&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Uno&quot;</span><span class="p">,</span> <span class="mi">2222</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Tres&quot;</span><span class="p">,</span> <span class="mi">44444</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Cinco&quot;</span><span class="p">,</span> <span class="mi">666666</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Siete&quot;</span><span class="p">,</span> <span class="mi">666666</span><span class="p">),</span> _
+<span class="n">data</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Uno&quot;</span><span class="p">,</span> <span class="mi">2222</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Tres&quot;</span><span class="p">,</span> <span class="mi">44444</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Cinco&quot;</span><span class="p">,</span> <span class="mi">666666</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Siete&quot;</span><span class="p">,</span> <span class="mi">666666</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">col_format</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
 <span class="n">util</span><span class="p">.</span><span class="n">setGridData</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">col_format</span><span class="p">)</span>
@@ -162,11 +162,11 @@
 
 <span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;SELECT id, name FROM contactos&quot;</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">,</span> <span class="k">False</span><span class="p">)</span>
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;grid&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Columns&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;grid&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Columns&quot;</span><span class="p">,</span> <span class="n">Array</span><span class="p">())</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">grid</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Grid&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">setQuery</span><span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
@@ -198,10 +198,10 @@
 <h2>TextBox<a class="headerlink" href="#textbox" title="Permalink to this headline">¶</a></h2>
 <p>Create text box, automatic change background color in focus events.</p>
 <a class="reference internal image-reference" href="_images/img014.png"><img alt="_images/img014.png" class="align-center" src="_images/img014.png" style="width: 300px;" /></a>
-<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;txt_name&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;txt_name&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Edit&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 <span class="n">dlg</span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
@@ -226,11 +226,11 @@ For default, the macro name execute is: <strong>CONTROL_NAME + _action</strong>,
 <p>Argument <strong>event</strong> is important.</p>
 <div class="highlight-vbnet"><div class="highlight"><pre><span class="n">macro</span><span class="p">.</span><span class="n">Language</span> <span class="o">=</span> <span class="s">&quot;Basic&quot;</span>
 <span class="n">macro</span><span class="p">.</span><span class="n">Module</span> <span class="o">=</span> <span class="s">&quot;LODialog&quot;</span>
-<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;cmd_test&quot;</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> _
-    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Macro&quot;</span><span class="p">,</span> <span class="n">macro</span><span class="p">),</span> _
+<span class="n">properties</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;cmd_test&quot;</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionX&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;PositionY&quot;</span><span class="p">,</span> <span class="mi">60</span><span class="p">),</span> <span class="n">_</span>
+    <span class="n">Array</span><span class="p">(</span><span class="s">&quot;Macro&quot;</span><span class="p">,</span> <span class="n">macro</span><span class="p">),</span> <span class="n">_</span>
 <span class="p">)</span>
 <span class="n">util</span><span class="p">.</span><span class="n">createControl</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="s">&quot;Button&quot;</span><span class="p">,</span> <span class="n">properties</span><span class="p">)</span>
 </pre></div>
@@ -260,7 +260,7 @@ For default, the macro name execute is: <strong>CONTROL_NAME + _action</strong>,
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="libochart.html" title="previous chapter">Charts</a></li>
+      <li>Previous: <a href="liboimage.html" title="previous chapter">Images and shapes</a></li>
   </ul></li>
 </ul>
 </div>

@@ -11,6 +11,7 @@ import uno
 from com.sun.star.beans import PropertyValue, NamedValue
 from com.sun.star.util import Time, Date, DateTime
 from com.sun.star.awt import Size, Point
+from com.sun.star.lang import Locale
 
 from easydev.setting import (
     DATA_TYPES,
@@ -327,6 +328,23 @@ def unzip(source, target, name):
         z.extractall(target)
     z.close()
     return
+
+
+def get_current_doc():
+    desktop = _create_instance('com.sun.star.frame.Desktop')
+    return desktop.getCurrentComponent()
+
+
+def get_or_create_number_format(doc=None, new_format=''):
+    if doc is None:
+        doc = get_current_doc()
+    nf = doc.NumberFormats
+    l = Locale()
+    key = nf.queryKey(new_format, l, False)
+    if key == -1:
+        key = nf.addNew(new_format, l)
+    return key
+
 
     #~ new_shape = doc.createInstance(SRV_GOS)
     #~ dp.add(new_shape)

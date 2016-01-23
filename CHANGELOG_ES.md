@@ -1,3 +1,8 @@
+v 2.5.0 [23-Ene-2016]
+---------------------
+    - [Feature] Soporte para la librería requests
+    - [Feature] Soporte para formatos personalizados en los ejes de un gráfico
+
 v 2.4.3 [31-Dec-2015]
 ---------------------
     - [Fix] Devolver hoja por índice en el método getSheet
