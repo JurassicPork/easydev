@@ -28,6 +28,12 @@ class LODataBase(XLODataBase, LODefault):
             log.error(str(e))
             return None
 
+    def conDB(self, name, user, password):
+        dbc = self._create_instance('com.sun.star.sdb.DatabaseContext')
+        db = dbc.getByName(name)
+        con = db.getConnection(user, password)
+        return con
+
     def query(self, con, sql, array):
         cursor = con.createStatement()
         resulset = cursor.executeQuery(sql)
@@ -36,4 +42,9 @@ class LODataBase(XLODataBase, LODefault):
         else:
             return resulset
 
+    def update(self, con, sql):
+        cursor = con.createStatement()
+        #~ print (sql)
+        rows = cursor.executeUpdate(sql)
+        return rows
 

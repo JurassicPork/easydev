@@ -296,7 +296,9 @@ module org { module universolibre { module EasyDev {
     interface XLODataBase : com::sun::star::uno::XInterface
     {
         any conODBC([in] string name, [in] string user, [in] string password);
+        any conDB([in] string name, [in] string user, [in] string password);
         any query([in] any con, [in] string sql, [in] boolean array);
+        any update([in] any con, [in] string sql);
     };
 
     service EasyDev {
