@@ -17,6 +17,7 @@ class LODataBase(XLODataBase, LODefault):
 
     def __init__(self, ctx, sm, desktop, toolkit):
         LODefault.__init__(self, ctx, sm, desktop, toolkit)
+        self._dbc = self._create_instance('com.sun.star.sdb.DatabaseContext')
 
     def conODBC(self, name, user, password):
         dm = self._create_instance('com.sun.star.sdbc.DriverManager')
@@ -28,9 +29,22 @@ class LODataBase(XLODataBase, LODefault):
             log.error(str(e))
             return None
 
+    def registerDB(self, name, path):
+        self._dbc.registerDatabaseLocation(name, comun.path_to_url(path))
+        return True
+
+    def revokeDB(self, name):
+        self._dbc.revokeDatabaseLocation(name)
+        return True
+
+    def existsDB(self, name):
+        return self._dbc.hasRegisteredDatabase(name)
+
+    def getPathDB(self, name):
+        return comun.path_to_os(self._dbc.getDatabaseLocation(name))
+
     def conDB(self, name, user, password):
-        dbc = self._create_instance('com.sun.star.sdb.DatabaseContext')
-        db = dbc.getByName(name)
+        db = self._dbc.getByName(name)
         con = db.getConnection(user, password)
         return con
 
@@ -44,7 +58,6 @@ class LODataBase(XLODataBase, LODefault):
 
     def update(self, con, sql):
         cursor = con.createStatement()
-        #~ print (sql)
         rows = cursor.executeUpdate(sql)
         return rows
 

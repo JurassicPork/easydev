@@ -295,6 +295,10 @@ module org { module universolibre { module EasyDev {
 
     interface XLODataBase : com::sun::star::uno::XInterface
     {
+        boolean registerDB([in] string name, [in] string path);
+        boolean revokeDB([in] string name);
+        boolean existsDB([in] string name);
+        string getPathDB([in] string name);
         any conODBC([in] string name, [in] string user, [in] string password);
         any conDB([in] string name, [in] string user, [in] string password);
         any query([in] any con, [in] string sql, [in] boolean array);
