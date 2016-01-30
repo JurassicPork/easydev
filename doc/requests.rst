@@ -64,7 +64,7 @@ Use Auth
     util.msgbox(response.StatusCode)
     util.msgbox(response.Text)
 
-You cant test request in: `<http://httpbin.org/>`_
+You can test request in: `<http://httpbin.org/>`_
 
 
 .. _Requests: http://docs.python-requests.org/en/latest/
