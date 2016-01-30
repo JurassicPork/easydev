@@ -1,4 +1,9 @@
-v 2.5.0 [23-Ene-2016]
+v 2.6.0 [30-Jan-2016]
+---------------------
+    - [Feature] Add connect to DB, register and revoke
+    - [Feature] Add support for update DB
+
+v 2.5.0 [23-Jan-2016]
 ---------------------
     - [Feature] Add requests
     - [Feature] Add support for custom number format in axis charts

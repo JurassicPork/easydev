@@ -1,3 +1,8 @@
+v 2.6.0 [30-Ene-2016]
+---------------------
+    - [Feature] Soporte para conectarse a una base de datos registrada.
+    - [Feature] Soporte para actualizar datos en una base de datos registrada.
+
 v 2.5.0 [23-Ene-2016]
 ---------------------
     - [Feature] Soporte para la librería requests
