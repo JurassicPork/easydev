@@ -118,6 +118,27 @@
 </div>
 <p>You can set resulset to grid, see <a class="reference internal" href="dialogs.html#grid"><span>Grid</span></a>.</p>
 </div>
+<div class="section" id="update">
+<h2>Update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
+<p>Insert data.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;INSERT INTO &quot;&quot;directory&quot;&quot; VALUES (6, &#39;Nikole Kidman&#39;, &#39;1970-01-15&#39;, &#39;nikole@correo.com&#39;)&quot;</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Update data.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;UPDATE &quot;&quot;directory&quot;&quot; SET &quot;&quot;email&quot;&quot;=&#39;nk@coreo.com&#39; WHERE &quot;&quot;id&quot;&quot;=6&quot;</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Delete data.</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">sql</span> <span class="o">=</span> <span class="s">&quot;DELETE FROM &quot;&quot;directory&quot;&quot; WHERE &quot;&quot;id&quot;&quot;=5&quot;</span>
+<span class="n">row</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -132,6 +153,7 @@
 <li><a class="reference internal" href="#connection-db">Connection DB</a></li>
 <li><a class="reference internal" href="#odbc">ODBC</a></li>
 <li><a class="reference internal" href="#query">Query</a></li>
+<li><a class="reference internal" href="#update">Update</a></li>
 </ul>
 </li>
 </ul>

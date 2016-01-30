@@ -98,3 +98,30 @@ Make query, get data like resulset
     util.msgbox(data)
 
 You can set resulset to grid, see :ref:`grid`.
+
+Update
+------
+
+Insert data.
+
+.. code-block:: vbnet
+
+    sql = "INSERT INTO ""directory"" VALUES (6, 'Nikole Kidman', '1970-01-15', 'nikole@correo.com')"
+    row = util.update(con, sql)
+    util.msgbox(row)
+
+Update data.
+
+.. code-block:: vbnet
+
+    sql = "UPDATE ""directory"" SET ""email""='nk@coreo.com' WHERE ""id""=6"
+    row = util.update(con, sql)
+    util.msgbox(row)
+
+Delete data.
+
+.. code-block:: vbnet
+
+    sql = "DELETE FROM ""directory"" WHERE ""id""=5"
+    row = util.update(con, sql)
+    util.msgbox(row)
