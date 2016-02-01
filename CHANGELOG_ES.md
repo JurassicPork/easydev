@@ -1,3 +1,7 @@
+v 2.6.1 [03-Ene-2016]
+---------------------
+    - [Fix] Copiar controles de formularo en el método sheetCopyToDoc
+
 v 2.6.0 [30-Ene-2016]
 ---------------------
     - [Feature] Soporte para conectarse a una base de datos registrada.

@@ -1,3 +1,7 @@
+v 2.6.1 [03-Jan-2016]
+---------------------
+    - [Fix] Copy controls forms in method sheetCopyToDoc
+
 v 2.6.0 [30-Jan-2016]
 ---------------------
     - [Feature] Add connect to DB, register and revoke
