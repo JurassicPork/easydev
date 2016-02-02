@@ -118,7 +118,7 @@ Index
     util.msgbox( util.index(a, "Naomi") )
     util.msgbox( util.index(a, "Monica") )
 
-Max, Min adn Average
+Max, Min and Average
 --------------------
 
 .. code-block:: vbnet

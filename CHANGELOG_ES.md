@@ -1,3 +1,21 @@
+v 2.6.1 [03-Ene-2016]
+---------------------
+    - [Fix] Copiar controles de formularo en el método sheetCopyToDoc
+
+v 2.6.0 [30-Ene-2016]
+---------------------
+    - [Feature] Soporte para conectarse a una base de datos registrada.
+    - [Feature] Soporte para actualizar datos en una base de datos registrada.
+
+v 2.5.0 [23-Ene-2016]
+---------------------
+    - [Feature] Soporte para la librería requests
+    - [Feature] Soporte para formatos personalizados en los ejes de un gráfico
+
+v 2.4.3 [31-Dec-2015]
+---------------------
+    - [Fix] Devolver hoja por índice en el método getSheet
+
 v 2.4.2 [28-Dec-2015]
 ---------------------
     - [Fix] Devolver hoja por índice en el método getCell

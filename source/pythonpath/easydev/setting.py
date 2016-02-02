@@ -15,7 +15,7 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '2.4.2'
+VERSION = '2.6.0'
 ID_EXT = 'org.universolibre.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
@@ -60,6 +60,7 @@ COLORS = {
     'RED': 16764108,
 }
 DATA_TYPES = {
+    'varchar_ignorecase': 'getString',
     #~ MySQL
     'bit': 'getByte',
     'tinyint': 'getLong',

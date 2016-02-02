@@ -36,14 +36,7 @@ class LOCalc(XLOCalc, LOApp):
 
     def getSheet(self, address):
         doc = self._get_doc(address.Doc)
-        if not address.Sheet:
-            return doc.getCurrentController().getActiveSheet()
-        if isinstance(address.Sheet, str):
-            return doc.getSheets().getByName(address.Sheet)
-        index = address.Sheet
-        if index < 0:
-            index = doc.getSheets().getCount() + index
-        return doc.getSheets().getByIndex(index)
+        return comun.get_sheet(doc, address.Sheet)
 
     def sheetActivate(self, address):
         doc = self._get_doc(address.Doc)
@@ -205,12 +198,15 @@ class LOCalc(XLOCalc, LOApp):
             doc.getCurrentController().setActiveSheet(sheet)
             dp = sheet.getDrawPage()
             src_dp = src_doc.getSheets().getByName(name).getDrawPage()
+            src_doc.getCurrentController().setFormDesignMode(True)
             for i in range(src_dp.getCount()):
                 src_img = src_dp.getByIndex(i)
                 src_doc.getCurrentController().select(src_img)
                 comun.copy(src_doc)
                 new = comun.paste(doc)
                 new.getByIndex(0).setPosition(src_img.getPosition())
+            src_doc.getCurrentController().setFormDesignMode(False)
+            doc.getCurrentController().setFormDesignMode(False)
         return
 
     def getCell(self, address):

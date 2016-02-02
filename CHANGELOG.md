@@ -1,3 +1,21 @@
+v 2.6.1 [03-Jan-2016]
+---------------------
+    - [Fix] Copy controls forms in method sheetCopyToDoc
+
+v 2.6.0 [30-Jan-2016]
+---------------------
+    - [Feature] Add connect to DB, register and revoke
+    - [Feature] Add support for update DB
+
+v 2.5.0 [23-Jan-2016]
+---------------------
+    - [Feature] Add requests
+    - [Feature] Add support for custom number format in axis charts
+
+v 2.4.3 [31-Dec-2015]
+---------------------
+    - [Fix] Get sheet by index in get sheet
+
 v 2.4.2 [28-Dec-2015]
 ---------------------
     - [Fix] Get sheet by index in get cell
