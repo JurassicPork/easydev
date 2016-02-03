@@ -178,6 +178,7 @@ module org { module universolibre { module EasyDev {
         boolean RegularExpression;
         boolean Words;
         unsigned short Type;
+        boolean First;
     };
 
     interface XLOApp : com::sun::star::uno::XInterface

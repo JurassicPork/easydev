@@ -168,8 +168,10 @@ class LOApp(XLOApp, LODefault):
         descriptor.SearchWords = options.Words
         if hasattr(descriptor, 'SearchType'):
             descriptor.SearchType = options.Type
-        comun.mri(descriptor)
-        found = doc.findAll(descriptor)
+        if options.First:
+            found = doc.findFirst(descriptor)
+        else:
+            found = doc.findAll(descriptor)
         return found
 
     def replace(self, options):
