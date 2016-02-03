@@ -40,3 +40,7 @@ class LOWriter(XLOWriter, LOApp):
         cursor.gotoEnd(False)
         return cursor
 
+    def selectText(self, doc, text):
+        doc.getCurrentController().select(text)
+        return
+

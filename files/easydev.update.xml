@@ -5,17 +5,17 @@
     xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <identifier value="org.universolibre.EasyDev" />
-    <version value="2.6.1" />
+    <version value="2.7.0" />
     
 
     <update-download>
-        <src xlink:href="https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.6.1/files/EasyDev_v2.6.1.oxt"/>
+        <src xlink:href="https://github.com/UniversoLibreMexicoAC/easydev/raw/v2.7.0/files/EasyDev_v2.7.0.oxt"/>
     </update-download>
     <release-notes>
         
     <release-notes>
-        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_es.txt" lang="es" />
-		<src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_en.txt" lang="en" />
+        <src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_en.txt" lang="en" />
+		<src xlink:href="https://raw.github.com/UniversoLibreMexicoAC/easydev/master/files/release-notes_es.txt" lang="es" />
 		
     </release-notes>
     </release-notes>

@@ -169,6 +169,17 @@ module org { module universolibre { module EasyDev {
         interface XLORequests;
     };
 
+    published struct SearchReplace
+    {
+        any Doc;
+        string Search;
+        string Replace;
+        boolean CaseSensitive;
+        boolean RegularExpression;
+        boolean Words;
+        unsigned short Type;
+    };
+
     interface XLOApp : com::sun::star::uno::XInterface
     {
         any newDoc([in] string typeDoc);
@@ -181,6 +192,8 @@ module org { module universolibre { module EasyDev {
         any getStatusBar([in] any doc);
         void setVisible([in] any doc, [in] boolean visible);
         string exportPDF([in] any doc, [in] string pathSave, [in] sequence< any > options);
+        any search([in] org::universolibre::EasyDev::SearchReplace options);
+        any replace([in] org::universolibre::EasyDev::SearchReplace options);
     };
 
     published struct ChartSerie
@@ -276,6 +289,7 @@ module org { module universolibre { module EasyDev {
         any getParagraphs([in] any doc, [in] boolean empty);
         any goStart([in] any doc);
         any goEnd([in] any doc);
+        void selectText([in] any doc, [in] any text);
     };
 
     interface XLODialog : com::sun::star::uno::XInterface

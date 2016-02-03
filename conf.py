@@ -1,8 +1,9 @@
 import logging
+import os
 
 #~ https://wiki.openoffice.org/wiki/Documentation/DevGuide/Extensions/description.xml
 
-ADDIN_VERSION = '2.6.1'
+ADDIN_VERSION = '2.7.0'
 ADDIN_NAME = 'EasyDev'
 FILE_OXT = '{}_v{}.oxt'.format(ADDIN_NAME, ADDIN_VERSION)
 FILE_UPDATE = '{}.update.xml'.format(ADDIN_NAME.lower())
@@ -46,8 +47,9 @@ LOG = logging.getLogger(ADDIN_NAME)
 
 PATH_IDLC = '/usr/lib/libreoffice/sdk/bin/idlc'
 PATH_IDLC_INCLUDE = '/usr/share/idl/libreoffice'
-PATH_REGMERGE = '/usr/lib/libreoffice/ure/bin/regmerge'  # Path LibO 4
-#~ PATH_REGMERGE = '/usr/lib/libreoffice/program/regmerge'  # Libo 5
+PATH_REGMERGE = '/usr/lib/libreoffice/ure/bin/regmerge'  # LibO 4
+if not os.path.exists(PATH_REGMERGE):
+    PATH_REGMERGE = '/usr/lib/libreoffice/program/regmerge'  # Libo 5
 
 FILE_PY = '{}.py'.format(ADDIN_NAME)
 FILE_IDL = 'X{}.idl'.format(ADDIN_NAME)
