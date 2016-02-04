@@ -210,6 +210,51 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="search">
+<h2>Search<a class="headerlink" href="#search" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Pass object correct in <strong>Doc</strong> argument. See examples.</p>
+</div>
+<p>Search in Writer</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.SearchReplace&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">opt</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">doc</span>
+<span class="n">opt</span><span class="p">.</span><span class="n">Search</span> <span class="o">=</span> <span class="s">&quot;test&quot;</span>
+
+<span class="n">found</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectText</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Search in Calc</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.SearchReplace&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">sheet</span> <span class="o">=</span> <span class="n">doc</span><span class="p">.</span><span class="n">getCurrentController</span><span class="p">().</span><span class="n">getActiveSheet</span><span class="p">()</span>
+<span class="n">opt</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">sheet</span>
+<span class="n">opt</span><span class="p">.</span><span class="n">Search</span> <span class="o">=</span> <span class="s">&quot;test&quot;</span>
+
+<span class="n">found</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">selectRange</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Search in Draw or Impress</p>
+<div class="highlight-vbnet"><div class="highlight"><pre><span class="n">util</span> <span class="o">=</span> <span class="n">createUnoService</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev&quot;</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">createUnoStruct</span><span class="p">(</span><span class="s">&quot;org.universolibre.EasyDev.SearchReplace&quot;</span><span class="p">)</span>
+
+<span class="n">doc</span> <span class="o">=</span> <span class="n">ThisComponent</span>
+<span class="n">page</span> <span class="o">=</span> <span class="n">doc</span><span class="p">.</span><span class="n">getDrawPages</span><span class="p">().</span><span class="n">getByIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">opt</span><span class="p">.</span><span class="n">Doc</span> <span class="o">=</span> <span class="n">page</span>
+<span class="n">opt</span><span class="p">.</span><span class="n">Search</span> <span class="o">=</span> <span class="s">&quot;test&quot;</span>
+
+<span class="n">found</span> <span class="o">=</span> <span class="n">util</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">opt</span><span class="p">)</span>
+<span class="n">util</span><span class="p">.</span><span class="n">msgbox</span><span class="p">(</span><span class="n">found</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">getString</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -230,6 +275,7 @@
 <li><a class="reference internal" href="#status-bar">Status bar</a></li>
 <li><a class="reference internal" href="#set-visible">Set visible</a></li>
 <li><a class="reference internal" href="#export-pdf">Export PDF</a></li>
+<li><a class="reference internal" href="#search">Search</a></li>
 </ul>
 </li>
 </ul>

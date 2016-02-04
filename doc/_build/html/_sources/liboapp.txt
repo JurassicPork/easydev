@@ -211,3 +211,56 @@ Export with options
     options(0).Value = "2"
     path = util.exportPDF(doc, "", options)
     MsgBox util.format("PDF export in: {}", path)
+
+
+Search
+------
+
+.. IMPORTANT::
+   Pass object correct in **Doc** argument. See examples.
+
+Search in Writer
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    opt = createUnoStruct("org.universolibre.EasyDev.SearchReplace")
+
+    doc = ThisComponent
+    opt.Doc = doc
+    opt.Search = "test"
+
+    found = util.search(opt)
+    util.selectText(doc, found)
+
+Search in Calc
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    opt = createUnoStruct("org.universolibre.EasyDev.SearchReplace")
+
+    doc = ThisComponent
+    sheet = doc.getCurrentController().getActiveSheet()
+    opt.Doc = sheet
+    opt.Search = "test"
+
+    found = util.search(opt)
+    util.selectRange(doc, found)
+
+Search in Draw or Impress
+
+.. code-block:: vbnet
+
+    util = createUnoService("org.universolibre.EasyDev")
+    opt = createUnoStruct("org.universolibre.EasyDev.SearchReplace")
+
+    doc = ThisComponent
+    page = doc.getDrawPages().getByIndex(0)
+    opt.Doc = page
+    opt.Search = "test"
+
+    found = util.search(opt)
+    util.msgbox(found(0).getString())
+
+
