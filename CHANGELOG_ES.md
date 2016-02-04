@@ -1,3 +1,7 @@
+v 2.7.0 [04-Ene-2016]
+---------------------
+    - [Feature] Soporte para buscar y reemplazar.
+
 v 2.6.1 [03-Ene-2016]
 ---------------------
     - [Fix] Copiar controles de formularo en el método sheetCopyToDoc

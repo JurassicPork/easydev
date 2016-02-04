@@ -1,3 +1,7 @@
+v 2.7.0 [04-Jan-2016]
+---------------------
+    - [Feature] Add support for search and replace.
+
 v 2.6.1 [03-Jan-2016]
 ---------------------
     - [Fix] Copy controls forms in method sheetCopyToDoc
