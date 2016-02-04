@@ -164,8 +164,9 @@ class LOApp(XLOApp, LODefault):
         descriptor = doc.createSearchDescriptor()
         descriptor.setSearchString(options.Search)
         descriptor.SearchCaseSensitive = options.CaseSensitive
-        descriptor.SearchRegularExpression = options.RegularExpression
         descriptor.SearchWords = options.Words
+        if hasattr(descriptor, 'SearchRegularExpression'):
+            descriptor.SearchRegularExpression = options.RegularExpression
         if hasattr(descriptor, 'SearchType'):
             descriptor.SearchType = options.Type
         if options.First:
@@ -180,7 +181,10 @@ class LOApp(XLOApp, LODefault):
         descriptor.setSearchString(options.Search)
         descriptor.setReplaceString(options.Replace)
         descriptor.SearchCaseSensitive = options.CaseSensitive
-        descriptor.SearchRegularExpression = options.RegularExpression
         descriptor.SearchWords = options.Words
+        if hasattr(descriptor, 'SearchRegularExpression'):
+            descriptor.SearchRegularExpression = options.RegularExpression
+        if hasattr(descriptor, 'SearchType'):
+            descriptor.SearchType = options.Type
         found = doc.replaceAll(descriptor)
         return found
