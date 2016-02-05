@@ -1,3 +1,7 @@
+v 2.7.1 [05-Ene-2016]
+---------------------
+    - [Fix] Desactivar el modo de diseño al copiar hoja con el método sheetInsertFromDoc
+
 v 2.7.0 [04-Ene-2016]
 ---------------------
     - [Feature] Soporte para buscar y reemplazar.
