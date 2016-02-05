@@ -159,3 +159,32 @@ class LOApp(XLOApp, LODefault):
             return comun.path_to_os(path_save)
         return ''
 
+    def search(self, options):
+        doc = options.Doc
+        descriptor = doc.createSearchDescriptor()
+        descriptor.setSearchString(options.Search)
+        descriptor.SearchCaseSensitive = options.CaseSensitive
+        descriptor.SearchWords = options.Words
+        if hasattr(descriptor, 'SearchRegularExpression'):
+            descriptor.SearchRegularExpression = options.RegularExpression
+        if hasattr(descriptor, 'SearchType'):
+            descriptor.SearchType = options.Type
+        if options.First:
+            found = doc.findFirst(descriptor)
+        else:
+            found = doc.findAll(descriptor)
+        return found
+
+    def replace(self, options):
+        doc = options.Doc
+        descriptor = doc.createReplaceDescriptor()
+        descriptor.setSearchString(options.Search)
+        descriptor.setReplaceString(options.Replace)
+        descriptor.SearchCaseSensitive = options.CaseSensitive
+        descriptor.SearchWords = options.Words
+        if hasattr(descriptor, 'SearchRegularExpression'):
+            descriptor.SearchRegularExpression = options.RegularExpression
+        if hasattr(descriptor, 'SearchType'):
+            descriptor.SearchType = options.Type
+        found = doc.replaceAll(descriptor)
+        return found
