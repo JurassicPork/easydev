@@ -63,25 +63,23 @@ class LOCalc(XLOCalc, LOApp):
         return
 
     def sheetInsertFromDoc(self, source, target, pos, values):
-        try:
-            src_doc = self._get_doc(source.Doc)
-            doc = target.Doc
-            index = pos
-            if pos < 0:
-                index = doc.getSheets().getCount() + pos + 1
-            if source.Sheet:
-                names = self._get_sheets_names(source.Sheet, src_doc, False)
-            else:
-                names = self.getSheetsNames(src_doc)
-            sheet = None
-            for name in names:
-                new_pos = doc.getSheets().importSheet(src_doc, name, index)
-                sheet = doc.getSheets().getByIndex(new_pos)
-                if values:
-                    pass
-            doc.getCurrentController().setActiveSheet(sheet)
-        except:
-            log.error('Insert from doc', exc_info=True)
+        src_doc = self._get_doc(source.Doc)
+        doc = target.Doc
+        index = pos
+        if pos < 0:
+            index = doc.getSheets().getCount() + pos + 1
+        if source.Sheet:
+            names = self._get_sheets_names(source.Sheet, src_doc, False)
+        else:
+            names = self.getSheetsNames(src_doc)
+        sheet = None
+        for name in names:
+            new_pos = doc.getSheets().importSheet(src_doc, name, index)
+            sheet = doc.getSheets().getByIndex(new_pos)
+            if values:
+                pass
+        doc.getCurrentController().setActiveSheet(sheet)
+        doc.getCurrentController().setFormDesignMode(False)
         return sheet
 
     def _get_sheet_name(self, name, doc):

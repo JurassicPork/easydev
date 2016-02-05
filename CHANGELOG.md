@@ -1,3 +1,7 @@
+v 2.7.1 [05-Jan-2016]
+---------------------
+    - [Fix] Off design mode in method sheetInsertFromDoc
+
 v 2.7.0 [04-Jan-2016]
 ---------------------
     - [Feature] Add support for search and replace.
