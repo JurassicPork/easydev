@@ -1,3 +1,7 @@
+v 2.7.2 [24-Apr-2016]
+---------------------
+    - [Fix] Size correctly in set data range
+
 v 2.7.1 [05-Jan-2016]
 ---------------------
     - [Fix] Off design mode in method sheetInsertFromDoc
