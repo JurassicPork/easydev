@@ -1,3 +1,7 @@
+v 2.7.2 [24-Abr-2016]
+---------------------
+    - [Fix] Tamaño correcto en el método setData de los datos
+
 v 2.7.1 [05-Ene-2016]
 ---------------------
     - [Fix] Desactivar el modo de diseño al copiar hoja con el método sheetInsertFromDoc

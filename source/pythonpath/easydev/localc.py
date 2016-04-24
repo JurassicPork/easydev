@@ -316,7 +316,9 @@ class LOCalc(XLOCalc, LOApp):
         return
 
     def setData(self, cell, data):
-        rango = comun.offset(cell, len(data), len(data[0]), True)
+        if not isinstance(data[0], tuple):
+            data = tuple(zip(data))
+        rango = comun.offset(cell, len(data[0]), len(data), True)
         rango.setDataArray(data)
         return
 
