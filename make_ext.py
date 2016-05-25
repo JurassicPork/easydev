@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import os
 import sys
@@ -109,7 +111,7 @@ def process_command_line_arguments():
     parser = argparse.ArgumentParser(
         description='Make AddIn extension OXT')
     parser.add_argument('-i', '--install', dest='install', action='store_true',
-        default=False, required=False)
+        default=True, required=False)
     parser.add_argument('-o', '--only_compress', dest='only_compress',
         action='store_true', default=False, required=False)
     parser.add_argument('-a', '--install_aoo', dest='install_aoo',

@@ -1,6 +1,9 @@
 # coding: utf-8
 
 import logging
+
+import apsw
+
 from org.universolibre.EasyDev import XLODataBase
 from easydev import comun
 from easydev.comun import LODefault
@@ -60,4 +63,21 @@ class LODataBase(XLODataBase, LODefault):
         cursor = con.createStatement()
         rows = cursor.executeUpdate(sql)
         return rows
+
+    def sqliteExecute(self, pathdb, sql):
+        try:
+            connection = apsw.Connection(pathdb)
+            with connection as db:
+                db.cursor().execute(sql)
+            return True
+        except Exception as e:
+            log.error(str(e))
+            return False
+
+    def sqliteSelect(self, pathdb, sql):
+        connection = apsw.Connection(pathdb)
+        with connection as db:
+            result = db.cursor().execute(sql)
+        return tuple(result)
+
 
