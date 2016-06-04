@@ -30,8 +30,7 @@ class LIBO(object):
         try:
             self.CTX = local_resolver.resolve('uno:{}'.format(self.ARG))
             self.SM = self.CTX.ServiceManager
-            self.desktop = self.create_instance(
-                'com.sun.star.frame.Desktop', True)
+            self.desktop = self.create_instance('com.sun.star.frame.Desktop', True)
         except Exception as e:
             pass
 
