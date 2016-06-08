@@ -64,11 +64,17 @@ class LODataBase(XLODataBase, LODefault):
         rows = cursor.executeUpdate(sql)
         return rows
 
-    def sqliteExecute(self, pathdb, sql):
+    def sqliteExecute(self, pathdb, sql, data):
         try:
             connection = apsw.Connection(pathdb)
             with connection as db:
-                db.cursor().execute(sql)
+                if data:
+                    if isinstance(data[0], tuple):
+                        db.cursor().executemany(sql, data)
+                    else:
+                        db.cursor().execute(sql, data)
+                else:
+                    db.cursor().execute(sql)
             return True
         except Exception as e:
             log.error(str(e))

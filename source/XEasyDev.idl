@@ -318,7 +318,7 @@ module org { module universolibre { module EasyDev {
         any conDB([in] string name, [in] string user, [in] string password);
         any query([in] any con, [in] string sql, [in] boolean array);
         any update([in] any con, [in] string sql);
-        any sqliteExecute([in] string pathdb, [in] string sql);
+        any sqliteExecute([in] string pathdb, [in] string sql, [in] any data);
         any sqliteSelect([in] string pathdb, [in] string sql);
     };
 
