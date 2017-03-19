@@ -1,3 +1,7 @@
+v 2.7.3 [19-Mar-2017]
+---------------------
+    - [Fix] Tipo de campo en mapeo de MySQL
+
 v 2.7.2 [24-Abr-2016]
 ---------------------
     - [Fix] Tamaño correcto en el método setData de los datos

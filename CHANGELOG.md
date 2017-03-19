@@ -1,3 +1,7 @@
+v 2.7.3 [19-Mar-2017]
+---------------------
+    - [Fix] Type of MySQL in map fields
+
 v 2.7.2 [24-Apr-2016]
 ---------------------
     - [Fix] Size correctly in set data range
