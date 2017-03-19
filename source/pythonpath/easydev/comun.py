@@ -212,7 +212,7 @@ def parse_data_type(resulset):
 def offset(cell, cols, rows, expand=False):
     sheet = cell.getSpreadsheet()
     cursor = sheet.createCursorByRange(cell)
-    cursor.collapseToCurrentRegion()
+    #~ cursor.collapseToCurrentRegion()
     if expand:
         cursor.collapseToSize(
             cursor.Columns.getCount() + cols - 1, cursor.Rows.getCount() + rows - 1)
