@@ -438,7 +438,7 @@ class Tools(XTools, LODefault):
             thread.start()
             return
         else:
-            return call_macro(factory, macro, args)
+            return call_macro(factory, macro, doc, args)
 
     def timer(self, name, wait, macro, args):
         global stop_thread
