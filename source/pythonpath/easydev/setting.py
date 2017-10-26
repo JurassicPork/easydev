@@ -15,7 +15,7 @@ DATE = '%d/%m/%Y %H:%M:%S'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT, datefmt=DATE)
 LOG = logging.getLogger(NAME_EXT)
 
-VERSION = '2.6.0'
+VERSION = '2.7.3'
 ID_EXT = 'org.universolibre.EasyDev'
 NODE = '/{}.Configuration/Settings'.format(ID_EXT)
 NODE_CONFIG = 'Values'
